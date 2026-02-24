@@ -1,4 +1,4 @@
-import PawPrint from "../icons/PawPrint";
+import PawPrint from "../icons/FilledPawPrints";
 import { SettingsOutlined } from "@mui/icons-material";
 import { AppBar as AppBarMui, IconButton, Typography } from "@mui/material";
 
