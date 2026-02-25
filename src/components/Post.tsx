@@ -1,51 +1,95 @@
-import { Favorite, MoreVert, Share } from "@mui/icons-material";
+import PostTypeChip from "./PostTypeChip";
+import { formatDistanceToNowStrict } from "date-fns";
 import {
-  Avatar,
+  FavoriteOutlined,
+  FavoriteBorderRounded as Favorite,
+  ChatBubbleOutlineRounded as Comment,
+} from "@mui/icons-material";
+import {
   Card,
-  CardActions,
-  CardContent,
-  CardHeader,
+  Stack,
+  Button,
+  Avatar,
+  Divider,
   CardMedia,
-  IconButton,
   Typography,
+  CardHeader,
+  CardContent,
+  CardActions,
 } from "@mui/material";
+import type { PostInterface } from "../interfaces/post";
+//TODO: implement like functionality and replace with actual liked state
+const liked = false;
 
-const Post = () => {
-  return (
-    <Card>
-      <CardHeader
-        avatar={<Avatar>R</Avatar>}
-        action={
-          <IconButton>
-            <MoreVert />
-          </IconButton>
-        }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
-      />
-      <CardMedia
-        component="img"
-        height="194"
-        image="https://www.akc.org/wp-content/uploads/2017/11/Affenpinscher-running-outdoors.jpg"
-        alt="Paella dish"
-      />
-      <CardContent>
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <Favorite />
-        </IconButton>
-        <IconButton aria-label="share">
-          <Share />
-        </IconButton>
-      </CardActions>
-    </Card>
-  );
-};
+const Post = ({
+  author,
+  createdAt,
+  imageUrl,
+  content,
+  title,
+  type,
+  hashtags,
+}: PostInterface) => (
+  <Card>
+    <CardHeader
+      avatar={<Avatar src={author.profilePicture} />}
+      title={author.username}
+      subheader={formatDistanceToNowStrict(createdAt, { addSuffix: true })}
+      sx={{
+        ".MuiCardHeader-title": {
+          fontSize: "1rem",
+          fontWeight: "600",
+        },
+      }}
+    />
+    <CardContent sx={{ paddingTop: 0 }}>
+      <PostTypeChip postType={type} />
+      <Typography
+        sx={{
+          marginTop: 5,
+          fontWeight: "600",
+          marginBottom: 20,
+        }}
+      >
+        {title}
+      </Typography>
+      <Stack sx={{ gap: 10 }}>
+        <Typography sx={{ color: "text.secondary" }}>{content}</Typography>
+        {imageUrl && (
+          <CardMedia sx={{ borderRadius: 2 }} component="img" src={imageUrl} />
+        )}
+        {!!hashtags?.length && (
+          <Typography sx={{ color: "primary.main", fontSize: "0.9rem" }}>
+            #{hashtags.join(" #")}
+          </Typography>
+        )}
+      </Stack>
+    </CardContent>
+    <Divider />
+    <CardActions sx={{ padding: 20, justifyContent: "space-around" }}>
+      <Button
+        variant="text"
+        startIcon={liked ? <FavoriteOutlined /> : <Favorite />}
+        sx={{
+          color: liked ? "red" : "text.secondary",
+          textTransform: "none",
+        }}
+      >
+        Likes
+      </Button>
+
+      <Button
+        variant="text"
+        startIcon={<Comment />}
+        sx={{
+          color: "text.secondary",
+          textTransform: "none",
+        }}
+      >
+        Comments
+      </Button>
+    </CardActions>
+  </Card>
+);
 
 export default Post;

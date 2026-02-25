@@ -1,9 +1,10 @@
-import { useState } from "react";
 import { Add, Home, Person } from "@mui/icons-material";
+import { useLocation, useNavigate } from "react-router";
 import { BottomNavigation, BottomNavigationAction, Fab } from "@mui/material";
 
 const NavBar = () => {
-  const [value, setValue] = useState(0);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <BottomNavigation
@@ -16,16 +17,20 @@ const NavBar = () => {
         boxShadow: "0px -2px 10px rgba(0, 0, 0, 0.1)",
       }}
       showLabels
-      value={value}
+      value={location.pathname}
       onChange={(_, newValue) => {
-        setValue(newValue);
+        navigate(newValue);
       }}
     >
-      <BottomNavigationAction label="Home" icon={<Home />} />
+      <BottomNavigationAction value="/home" label="Home" icon={<Home />} />
       <Fab color="primary" sx={{ position: "relative", top: -20 }}>
         <Add />
       </Fab>
-      <BottomNavigationAction label="Profile" icon={<Person />} />
+      <BottomNavigationAction
+        value={"/profile"}
+        label="Profile"
+        icon={<Person />}
+      />
     </BottomNavigation>
   );
 };

@@ -12,7 +12,7 @@ const App = () => {
           {ROUTES.map(({ path, element: Component }) => (
             <Route key={path} path={path} element={<Component />} />
           ))}
-          <Route path={"*"} element={<Navigate to="/" />} />
+          <Route path={"*"} element={<Navigate to="home" />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

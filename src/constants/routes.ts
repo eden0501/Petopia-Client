@@ -1,6 +1,7 @@
 import Home from "../pages/Home";
-import type { JSX } from "react";
 import Loader from "../pages/Loader";
+import Profile from "../pages/Profile";
+import type { JSX } from "react";
 
 export interface Route {
   path: string;
@@ -9,10 +10,14 @@ export interface Route {
 
 export const ROUTES: Route[] = [
   {
-    path: "/",
+    path: "/home",
     element: Home,
   },
-    {
+  {
+    path: "/profile",
+    element: Profile,
+  },
+  {
     path: "/load",
     element: Loader,
   },

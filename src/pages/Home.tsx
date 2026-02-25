@@ -2,6 +2,8 @@ import Post from "../components/Post";
 import AppBar from "../components/AppBar";
 import NavBar from "../components/NavBar";
 import Search from "../components/Search";
+import PetFact from "../components/PetFact";
+import { mockPosts } from "../services/mock";
 import { Box, Container } from "@mui/material";
 
 const Home = () => {
@@ -16,11 +18,10 @@ const Home = () => {
         }}
       >
         <Search />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
+        <PetFact />
+        {mockPosts.map((post, index) => (
+          <Post key={index} {...post} />
+        ))}
       </Container>
       <NavBar />
     </Box>

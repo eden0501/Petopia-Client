@@ -4,7 +4,6 @@ const PawPrint = (props: SvgIconOwnProps) => (
   <SvgIcon
     id="vector"
     xmlns="http://www.w3.org/2000/svg"
-    
     width={24}
     height={24}
     viewBox="0 0 24 24"
@@ -17,7 +16,7 @@ const PawPrint = (props: SvgIconOwnProps) => (
         fillOpacity={0}
         strokeLinejoin="round"
         strokeLinecap="round"
-        stroke="#FFFFFF"
+        stroke="currentColor"
         strokeWidth={1.8}
       />
       <path
@@ -26,7 +25,7 @@ const PawPrint = (props: SvgIconOwnProps) => (
         fillOpacity={0}
         strokeLinejoin="round"
         strokeLinecap="round"
-        stroke="#FFFFFF"
+        stroke="currentColor"
         strokeWidth={1.8}
       />
       <path
@@ -35,7 +34,7 @@ const PawPrint = (props: SvgIconOwnProps) => (
         fillOpacity={0}
         strokeLinejoin="round"
         strokeLinecap="round"
-        stroke="#FFFFFF"
+        stroke="currentColor"
         strokeWidth={1.8}
       />
       <path
@@ -44,7 +43,7 @@ const PawPrint = (props: SvgIconOwnProps) => (
         fillOpacity={0}
         strokeLinejoin="round"
         strokeLinecap="round"
-        stroke="#FFFFFF"
+        stroke="currentColor"
         strokeWidth={1.8}
       />
     </g>

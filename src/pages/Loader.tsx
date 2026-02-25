@@ -33,7 +33,7 @@ const Loader = () => {
           },
         }}
       >
-        <PawPrint sx={{ fontSize: "7rem" }} />
+        <PawPrint sx={{ fontSize: "7rem", color: "white" }} />
       </Skeleton>
 
       <Box>
