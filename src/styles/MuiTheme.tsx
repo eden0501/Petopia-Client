@@ -24,6 +24,52 @@ const theme = createTheme({
     fontFamily: "ui-sans-serif, system-ui, sans-serif",
   },
   components: {
+    MuiToggleButtonGroup: {
+      defaultProps: {
+        fullWidth: true,
+        exclusive: true,
+      },
+      styleOverrides: {
+        root: {
+          padding: 4,
+          borderRadius: 12,
+          backgroundColor: "#f5f5f5",
+
+          "& .MuiToggleButtonGroup-grouped": {
+            border: 0,
+          },
+        },
+      },
+    },
+    MuiToggleButton: {
+      defaultProps: {
+        disableRipple: true,
+      },
+      styleOverrides: {
+        root: {
+          padding: 5,
+          "&.Mui-selected": {
+            backgroundColor: "white",
+
+            "&:hover": {
+              backgroundColor: "white",
+            },
+          },
+        },
+      },
+    },
+    MuiButton: {
+      defaultProps: {
+        disableElevation: true,
+      },
+      styleOverrides: {
+        root: {
+          boxShadow: "none",
+          borderRadius: "8px",
+          textTransform: "none",
+        },
+      },
+    },
     MuiChip: {
       defaultProps: {
         variant: "outlined",
@@ -48,7 +94,6 @@ const theme = createTheme({
             ];
 
           return {
-            // Use alpha for a much smoother, professional tint
             backgroundColor: alpha(paletteColor.main, 0.1),
             color: paletteColor.main,
             borderWidth: "1px",
