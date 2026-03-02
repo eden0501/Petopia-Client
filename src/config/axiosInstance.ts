@@ -1,12 +1,10 @@
 import axios from "axios";
 
+// TODO: Implement a proper token retrieval mechanism, e.g., from localStorage or a context provider.
 export const GetTokenProvider: {
   getToken?: () => Promise<string | null>;
 } = {
-  getToken: () =>
-    Promise.resolve(
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTczZTMyOTBjMmU1NDYxYmUyNzYyNzYiLCJpYXQiOjE3NzI0ODE4MTMsImV4cCI6MTc3Mjg0MTgxM30.96i4lWEZUDYeQoXscRy5goARGJSnw5lCNYgdOebGsLU",
-    ),
+  getToken: () => Promise.resolve(import.meta.env.VITE_AUTH_TOKEN || ""),
 };
 
 export const createAxiosInstance = (service: string, addToken = true) => {
