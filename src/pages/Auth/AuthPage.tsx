@@ -11,9 +11,9 @@ import {
     Divider,
 } from "@mui/material";
 
-import api from "../api/axios";
-import PawPrint from "../icons/PawPrint";
-import TabBar from "../components/TabBar/TabBar";
+import api from "../../api/axios";
+import PawPrint from "../../icons/PawPrint";
+import TabBar from "../../components/TabBar/TabBar";
 import { authPageStyles as styles } from "./AuthPageStyles";
 
 const AUTH_TABS = {

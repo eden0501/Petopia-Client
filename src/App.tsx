@@ -1,8 +1,8 @@
-import { Routes, Route, Navigate } from "react-router";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import AuthPage from "./pages/AuthPage";
-import AppBar from "./components/AppBar";
-import NavBar from "./components/NavBar";
+import { ROUTES } from "./constants/routes";
+import AuthPage from "./pages/Auth/AuthPage";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
@@ -13,26 +13,30 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-const HomePage = () => (
-  <>
-    <AppBar displaySettings />
-    <NavBar />
-  </>
-);
+const App = () => {
+  const queryClient = new QueryClient();
 
-const App = () => (
-  <Routes>
-    <Route path="/login" element={<AuthPage />} />
-    <Route path="/register" element={<AuthPage />} />
-    <Route
-      path="/*"
-      element={
-        <ProtectedRoute>
-          <HomePage />
-        </ProtectedRoute>
-      }
-    />
-  </Routes>
-);
+  return (
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<AuthPage />} />
+          {ROUTES.map(({ path, element: Component }) => (
+            <Route
+              key={path}
+              path={path}
+              element={
+                <ProtectedRoute>
+                  <Component />
+                </ProtectedRoute>
+              }
+            />
+          ))}
+          <Route path={"*"} element={<Navigate to="/home" />} />
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
