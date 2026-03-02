@@ -1,6 +1,7 @@
-import PawPrint from "../icons/PawPrint";
 import { SettingsOutlined } from "@mui/icons-material";
 import { AppBar as AppBarMui, IconButton, Typography } from "@mui/material";
+
+import PawPrint from "../icons/PawPrint";
 
 const AppBar = ({ displaySettings = false }: { displaySettings?: boolean }) => (
   <AppBarMui
