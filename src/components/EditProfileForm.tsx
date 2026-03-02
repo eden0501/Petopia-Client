@@ -10,7 +10,11 @@ import {
 } from "@mui/material";
 import type { UserInterface } from "../interfaces/user";
 
-const EditProfileForm = ({ profilePicture, username }: UserInterface) => {
+const EditProfileForm = ({
+  profilePicture,
+  username,
+  petsCount,
+}: UserInterface) => {
   const navigate = useNavigate();
 
   return (
@@ -39,7 +43,6 @@ const EditProfileForm = ({ profilePicture, username }: UserInterface) => {
       <Box>
         <Typography sx={{ fontWeight: "600" }}>Username</Typography>
         <TextField
-          placeholder="Search posts, hashtags, authors..."
           value={username}
           // onChange={({ target }) => setSearchValue(target.value)}
         />
@@ -47,8 +50,8 @@ const EditProfileForm = ({ profilePicture, username }: UserInterface) => {
       <Box>
         <Typography sx={{ fontWeight: "600" }}>Number of Pets</Typography>
         <TextField
-          placeholder="Search posts, hashtags, authors..."
-          value={username}
+          value={petsCount}
+          type="number"
           // onChange={({ target }) => setSearchValue(target.value)}
         />
       </Box>

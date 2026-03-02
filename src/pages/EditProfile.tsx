@@ -3,7 +3,7 @@ import AppBar from "../components/AppBar";
 import NavBar from "../components/NavBar";
 import { mockUsers } from "../services/mock";
 import EditProfileForm from "../components/EditProfileForm";
-import DeleteAccountModal from "../components/DeleteProfileModal";
+import DeleteProfileModal from "../components/DeleteProfileModal";
 import { Box, Button, Container, Divider, Typography } from "@mui/material";
 
 const user = mockUsers["user1"];
@@ -48,7 +48,7 @@ const EditProfile = () => {
         </Container>
         <NavBar />
       </Box>
-      <DeleteAccountModal
+      <DeleteProfileModal
         open={isDeleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
         onConfirm={() => {}}

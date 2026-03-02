@@ -1,6 +1,6 @@
 import { useState } from "react";
 import LogoutModal from "./LogoutModal";
-import PawPrint from "../icons/FilledPawPrints";
+import PawPrint from "../icons/PawPrint";
 import { useLocation, useNavigate } from "react-router";
 import { BorderColorRounded, LogoutRounded } from "@mui/icons-material";
 import {
@@ -37,7 +37,14 @@ const AppBar = () => {
           }}
           onClick={() => navigate("/home")}
         >
-          <PawPrint sx={{ fontSize: "2.5rem" }} />
+          <PawPrint
+            sx={{
+              padding: 10,
+              fontSize: "2.5rem",
+              borderRadius: "50%",
+              backgroundColor: "primary.main",
+            }}
+          />
           <Typography sx={{ fontSize: "1.2rem", color: "text.primary" }}>
             Petopia
           </Typography>
