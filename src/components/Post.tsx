@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { reject } from "lodash";
 import PostComments from "./PostComments";
 import PostTypeChip from "./PostTypeChip";
+import { useMemo, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { formatDistanceToNowStrict } from "date-fns";
+import { toggleLike } from "../services/posts.service";
+import { useUserContext } from "../contexts/UserContext";
 import {
   FavoriteOutlined,
   FavoriteBorderRounded as Favorite,
@@ -20,19 +24,41 @@ import {
   CardActions,
 } from "@mui/material";
 import type { PostInterface } from "../interfaces/post";
-//TODO: implement like functionality and replace with actual liked state
-const liked = false;
 
 const Post = ({
+  _id: postId,
   author,
   createdAt,
   imageUrl,
   content,
   title,
   type,
+  likes,
   hashtags,
+  comments,
 }: PostInterface) => {
+  const { userId, updateLikeCount } = useUserContext();
   const [openComments, setOpenComments] = useState(false);
+  const [likesState, setLikesState] = useState(likes ?? []);
+
+  const liked = useMemo(
+    () => likesState.includes(userId),
+    [likesState, userId],
+  );
+
+  const { mutate: handleToggleLike } = useMutation({
+    mutationFn: async () => {
+      if (liked) {
+        setLikesState((prev) => reject(prev, (id) => id === userId));
+        updateLikeCount("unlike");
+      } else {
+        setLikesState((prev) => [...prev, userId]);
+        updateLikeCount("like");
+      }
+
+      await toggleLike(postId, liked);
+    },
+  });
 
   return (
     <>
@@ -80,11 +106,10 @@ const Post = ({
           <Button
             variant="text"
             startIcon={liked ? <FavoriteOutlined /> : <Favorite />}
-            sx={{
-              color: liked ? "red" : "text.secondary",
-            }}
+            sx={{ color: liked ? "red" : "text.secondary" }}
+            onClick={() => handleToggleLike()}
           >
-            Likes
+            {likesState?.length ?? 0} Likes
           </Button>
 
           <Button
@@ -95,7 +120,7 @@ const Post = ({
               color: openComments ? "primary.main" : "text.secondary",
             }}
           >
-            Comments
+            {comments?.length ?? 0} Comments
           </Button>
         </CardActions>
       </Card>

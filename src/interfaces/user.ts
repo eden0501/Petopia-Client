@@ -1,7 +1,14 @@
 export interface UserInterface {
+  _id: string;
   email: string;
   username: string;
-  dateOfBirth: Date;
+  petOwnerSince: Date;
   petsCount: number;
   profilePicture?: string;
+}
+
+export interface UserStatsInterface extends UserInterface {
+  commentsCount: number;
+  likesCount: number;
+  postsCount: number;
 }

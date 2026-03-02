@@ -2,18 +2,23 @@ import { useQuery } from "@tanstack/react-query";
 import { getRandomFact } from "../services/animalFact.service";
 import { AutoAwesomeOutlined, Cached } from "@mui/icons-material";
 import { Avatar, Box, IconButton, Typography } from "@mui/material";
+import type { Ref } from "react";
 
-const PetFact = () => {
+const PetFact = ({
+  index = 0,
+  refElement,
+}: {
+  index?: number;
+  refElement?: Ref<HTMLDivElement>;
+}) => {
   const { data: fact, refetch } = useQuery({
-    queryKey: ["animalFact"],
+    queryKey: ["animalFact", index],
     queryFn: getRandomFact,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
   });
 
   return (
     <Box
+      ref={refElement}
       sx={{
         gap: 16,
         padding: 20,

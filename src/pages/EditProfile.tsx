@@ -1,12 +1,12 @@
 import { useState } from "react";
 import AppBar from "../components/AppBar";
 import NavBar from "../components/NavBar";
-import { mockUsers } from "../services/mock";
+import { mockUser } from "../services/mock";
 import EditProfileForm from "../components/EditProfileForm";
 import DeleteProfileModal from "../components/DeleteProfileModal";
 import { Box, Button, Container, Divider, Typography } from "@mui/material";
 
-const user = mockUsers["user1"];
+const user = mockUser;
 
 const EditProfile = () => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
