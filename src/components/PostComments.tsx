@@ -1,4 +1,7 @@
+import { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 import { formatDistanceToNowStrict } from "date-fns";
+import { ChatBubbleOutlineRounded as Comment } from "@mui/icons-material";
 import {
   Box,
   Avatar,
@@ -6,106 +9,165 @@ import {
   TextField,
   Button,
   Stack,
+  Drawer,
+  IconButton,
+  Divider,
 } from "@mui/material";
-// Mock data structure based on your UserInterface
-const mockComments = [
-  {
-    id: 1,
-    author: {
-      username: "Alex_Rescue",
-      profilePicture: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
-    },
-    text: "Thanks for sharing this alert! I'm nearby and will keep a lookout.",
-    createdAt: new Date("2026-01-02T10:30:00"),
-  },
-  {
-    id: 21,
-    author: {
-      username: "Alex_Rescue",
-      profilePicture: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
-    },
-    text: "Thanks for sharing this alert! I'm nearby and will keep a lookout.",
-    createdAt: new Date("2026-01-02T10:30:00"),
-  },
-];
+import type { CommentInterface } from "../interfaces/comment";
 
-const PostComments = () => {
+const PostCommentsDrawer = ({
+  comments,
+  open,
+  onClose,
+  addComment,
+}: {
+  comments: CommentInterface[];
+  open: boolean;
+  onClose: () => void;
+  addComment: (comment: string) => void;
+}) => {
+  const [newComment, setNewComment] = useState("");
+
+  const handleSubmit = () => {
+    if (newComment.trim()) {
+      addComment(newComment.trim());
+      setNewComment("");
+    }
+  };
+
   return (
-    <Box
-      sx={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        gap: 20,
-        borderTop: "1px solid",
-        borderColor: "divider",
-        padding: 20,
+    <Drawer
+      anchor="bottom"
+      open={open}
+      onClose={onClose}
+      slotProps={{
+        paper: {
+          sx: {
+            maxHeight: "60vh",
+            borderTopLeftRadius: 24,
+            borderTopRightRadius: 24,
+            overflow: "hidden",
+          },
+        },
       }}
     >
-      <Stack sx={{ gap: 15 }}>
-        {mockComments.map((comment) => (
-          <Box key={comment.id} sx={{ display: "flex", gap: 10 }}>
-            <Avatar
-              sx={{ width: 32, height: 32 }}
-              src={comment.author.profilePicture}
-            />
-            <Box
-              sx={{
-                flex: 1,
-                backgroundColor: "#f6f3f4",
-                borderRadius: 3,
-                padding: "10px 15px",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: "0.9rem",
-                  fontWeight: "600",
-                  mb: 0.5,
-                }}
-              >
-                {comment.author.username}
-              </Typography>
-              <Typography sx={{ fontSize: "0.8rem" }}>
-                {comment.text}
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: "0.75rem",
-                  color: "text.secondary",
-                  marginTop: 0.5,
-                }}
-              >
-                {formatDistanceToNowStrict(comment.createdAt, {
-                  addSuffix: true,
-                })}
-              </Typography>
-            </Box>
-          </Box>
-        ))}
-      </Stack>
-
       <Box
-        // onSubmit={handleCommentSubmit}
         sx={{
+          padding: 20,
           display: "flex",
           alignItems: "center",
-          gap: 10,
-          paddingTop: 10,
+          justifyContent: "space-between",
         }}
       >
-        <Avatar sx={{ width: 32, height: 32 }} />
-        <TextField
-          multiline
-          placeholder="Write a comment..."
-          sx={{ "& .MuiOutlinedInput-root": { padding: 0 } }}
-          //   value={commentText}
-          //   onChange={(e) => setCommentText(e.target.value)}
-        />
-        <Button variant="contained">Post</Button>
+        <Typography sx={{ fontWeight: 600, fontSize: "1.2rem" }}>
+          Comments ({comments.length})
+        </Typography>
+        <IconButton onClick={onClose} size="small">
+          <CloseIcon fontSize="small" />
+        </IconButton>
       </Box>
-    </Box>
+
+      <Divider />
+
+      <Stack
+        spacing={15}
+        sx={{
+          padding: 15,
+          overflowY: "auto",
+        }}
+      >
+        {!comments.length ? (
+          <Stack
+            alignItems="center"
+            justifyContent="center"
+            sx={{ padding: 40 }}
+          >
+            <Box
+              sx={{
+                padding: 15,
+                borderRadius: "50%",
+                display: "flex",
+                backgroundColor: "#F3F3F5",
+              }}
+            >
+              <Comment
+                sx={{
+                  fontSize: "3rem",
+                  color: "text.secondary",
+                }}
+              />
+            </Box>
+            <Typography
+              sx={{
+                fontWeight: 600,
+                color: "text.secondary",
+              }}
+            >
+              No comments yet
+            </Typography>
+            <Typography sx={{ fontSize: "0.9rem", color: "text.secondary" }}>
+              Be the first to comment!
+            </Typography>
+          </Stack>
+        ) : (
+          comments.map((comment) => (
+            <Box key={comment._id}>
+              <Stack direction="row" spacing={5} alignItems="flex-start">
+                <Avatar
+                  src={comment.author.profilePicture}
+                  sx={{ width: 40, height: 40 }}
+                />
+                <Stack spacing={2}>
+                  <Box
+                    sx={{
+                      bgcolor: "#f0f2f5", 
+                      borderRadius: 4,
+                      padding: 10,
+                    }}
+                  >
+                    <Typography sx={{ fontWeight: 600, fontSize: "0.9rem" }}>
+                      {comment.author.username}
+                    </Typography>
+                    <Typography sx={{ fontSize: "0.8rem", marginTop: 0.5 }}>
+                      {comment.content}
+                    </Typography>
+                  </Box>
+                  <Typography
+                    sx={{
+                      fontSize: "0.8rem",
+                      display: "block",
+                      color: "text.secondary",
+                    }}
+                  >
+                    {formatDistanceToNowStrict(comment.createdAt, {
+                      addSuffix: true,
+                    })}
+                  </Typography>
+                </Stack>
+              </Stack>
+            </Box>
+          ))
+        )}
+      </Stack>
+
+      <Divider />
+
+      <Box sx={{ padding: 15 }}>
+        <Stack direction="row" spacing={5} alignItems="center">
+          <Avatar sx={{ width: 40, height: 40 }} />
+          <TextField
+            fullWidth
+            placeholder="Write a comment..."
+            value={newComment}
+            onChange={({ target }) => setNewComment(target.value)}
+          />
+          <Button variant="contained" onClick={handleSubmit}>
+            Post
+          </Button>
+        </Stack>
+      </Box>
+    </Drawer>
   );
 };
 
-export default PostComments;
+export default PostCommentsDrawer;

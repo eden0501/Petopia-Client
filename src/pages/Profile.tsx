@@ -19,6 +19,7 @@ const Profile = () => {
   } = useInfiniteQuery({
     queryKey: ["user-post"],
     initialPageParam: 0,
+    refetchOnMount: "always",
     queryFn: ({ pageParam }) => getPosts(pageParam, { userId }),
     getNextPageParam: (lastPage, allPages) =>
       lastPage?.length === BATCH_SIZE ? allPages?.length : undefined,

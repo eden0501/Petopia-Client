@@ -29,12 +29,20 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
     }));
   };
 
+  const addUserComment = () => {
+    setUserData((prev) => ({
+      ...prev,
+      commentsCount: prev.commentsCount + 1,
+    }));
+  };
+
   return (
     <UserContext.Provider
       value={{
-        ...userData,
         userId: userData._id,
+        userData,
         isLoading,
+        addUserComment,
         updateLikeCount,
       }}
     >

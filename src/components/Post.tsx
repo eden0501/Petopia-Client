@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { formatDistanceToNowStrict } from "date-fns";
 import { toggleLike } from "../services/posts.service";
 import { useUserContext } from "../contexts/UserContext";
+import { createComment } from "../services/comments.service";
 import {
   FavoriteOutlined,
   FavoriteBorderRounded as Favorite,
@@ -37,26 +38,59 @@ const Post = ({
   hashtags,
   comments,
 }: PostInterface) => {
-  const { userId, updateLikeCount } = useUserContext();
+  const { userId, updateLikeCount, addUserComment, userData } =
+    useUserContext();
   const [openComments, setOpenComments] = useState(false);
-  const [likesState, setLikesState] = useState(likes ?? []);
+  const [localPost, setLocalPost] = useState({
+    likes: likes ?? [],
+    comments: comments ?? [],
+  });
 
   const liked = useMemo(
-    () => likesState.includes(userId),
-    [likesState, userId],
+    () => localPost.likes.includes(userId),
+    [localPost.likes, userId],
   );
 
   const { mutate: handleToggleLike } = useMutation({
     mutationFn: async () => {
       if (liked) {
-        setLikesState((prev) => reject(prev, (id) => id === userId));
+        setLocalPost((prev) => ({
+          ...prev,
+          likes: reject(prev.likes, (id) => id === userId),
+        }));
         updateLikeCount("unlike");
       } else {
-        setLikesState((prev) => [...prev, userId]);
+        setLocalPost((prev) => ({
+          ...prev,
+          likes: [...prev.likes, userId],
+        }));
         updateLikeCount("like");
       }
 
       await toggleLike(postId, liked);
+    },
+  });
+
+  const { mutate: addComment } = useMutation({
+    mutationFn: async (newComment: string) => {
+      setLocalPost((prev) => ({
+        ...prev,
+        comments: [
+          ...prev.comments,
+          {
+            _id: Math.random().toString(36).substring(2, 9),
+            postId,
+            authorId: userId,
+            content: newComment,
+            createdAt: new Date(),
+            author: userData,
+          },
+        ],
+      }));
+
+      addUserComment();
+
+      await createComment(postId, newComment);
     },
   });
 
@@ -109,7 +143,7 @@ const Post = ({
             sx={{ color: liked ? "red" : "text.secondary" }}
             onClick={() => handleToggleLike()}
           >
-            {likesState?.length ?? 0} Likes
+            {localPost.likes?.length ?? 0} Likes
           </Button>
 
           <Button
@@ -120,11 +154,16 @@ const Post = ({
               color: openComments ? "primary.main" : "text.secondary",
             }}
           >
-            {comments?.length ?? 0} Comments
+            {localPost.comments?.length ?? 0} Comments
           </Button>
         </CardActions>
       </Card>
-      {openComments && <PostComments />}
+      <PostComments
+        comments={localPost.comments ?? []}
+        open={openComments}
+        addComment={addComment}
+        onClose={() => setOpenComments(false)}
+      />
     </>
   );
 };
