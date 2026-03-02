@@ -4,12 +4,12 @@ import Profile from "../pages/Profile";
 import EditProfile from "../pages/EditProfile";
 import type { JSX } from "react";
 
-export interface Route {
+export interface AppRoute {
   path: string;
   element: () => JSX.Element;
 }
 
-export const ROUTES: Route[] = [
+export const ROUTES: AppRoute[] = [
   {
     path: "/home",
     element: Home,
