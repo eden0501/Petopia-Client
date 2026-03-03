@@ -1,6 +1,6 @@
 import { CssBaseline } from "@mui/material";
-import { ExpandMore } from "@mui/icons-material";
 import type { PropsWithChildren } from "react";
+import { ExpandMore } from "@mui/icons-material";
 import { alpha, createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({

@@ -28,6 +28,7 @@ export const authPageStyles: Record<string, SxProps<Theme>> = {
     logo: {
         fontSize: "3.5rem",
         mb: "8px",
+        color: "#FFFFFF"
     },
     card: {
         width: "100%",
@@ -83,13 +84,8 @@ export const authPageStyles: Record<string, SxProps<Theme>> = {
     },
     input: {
         mb: "8px",
-        "& .MuiOutlinedInput-notchedOutline": {
-            border: "none"
-        },
         "& .MuiOutlinedInput-root": {
-            bgcolor: "#F3F4F6",
             borderRadius: "10px",
-            "&:hover .MuiOutlinedInput-notchedOutline": { border: "none" },
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                 border: "1.5px solid",
                 borderColor: "primary.main",
@@ -125,7 +121,6 @@ export const authPageStyles: Record<string, SxProps<Theme>> = {
         borderRadius: "10px",
         py: "8px",
         mt: "4px",
-        textTransform: "none",
         fontWeight: 700,
         fontSize: "0.95rem",
         bgcolor: "primary.main",

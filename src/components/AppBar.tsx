@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router";
 import { BorderColorRounded, LogoutRounded } from "@mui/icons-material";
 import {
@@ -8,13 +9,14 @@ import {
   AppBar as AppBarMui,
 } from "@mui/material";
 
+import api from "../api/axios";
 import LogoutModal from "./LogoutModal";
 import PawPrint from "../icons/FilledPawPrints";
-import api from "../api/axios";
 
 const AppBar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const queryClient = useQueryClient();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   return (
@@ -60,6 +62,7 @@ const AppBar = () => {
         onConfirm={async () => {
           setIsLogoutModalOpen(false);
           await api.post("/auth/logout", {}, { withCredentials: true });
+          queryClient.removeQueries({ queryKey: ["auth"] });
           navigate("/login");
         }}
         onCancel={() => setIsLogoutModalOpen(false)}

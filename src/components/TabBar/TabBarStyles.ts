@@ -14,7 +14,6 @@ export const tabBarStyles: Record<string, SxProps<Theme>> = {
     tab: {
         flex: 1,
         borderRadius: "50px",
-        textTransform: "none",
         fontWeight: 600,
         fontSize: "0.85rem",
         border: "none",

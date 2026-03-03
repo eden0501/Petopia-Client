@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 
 import api from "../../api/axios";
-import PawPrint from "../../icons/PawPrint";
+import PawPrint from "../../icons/FilledPawPrints";
 import TabBar from "../../components/TabBar/TabBar";
 import { authPageStyles as styles } from "./AuthPageStyles";
 

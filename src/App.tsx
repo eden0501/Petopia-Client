@@ -1,54 +1,59 @@
+import axios from "axios";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
 
+import Loader from "./pages/Loader";
 import { ROUTES } from "./constants/routes";
 import AuthPage from "./pages/Auth/AuthPage";
-import api from "./api/axios";
-import Loader from "./pages/Loader";
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { data, isLoading, isError } = useQuery({
+const queryClient = new QueryClient();
+
+const useAuth = () =>
+  useQuery({
     queryKey: ["auth"],
-    queryFn: () => api.get("/users", { withCredentials: true }),
+    queryFn: () => axios.get(`${import.meta.env.VITE_API_URL}/users`, { withCredentials: true }),
     retry: false,
     staleTime: Infinity,
   });
 
-  if (isLoading) {
-    return <Loader />;
-  }
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { data, isLoading, isError } = useAuth();
 
-  if (isError || !data) {
-    return <Navigate to="/login" replace />;
-  }
+  if (isLoading) return <Loader />;
+  if (isError || !data) return <Navigate to="/login" replace />;
 
   return <>{children}</>;
 };
 
-const App = () => {
-  const queryClient = new QueryClient();
+const AuthRoute = ({ children }: { children: React.ReactNode }) => {
+  const { data, isLoading } = useAuth();
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<AuthPage />} />
-          {ROUTES.map(({ path, element: Component }) => (
-            <Route
-              key={path}
-              path={path}
-              element={
-                <ProtectedRoute>
-                  <Component />
-                </ProtectedRoute>
-              }
-            />
-          ))}
-          <Route path={"*"} element={<Navigate to="/home" />} />
-        </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
-  );
+  if (isLoading) return <Loader />;
+  if (data) return <Navigate to="/home" replace />;
+
+  return <>{children}</>;
 };
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<AuthRoute><AuthPage /></AuthRoute>} />
+        {ROUTES.map(({ path, element: Component }) => (
+          <Route
+            key={path}
+            path={path}
+            element={
+              <ProtectedRoute>
+                <Component />
+              </ProtectedRoute>
+            }
+          />
+        ))}
+        <Route path={"*"} element={<Navigate to="/home" />} />
+      </Routes>
+    </BrowserRouter>
+  </QueryClientProvider>
+);
 
 export default App;

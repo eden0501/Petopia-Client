@@ -15,14 +15,16 @@ api.interceptors.response.use(
 
             try {
                 await axios.post(
-                    "/auth/refresh-token",
+                    `${api.defaults.baseURL}/auth/refresh-token`,
                     {},
                     { withCredentials: true }
                 );
 
                 return api(originalRequest);
             } catch (err) {
-                window.location.href = "/login";
+                if (window.location.pathname !== "/login") {
+                    window.location.href = "/login";
+                }
                 return Promise.reject(err);
             }
         }
