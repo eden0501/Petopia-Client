@@ -56,10 +56,7 @@ const AuthPage = () => {
     const isLogin = activeTab === "LOGIN";
     const navigate = useNavigate();
 
-    const handleSuccess = () => {
-        localStorage.setItem("isAuthenticated", "true");
-        navigate("/")
-    };
+    const handleSuccess = () => navigate("/");
 
     const handleError = () => setHasError(true);
 

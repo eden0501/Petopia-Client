@@ -1,15 +1,27 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
 
 import { ROUTES } from "./constants/routes";
 import AuthPage from "./pages/Auth/AuthPage";
+import api from "./api/axios";
+import Loader from "./pages/Loader";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["auth"],
+    queryFn: () => api.get("/users", { withCredentials: true }),
+    retry: false,
+    staleTime: Infinity,
+  });
 
-  if (!isAuthenticated) {
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isError || !data) {
     return <Navigate to="/login" replace />;
   }
+
   return <>{children}</>;
 };
 

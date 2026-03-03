@@ -10,6 +10,7 @@ import {
 
 import LogoutModal from "./LogoutModal";
 import PawPrint from "../icons/FilledPawPrints";
+import api from "../api/axios";
 
 const AppBar = () => {
   const navigate = useNavigate();
@@ -56,7 +57,12 @@ const AppBar = () => {
       </AppBarMui>
       <LogoutModal
         open={isLogoutModalOpen}
-        onClose={() => setIsLogoutModalOpen(false)}
+        onConfirm={async () => {
+          setIsLogoutModalOpen(false);
+          await api.post("/auth/logout", {}, { withCredentials: true });
+          navigate("/login");
+        }}
+        onCancel={() => setIsLogoutModalOpen(false)}
       />
     </>
   );

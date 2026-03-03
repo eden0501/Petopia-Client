@@ -1,7 +1,7 @@
 import axios, { HttpStatusCode } from "axios";
 
 const api = axios.create({
-    baseURL: "/",
+    baseURL: import.meta.env.VITE_API_URL,
     withCredentials: true,
 });
 
@@ -22,7 +22,6 @@ api.interceptors.response.use(
 
                 return api(originalRequest);
             } catch (err) {
-                localStorage.removeItem("isAuthenticated");
                 window.location.href = "/login";
                 return Promise.reject(err);
             }
