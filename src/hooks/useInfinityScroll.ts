@@ -26,6 +26,8 @@ export const useInfinityScroll = ({
       });
 
       if (node) observer.current.observe(node);
+
+      return () => observer.current?.disconnect();
     },
     [isLoading, hasMoreData, loadMoreData],
   );

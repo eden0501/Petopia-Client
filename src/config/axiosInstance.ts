@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// TODO: Implement a proper token retrieval mechanism, e.g., from localStorage or a context provider.
+// TODO: Implement a proper token retrieval mechanism, e.g., from cookies or a context provider.
 export const GetTokenProvider: {
   getToken?: () => Promise<string | null>;
 } = {

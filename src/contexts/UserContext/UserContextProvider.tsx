@@ -4,17 +4,12 @@ import { getUserInfo } from "../../services/users.service";
 import { useState, type PropsWithChildren } from "react";
 import type { UserStatsInterface } from "../../interfaces/user";
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 export const UserContextProvider = ({ children }: PropsWithChildren) => {
   const [userData, setUserData] = useState({} as UserStatsInterface);
 
   const { isLoading } = useQuery({
     queryKey: ["userInfo"],
     queryFn: async () => {
-      // Add the simulated loading time
-      await delay(2000);
-
       const user = await getUserInfo();
       setUserData(user);
 

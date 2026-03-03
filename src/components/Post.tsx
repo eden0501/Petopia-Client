@@ -48,7 +48,7 @@ const Post = ({
 
   const liked = useMemo(
     () => localPost.likes.includes(userId),
-    [localPost.likes, userId],
+    [localPost, userId],
   );
 
   const { mutate: handleToggleLike } = useMutation({
@@ -78,11 +78,11 @@ const Post = ({
         comments: [
           ...prev.comments,
           {
-            _id: Math.random().toString(36).substring(2, 9),
+            _id: new Date().getTime().toString(),
             postId,
             authorId: userId,
             content: newComment,
-            createdAt: new Date(),
+            createdAt: new Date().toISOString(),
             author: userData,
           },
         ],

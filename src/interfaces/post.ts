@@ -8,7 +8,7 @@ export interface PostInterface {
   content: string;
   authorId: string;
   type: PostTypes;
-  createdAt: Date;
+  createdAt: string;
   imageUrl?: string;
   hashtags?: string[];
   likes?: string[];
