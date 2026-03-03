@@ -9,16 +9,23 @@ import {
   InputAdornment,
 } from "@mui/material";
 
-const Search = () => {
-  const [filter, setFilter] = useState("All");
+const Search = ({
+  typeFilter,
+  setTypeFilter,
+}: {
+  typeFilter: PostTypes | "All";
+  setTypeFilter: (type: PostTypes | "All") => void;
+}) => {
   const [searchValue, setSearchValue] = useState("");
 
   return (
     <Stack sx={{ padding: 10, gap: 10 }}>
       <TextField
         select
-        value={filter}
-        onChange={({ target }) => setFilter(target.value)}
+        value={typeFilter}
+        onChange={({ target }) =>
+          setTypeFilter(target.value as PostTypes | "All")
+        }
       >
         <MenuItem value="All">All Posts</MenuItem>
         {Object.values(PostTypes).map((option) => (

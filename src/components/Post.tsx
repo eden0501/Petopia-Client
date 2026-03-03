@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { reject } from "lodash";
 import PostComments from "./PostComments";
 import PostTypeChip from "./PostTypeChip";
+import { useMemo, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { formatDistanceToNowStrict } from "date-fns";
+import { toggleLike } from "../services/posts.service";
+import { useUserContext } from "../contexts/UserContext";
+import { createComment } from "../services/comments.service";
 import {
   FavoriteOutlined,
   FavoriteBorderRounded as Favorite,
@@ -20,19 +25,74 @@ import {
   CardActions,
 } from "@mui/material";
 import type { PostInterface } from "../interfaces/post";
-//TODO: implement like functionality and replace with actual liked state
-const liked = false;
 
 const Post = ({
+  _id: postId,
   author,
   createdAt,
   imageUrl,
   content,
   title,
   type,
+  likes,
   hashtags,
+  comments,
 }: PostInterface) => {
+  const { userId, updateLikeCount, addUserComment, userData } =
+    useUserContext();
   const [openComments, setOpenComments] = useState(false);
+  const [localPost, setLocalPost] = useState({
+    likes: likes ?? [],
+    comments: comments ?? [],
+  });
+
+  const liked = useMemo(
+    () => localPost.likes.includes(userId),
+    [localPost, userId],
+  );
+
+  const { mutate: handleToggleLike } = useMutation({
+    mutationFn: async () => {
+      if (liked) {
+        setLocalPost((prev) => ({
+          ...prev,
+          likes: reject(prev.likes, (id) => id === userId),
+        }));
+        updateLikeCount("unlike");
+      } else {
+        setLocalPost((prev) => ({
+          ...prev,
+          likes: [...prev.likes, userId],
+        }));
+        updateLikeCount("like");
+      }
+
+      await toggleLike(postId, liked);
+    },
+  });
+
+  const { mutate: addComment } = useMutation({
+    mutationFn: async (newComment: string) => {
+      setLocalPost((prev) => ({
+        ...prev,
+        comments: [
+          ...prev.comments,
+          {
+            _id: new Date().getTime().toString(),
+            postId,
+            authorId: userId,
+            content: newComment,
+            createdAt: new Date().toISOString(),
+            author: userData,
+          },
+        ],
+      }));
+
+      addUserComment();
+
+      await createComment(postId, newComment);
+    },
+  });
 
   return (
     <>
@@ -80,11 +140,10 @@ const Post = ({
           <Button
             variant="text"
             startIcon={liked ? <FavoriteOutlined /> : <Favorite />}
-            sx={{
-              color: liked ? "red" : "text.secondary",
-            }}
+            sx={{ color: liked ? "red" : "text.secondary" }}
+            onClick={() => handleToggleLike()}
           >
-            Likes
+            {localPost.likes?.length ?? 0} Likes
           </Button>
 
           <Button
@@ -95,11 +154,16 @@ const Post = ({
               color: openComments ? "primary.main" : "text.secondary",
             }}
           >
-            Comments
+            {localPost.comments?.length ?? 0} Comments
           </Button>
         </CardActions>
       </Card>
-      {openComments && <PostComments />}
+      <PostComments
+        comments={localPost.comments ?? []}
+        open={openComments}
+        addComment={addComment}
+        onClose={() => setOpenComments(false)}
+      />
     </>
   );
 };

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+import { useUserContext } from "../contexts/UserContext";
 import {
   Box,
   Stack,
@@ -8,13 +9,12 @@ import {
   CardHeader,
   Typography,
 } from "@mui/material";
-import type { UserInterface } from "../interfaces/user";
 
-const EditProfileForm = ({
-  profilePicture,
-  username,
-  petsCount,
-}: UserInterface) => {
+const EditProfileForm = () => {
+  const {
+    userData: { profilePicture, username, petsCount },
+  } = useUserContext();
+
   const navigate = useNavigate();
 
   return (

@@ -1,12 +1,9 @@
 import { useState } from "react";
 import AppBar from "../components/AppBar";
 import NavBar from "../components/NavBar";
-import { mockUsers } from "../services/mock";
 import EditProfileForm from "../components/EditProfileForm";
 import DeleteProfileModal from "../components/DeleteProfileModal";
 import { Box, Button, Container, Divider, Typography } from "@mui/material";
-
-const user = mockUsers["user1"];
 
 const EditProfile = () => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -22,7 +19,7 @@ const EditProfile = () => {
           <Typography sx={{ color: "text.secondary" }}>
             Update your personal information and how others see you
           </Typography>
-          <EditProfileForm {...user} />
+          <EditProfileForm />
           <Divider sx={{ marginTop: 20, marginBottom: 10 }} />
           <Box
             sx={{
