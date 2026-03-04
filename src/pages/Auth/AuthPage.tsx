@@ -50,7 +50,7 @@ const AuthPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [petsCount, setPetsCount] = useState("1");
-    const [dateOfBirth, setDateOfBirth] = useState(today);
+    const [petOwnerSince, setPetOwnerSince] = useState(today);
     const [hasError, setHasError] = useState(false);
 
     const isLogin = activeTab === "LOGIN";
@@ -80,7 +80,7 @@ const AuthPage = () => {
                     username,
                     password,
                     petsCount: Number(petsCount),
-                    dateOfBirth: new Date(dateOfBirth),
+                    petOwnerSince: new Date(petOwnerSince),
                 });
             }
 
@@ -90,7 +90,7 @@ const AuthPage = () => {
         }
     };
 
-    const handleDateChange = (date: string) => (date > today) ? setDateOfBirth(today) : setDateOfBirth(date)
+    const handleDateChange = (date: string) => (date > today) ? setPetOwnerSince(today) : setPetOwnerSince(date)
 
     const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
         try {
@@ -162,11 +162,11 @@ const AuthPage = () => {
                                         value={petsCount}
                                         onChange={(e) => setPetsCount(e.target.value)}
                                     />
-                                    <FieldLabel>Date of Birth</FieldLabel>
+                                    <FieldLabel>When did you become a pet owner?</FieldLabel>
                                     <Box
                                         component="input"
                                         type="date"
-                                        value={dateOfBirth}
+                                        value={petOwnerSince}
                                         max={today}
                                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleDateChange(event.target.value)}
                                         required
