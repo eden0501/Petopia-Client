@@ -1,7 +1,7 @@
 import { CssBaseline } from "@mui/material";
+import type { PropsWithChildren } from "react";
 import { ExpandMore } from "@mui/icons-material";
 import { alpha, createTheme, ThemeProvider } from "@mui/material/styles";
-import type { PropsWithChildren } from "react";
 
 const theme = createTheme({
   spacing: 1,

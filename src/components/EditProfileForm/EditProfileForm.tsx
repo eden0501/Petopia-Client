@@ -1,6 +1,4 @@
 import { useNavigate } from "react-router";
-import styles from "./EditProfileForm.styles";
-import { useUserContext } from "../../contexts/UserContext";
 import {
   Box,
   Stack,
@@ -10,6 +8,10 @@ import {
   CardHeader,
   Typography,
 } from "@mui/material";
+
+import { useUserContext } from "@/contexts/UserContext";
+
+import styles from "./EditProfileForm.styles";
 
 const EditProfileForm = () => {
   const {

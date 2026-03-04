@@ -1,5 +1,5 @@
-import { createAxiosInstance } from "../config/axiosInstance";
-import type { PostInterface } from "../interfaces/post";
+import type { PostInterface } from "@/interfaces/post";
+import { createAxiosInstance } from "@/config/axiosInstance";
 
 const axiosInstance = createAxiosInstance(
   `${import.meta.env.VITE_SERVER_URL}/posts`,

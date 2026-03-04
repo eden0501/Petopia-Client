@@ -1,4 +1,3 @@
-import styles from "./LogoutModal.styles";
 import { Close as CloseIcon, WarningAmberRounded } from "@mui/icons-material";
 import {
   Box,
@@ -9,6 +8,8 @@ import {
   DialogActions,
   DialogContentText,
 } from "@mui/material";
+
+import styles from "./LogoutModal.styles";
 
 const LogoutModal = ({
   open,

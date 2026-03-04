@@ -1,10 +1,12 @@
 import { useState } from "react";
-import styles from "./EditProfile.styles";
-import AppBar from "../../components/AppBar";
-import NavBar from "../../components/NavBar";
-import EditProfileForm from "../../components/EditProfileForm";
-import DeleteProfileModal from "../../components/DeleteProfileModal";
 import { Box, Button, Container, Divider, Typography } from "@mui/material";
+
+import AppBar from "@/components/AppBar";
+import NavBar from "@/components/NavBar";
+import EditProfileForm from "@/components/EditProfileForm";
+import DeleteProfileModal from "@/components/DeleteProfileModal";
+
+import styles from "./EditProfile.styles";
 
 const EditProfile = () => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);

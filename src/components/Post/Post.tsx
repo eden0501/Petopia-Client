@@ -1,13 +1,7 @@
 import { reject } from "lodash";
-import styles from "./Post.styles";
-import PostComments from "../PostComments";
-import PostTypeChip from "../PostTypeChip";
 import { useMemo, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { formatDistanceToNowStrict } from "date-fns";
-import { toggleLike } from "../../services/posts.service";
-import { useUserContext } from "../../contexts/UserContext";
-import { createComment } from "../../services/comments.service";
 import {
   FavoriteOutlined,
   FavoriteBorderRounded as Favorite,
@@ -25,7 +19,15 @@ import {
   CardContent,
   CardActions,
 } from "@mui/material";
-import type { PostInterface } from "../../interfaces/post";
+
+import PostComments from "@/components/PostComments";
+import PostTypeChip from "@/components/PostTypeChip";
+import { toggleLike } from "@/services/posts.service";
+import type { PostInterface } from "@/interfaces/post";
+import { useUserContext } from "@/contexts/UserContext";
+import { createComment } from "@/services/comments.service";
+
+import styles from "./Post.styles";
 
 const Post = ({
   _id: postId,

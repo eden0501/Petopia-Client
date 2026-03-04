@@ -1,9 +1,11 @@
 import { useState } from "react";
-import PostForm from "../PostForm";
-import styles from "./NavBar.styles";
 import { Add, Home, Person } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router";
 import { BottomNavigation, BottomNavigationAction, Fab } from "@mui/material";
+
+import PostForm from "@/components/PostForm";
+
+import styles from "./NavBar.styles";
 
 const NavBar = () => {
   const { pathname } = useLocation();

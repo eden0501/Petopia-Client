@@ -1,7 +1,4 @@
-import PawPrint from "../../icons/PawPrint";
-import styles from "./ProfileHeader.styles";
 import { formatDistanceToNowStrict } from "date-fns";
-import { useUserContext } from "../../contexts/UserContext";
 import {
   Box,
   Chip,
@@ -11,7 +8,12 @@ import {
   CardHeader,
   CardActions,
 } from "@mui/material";
-import type { UserStatsInterface } from "../../interfaces/user";
+
+import PawPrint from "@/icons/PawPrint";
+import { useUserContext } from "@/contexts/UserContext";
+import type { UserStatsInterface } from "@/interfaces/user";
+
+import styles from "./ProfileHeader.styles";
 
 const stats: { title: string; userProperty: keyof UserStatsInterface }[] = [
   { title: "Posts", userProperty: "postsCount" },

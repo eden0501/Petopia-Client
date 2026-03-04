@@ -1,4 +1,4 @@
-import styles from "./DeleteProfileModal.styles";
+import { Close as CloseIcon, WarningAmberRounded } from "@mui/icons-material";
 import {
   Box,
   Dialog,
@@ -8,7 +8,8 @@ import {
   DialogActions,
   DialogContentText,
 } from "@mui/material";
-import { Close as CloseIcon, WarningAmberRounded } from "@mui/icons-material";
+
+import styles from "./DeleteProfileModal.styles";
 
 const DeleteProfileModal = ({
   open,

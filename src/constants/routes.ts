@@ -1,7 +1,8 @@
-import Home from "../pages/Home";
-import Profile from "../pages/Profile";
-import EditProfile from "../pages/EditProfile";
 import type { JSX } from "react";
+
+import Home from "@/pages/Home";
+import Profile from "@/pages/Profile";
+import EditProfile from "@/pages/EditProfile";
 
 export interface AppRoute {
   path: string;

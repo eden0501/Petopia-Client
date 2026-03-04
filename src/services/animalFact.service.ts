@@ -1,4 +1,4 @@
-import { createAxiosInstance } from "../config/axiosInstance";
+import { createAxiosInstance } from "@/config/axiosInstance";
 
 const dogApi = createAxiosInstance("https://dogapi.dog/api/v2/facts");
 

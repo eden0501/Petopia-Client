@@ -1,7 +1,8 @@
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+
 import Loader from "./pages/Loader";
 import { ROUTES } from "./constants/routes";
 import { useUserContext } from "./contexts/UserContext";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 
 const App = () => {
   const { isLoading } = useUserContext();

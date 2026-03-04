@@ -1,10 +1,10 @@
+import type { JSX } from "react";
 import {
   HelpOutlineRounded,
   TipsAndUpdatesOutlined,
   VolunteerActivismOutlined,
   ReportGmailerrorredRounded,
 } from "@mui/icons-material";
-import type { JSX } from "react";
 
 export enum PostTypes {
   REPORT = "Report",

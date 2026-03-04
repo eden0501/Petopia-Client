@@ -1,7 +1,4 @@
 import { useState } from "react";
-import styles from "./AppBar.styles";
-import LogoutModal from "../LogoutModal";
-import PawPrint from "../../icons/PawPrint";
 import { useLocation, useNavigate } from "react-router";
 import { BorderColorRounded, LogoutRounded } from "@mui/icons-material";
 import {
@@ -10,6 +7,11 @@ import {
   Typography,
   AppBar as AppBarMui,
 } from "@mui/material";
+
+import PawPrint from "@/icons/PawPrint";
+import LogoutModal from "@/components/LogoutModal";
+
+import styles from "./AppBar.styles";
 
 const AppBar = () => {
   const navigate = useNavigate();

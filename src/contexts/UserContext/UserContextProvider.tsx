@@ -1,8 +1,10 @@
-import { UserContext } from "./UserContext";
 import { useQuery } from "@tanstack/react-query";
-import { getUserInfo } from "../../services/users.service";
 import { useState, type PropsWithChildren } from "react";
-import type { UserStatsInterface } from "../../interfaces/user";
+
+import { getUserInfo } from "@/services/users.service";
+import type { UserStatsInterface } from "@/interfaces/user";
+
+import { UserContext } from "./UserContext";
 
 export const UserContextProvider = ({ children }: PropsWithChildren) => {
   const [userData, setUserData] = useState({} as UserStatsInterface);

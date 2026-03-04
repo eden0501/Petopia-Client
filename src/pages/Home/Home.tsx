@@ -1,15 +1,17 @@
 import { useState } from "react";
-import styles from "./Home.styles";
-import Post from "../../components/Post";
-import AppBar from "../../components/AppBar";
-import NavBar from "../../components/NavBar";
-import Search from "../../components/Search";
-import PetFact from "../../components/PetFact";
 import { Box, Container } from "@mui/material";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useInfinityScroll } from "../../hooks/useInfinityScroll";
-import { BATCH_SIZE, getPosts } from "../../services/posts.service";
-import type { PostTypes } from "../../constants/postTypes";
+
+import Post from "@/components/Post";
+import AppBar from "@/components/AppBar";
+import NavBar from "@/components/NavBar";
+import Search from "@/components/Search";
+import PetFact from "@/components/PetFact";
+import type { PostTypes } from "@/constants/postTypes";
+import { useInfinityScroll } from "@/hooks/useInfinityScroll";
+import { BATCH_SIZE, getPosts } from "@/services/posts.service";
+
+import styles from "./Home.styles";
 
 const Home = () => {
   const [typeFilter, setTypeFilter] = useState<PostTypes | "All">("All");

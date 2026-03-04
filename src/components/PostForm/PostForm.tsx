@@ -1,6 +1,4 @@
 import { useState } from "react";
-import styles from "./PostForm.styles";
-import { CHIP_PROPS, PostTypes } from "../../constants/postTypes";
 import { BackupOutlined, Close as CloseIcon } from "@mui/icons-material";
 import {
   Box,
@@ -15,6 +13,10 @@ import {
   TextField,
   Chip,
 } from "@mui/material";
+
+import { CHIP_PROPS, PostTypes } from "@/constants/postTypes";
+
+import styles from "./PostForm.styles";
 
 const PostForm = ({
   open,

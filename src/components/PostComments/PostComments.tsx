@@ -1,5 +1,4 @@
 import { useState } from "react";
-import styles from "./PostComments.styles";
 import CloseIcon from "@mui/icons-material/Close";
 import { formatDistanceToNowStrict } from "date-fns";
 import { ChatBubbleOutlineRounded as Comment } from "@mui/icons-material";
@@ -14,7 +13,10 @@ import {
   IconButton,
   Divider,
 } from "@mui/material";
-import type { CommentInterface } from "../../interfaces/comment";
+
+import type { CommentInterface } from "@/interfaces/comment";
+
+import styles from "./PostComments.styles";
 
 const PostCommentsDrawer = ({
   comments,

@@ -1,5 +1,6 @@
+import type { PostTypes } from "@/constants/postTypes";
+
 import type { UserInterface } from "./user";
-import type { PostTypes } from "../constants/postTypes";
 import type { CommentInterface } from "./comment";
 
 export interface PostInterface {
