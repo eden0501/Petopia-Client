@@ -1,3 +1,4 @@
+import styles from "./LogoutModal.styles";
 import { Close as CloseIcon, WarningAmberRounded } from "@mui/icons-material";
 import {
   Box,
@@ -20,48 +21,29 @@ const LogoutModal = ({
     <Dialog
       open={open}
       onClose={onClose}
-      slotProps={{
-        paper: {
-          sx: {
-            padding: 20,
-            borderRadius: 3,
-            textAlign: "center",
-          },
-        },
-      }}
+      slotProps={{ paper: { sx: styles.paper } }}
     >
-      <IconButton
-        onClick={onClose}
-        sx={{
-          position: "absolute",
-          right: 8,
-          top: 8,
-          color: "text.secondary",
-          opacity: 0.7,
-        }}
-      >
+      <IconButton onClick={onClose} sx={styles.closeButton}>
         <CloseIcon />
       </IconButton>
 
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <WarningAmberRounded color="primary" sx={{ fontSize: "3rem" }} />
+      <Box sx={styles.iconBox}>
+        <WarningAmberRounded color="primary" sx={styles.warningIcon} />
       </Box>
 
-      <DialogTitle sx={{ fontWeight: "600", fontSize: "1.3rem" }}>
-        Logging out?
-      </DialogTitle>
+      <DialogTitle sx={styles.dialogTitle}>Logging out?</DialogTitle>
 
-      <DialogContentText sx={{ color: "text.secondary", fontSize: "0.9rem" }}>
+      <DialogContentText sx={styles.dialogContent}>
         Are you sure you want to log out? You will need to enter your
         credentials again to access your Petopia account.
       </DialogContentText>
 
-      <DialogActions sx={{ gap: 2, padding: 0, paddingTop: 20 }}>
+      <DialogActions sx={styles.dialogActions}>
         <Button
           onClick={onClose}
           fullWidth
           variant="outlined"
-          sx={{ fontWeight: "600" }}
+          sx={styles.buttonText}
         >
           Yes, Log Me Out
         </Button>
@@ -70,7 +52,7 @@ const LogoutModal = ({
           variant="contained"
           color="primary"
           fullWidth
-          sx={{ fontWeight: "600" }}
+          sx={styles.buttonText}
         >
           Cancel
         </Button>

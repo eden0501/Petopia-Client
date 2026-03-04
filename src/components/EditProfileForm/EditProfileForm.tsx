@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
-import { useUserContext } from "../contexts/UserContext";
+import styles from "./EditProfileForm.styles";
+import { useUserContext } from "../../contexts/UserContext";
 import {
   Box,
   Stack,
@@ -18,44 +19,29 @@ const EditProfileForm = () => {
   const navigate = useNavigate();
 
   return (
-    <Stack sx={{ paddingTop: 30, gap: 20 }}>
+    <Stack sx={styles.container}>
       <CardHeader
-        avatar={
-          <Avatar
-            sx={{
-              width: "auto",
-              height: "80px",
-              aspectRatio: "1/1",
-            }}
-            src={profilePicture}
-          />
-        }
+        avatar={<Avatar sx={styles.avatar} src={profilePicture} />}
         title="Profile Picture"
         subheader="JPG, PNG or GIF, Max size 2MB."
-        sx={{
-          padding: 0,
-          ".MuiCardHeader-title": {
-            fontSize: "1.2rem",
-            fontWeight: "600",
-          },
-        }}
+        sx={styles.cardHeader}
       />
       <Box>
-        <Typography sx={{ fontWeight: "600" }}>Username</Typography>
+        <Typography sx={styles.label}>Username</Typography>
         <TextField
           value={username}
           // onChange={({ target }) => setSearchValue(target.value)}
         />
       </Box>
       <Box>
-        <Typography sx={{ fontWeight: "600" }}>Number of Pets</Typography>
+        <Typography sx={styles.label}>Number of Pets</Typography>
         <TextField
           value={petsCount}
           type="number"
           // onChange={({ target }) => setSearchValue(target.value)}
         />
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
+      <Box sx={styles.actionsBox}>
         <Button variant="outlined" onClick={() => navigate("/profile")}>
           Cancel
         </Button>

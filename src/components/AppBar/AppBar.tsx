@@ -1,6 +1,7 @@
 import { useState } from "react";
-import LogoutModal from "./LogoutModal";
-import PawPrint from "../icons/PawPrint";
+import styles from "./AppBar.styles";
+import LogoutModal from "../LogoutModal";
+import PawPrint from "../../icons/PawPrint";
 import { useLocation, useNavigate } from "react-router";
 import { BorderColorRounded, LogoutRounded } from "@mui/icons-material";
 import {
@@ -17,40 +18,13 @@ const AppBar = () => {
 
   return (
     <>
-      <AppBarMui
-        position="static"
-        sx={{
-          gap: 10,
-          padding: 10,
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          backgroundColor: "white",
-        }}
-      >
-        <Box
-          sx={{
-            gap: 10,
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-          onClick={() => navigate("/home")}
-        >
-          <PawPrint
-            sx={{
-              padding: 10,
-              fontSize: "2.5rem",
-              borderRadius: "50%",
-              backgroundColor: "primary.main",
-            }}
-          />
-          <Typography sx={{ fontSize: "1.2rem", color: "text.primary" }}>
-            Petopia
-          </Typography>
+      <AppBarMui position="static" sx={styles.appBar}>
+        <Box sx={styles.logoBox} onClick={() => navigate("/home")}>
+          <PawPrint sx={styles.pawPrint} />
+          <Typography sx={styles.title}>Petopia</Typography>
         </Box>
         {pathname === "/profile" && (
-          <Box sx={{ marginLeft: "auto", display: "flex", gap: 1 }}>
+          <Box sx={styles.actionsBox}>
             <IconButton onClick={() => navigate("/edit-profile")}>
               <BorderColorRounded color="primary" />
             </IconButton>

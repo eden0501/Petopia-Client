@@ -3,6 +3,8 @@ import { ExpandMore } from "@mui/icons-material";
 import { alpha, createTheme, ThemeProvider } from "@mui/material/styles";
 import type { PropsWithChildren } from "react";
 
+
+
 const theme = createTheme({
   spacing: 1,
   palette: {
@@ -19,9 +21,14 @@ const theme = createTheme({
     warning: {
       main: "#D97706",
     },
+    
   },
   typography: {
     fontFamily: "ui-sans-serif, system-ui, sans-serif",
+    caption: {
+      fontSize: "0.8rem",
+      color: "#364153",
+    },
   },
   components: {
     MuiToggleButtonGroup: {

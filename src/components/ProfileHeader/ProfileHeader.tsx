@@ -1,6 +1,7 @@
-import PawPrint from "../icons/PawPrint";
+import PawPrint from "../../icons/PawPrint";
+import styles from "./ProfileHeader.styles";
 import { formatDistanceToNowStrict } from "date-fns";
-import { useUserContext } from "../contexts/UserContext";
+import { useUserContext } from "../../contexts/UserContext";
 import {
   Box,
   Chip,
@@ -10,7 +11,7 @@ import {
   CardHeader,
   CardActions,
 } from "@mui/material";
-import type { UserStatsInterface } from "../interfaces/user";
+import type { UserStatsInterface } from "../../interfaces/user";
 
 const stats: { title: string; userProperty: keyof UserStatsInterface }[] = [
   { title: "Posts", userProperty: "postsCount" },
@@ -22,28 +23,12 @@ const ProfileHeader = () => {
   const { userData } = useUserContext();
 
   return (
-    <Box
-      sx={{
-        margin: 10,
-        borderRadius: "10px",
-        background: "white",
-        border: "1px solid #E0E0E0",
-      }}
-    >
+    <Box sx={styles.container}>
       <CardHeader
-        avatar={
-          <Avatar
-            sx={{
-              width: "auto",
-              height: "90px",
-              aspectRatio: "1/1",
-            }}
-            src={userData.profilePicture}
-          />
-        }
+        avatar={<Avatar sx={styles.avatar} src={userData.profilePicture} />}
         title={userData.username}
         subheader={
-          <Stack sx={{ gap: 5, alignItems: "flex-start" }}>
+          <Stack sx={styles.subheaderStack}>
             {formatDistanceToNowStrict(userData.petOwnerSince)}
             <Chip
               color="warning"
@@ -52,23 +37,16 @@ const ProfileHeader = () => {
             />
           </Stack>
         }
-        sx={{
-          ".MuiCardHeader-title": {
-            fontSize: "1.4rem",
-            fontWeight: "600",
-          },
-        }}
+        sx={styles.cardHeader}
       />
 
-      <CardActions sx={{ padding: 20, justifyContent: "space-around" }}>
+      <CardActions sx={styles.cardActions}>
         {stats.map(({ title, userProperty }) => (
           <Stack key={title} alignItems="center">
-            <Typography sx={{ fontSize: "1.2rem" }}>
+            <Typography sx={styles.statValue}>
               {String(userData[userProperty])}
             </Typography>
-            <Typography sx={{ fontSize: "0.8rem", color: "text.secondary" }}>
-              {title}
-            </Typography>
+            <Typography variant="caption">{title}</Typography>
           </Stack>
         ))}
       </CardActions>

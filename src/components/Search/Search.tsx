@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { PostTypes } from "../constants/postTypes";
+import styles from "./Search.styles";
+import { PostTypes } from "../../constants/postTypes";
 import { Close, Search as SearchIcon } from "@mui/icons-material";
 import {
   Stack,
@@ -19,7 +20,7 @@ const Search = ({
   const [searchValue, setSearchValue] = useState("");
 
   return (
-    <Stack sx={{ padding: 10, gap: 10 }}>
+    <Stack sx={styles.container}>
       <TextField
         select
         value={typeFilter}

@@ -1,12 +1,13 @@
-import Post from "../components/Post";
-import AppBar from "../components/AppBar";
-import NavBar from "../components/NavBar";
-import ProfileHeader from "../components/ProfileHeader";
-import { useUserContext } from "../contexts/UserContext";
+import styles from "./Profile.styles";
+import Post from "../../components/Post";
+import AppBar from "../../components/AppBar";
+import NavBar from "../../components/NavBar";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import ProfileHeader from "../../components/ProfileHeader";
 import { Box, Container, Typography } from "@mui/material";
-import { useInfinityScroll } from "../hooks/useInfinityScroll";
-import { BATCH_SIZE, getPosts } from "../services/posts.service";
+import { useUserContext } from "../../contexts/UserContext";
+import { useInfinityScroll } from "../../hooks/useInfinityScroll";
+import { BATCH_SIZE, getPosts } from "../../services/posts.service";
 
 const Profile = () => {
   const { userId } = useUserContext();
@@ -32,19 +33,11 @@ const Profile = () => {
   });
 
   return (
-    <Box sx={{ backgroundColor: "#FBF9FA", minHeight: "100vh" }}>
+    <Box sx={styles.container}>
       <AppBar />
-      <Container
-        sx={{
-          paddingBottom: 10,
-          overflow: "auto",
-          height: "calc(100vh - 110px)",
-        }}
-      >
+      <Container sx={styles.contentContainer}>
         <ProfileHeader />
-        <Typography sx={{ padding: 15, fontSize: "1.2rem", fontWeight: "600" }}>
-          My Posts
-        </Typography>
+        <Typography sx={styles.sectionTitle}>My Posts</Typography>
         {pages?.map((batch, batchIndex) => (
           <Box key={`batch-${batchIndex}`}>
             {batch?.map((post) => (
