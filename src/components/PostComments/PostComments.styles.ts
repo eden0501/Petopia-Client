@@ -13,11 +13,6 @@ const styles = {
     justifyContent: "space-between",
   },
 
-  headerTitle: {
-    fontWeight: 600,
-    fontSize: "1.2rem",
-  },
-
   commentsStack: {
     padding: 15,
     overflowY: "auto",
@@ -40,12 +35,10 @@ const styles = {
   },
 
   emptyStateTitle: {
-    fontWeight: 600,
     color: "text.secondary",
   },
 
   emptyStateSubtitle: {
-    fontSize: "0.9rem",
     color: "text.secondary",
   },
 
@@ -62,12 +55,11 @@ const styles = {
 
   commentAuthor: {
     fontWeight: 600,
-    fontSize: "0.9rem",
   },
 
-  commentContent: {
-    fontSize: "0.8rem",
+  commentContent: {      fontSize: "0.8rem",
     marginTop: 0.5,
+    color: "text.secondary",
   },
 
   inputContainer: {

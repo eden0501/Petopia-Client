@@ -44,9 +44,7 @@ const PostCommentsDrawer = ({
       slotProps={{ paper: { sx: styles.paper } }}
     >
       <Box sx={styles.header}>
-        <Typography sx={styles.headerTitle}>
-          Comments ({comments.length})
-        </Typography>
+        <Typography variant="h5">Comments ({comments.length})</Typography>
         <IconButton onClick={onClose} size="small">
           <CloseIcon fontSize="small" />
         </IconButton>
@@ -64,8 +62,10 @@ const PostCommentsDrawer = ({
             <Box sx={styles.emptyStateIconBox}>
               <Comment sx={styles.emptyStateIcon} />
             </Box>
-            <Typography sx={styles.emptyStateTitle}>No comments yet</Typography>
-            <Typography sx={styles.emptyStateSubtitle}>
+            <Typography variant="subtitle2" sx={styles.emptyStateTitle}>
+              No comments yet
+            </Typography>
+            <Typography variant="body2" sx={styles.emptyStateSubtitle}>
               Be the first to comment!
             </Typography>
           </Stack>
@@ -79,7 +79,7 @@ const PostCommentsDrawer = ({
                 />
                 <Stack spacing={2}>
                   <Box sx={styles.commentBubble}>
-                    <Typography sx={styles.commentAuthor}>
+                    <Typography variant="body2" sx={styles.commentAuthor}>
                       {comment.author.username}
                     </Typography>
                     <Typography sx={styles.commentContent}>

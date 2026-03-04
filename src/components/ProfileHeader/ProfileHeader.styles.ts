@@ -17,10 +17,9 @@ const styles = {
     alignItems: "flex-start",
   },
 
-  cardHeader: {
-    ".MuiCardHeader-title": {
-      fontSize: "1.4rem",
-      fontWeight: "600",
+  chip: {
+    "& path": {
+      stroke: "warning.main",
     },
   },
 

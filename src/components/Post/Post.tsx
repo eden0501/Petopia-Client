@@ -106,9 +106,9 @@ const Post = ({
         />
         <CardContent sx={styles.cardContent}>
           <PostTypeChip postType={type} />
-          <Typography sx={styles.title}>{title}</Typography>
+          <Typography variant="h5" sx={styles.title}>{title}</Typography>
           <Stack sx={styles.contentStack}>
-            <Typography sx={styles.description}>{content}</Typography>
+            <Typography variant="subtitle1">{content}</Typography>
             {imageUrl && (
               <CardMedia
                 sx={styles.cardMedia}
@@ -117,7 +117,7 @@ const Post = ({
               />
             )}
             {!!hashtags?.length && (
-              <Typography sx={styles.hashtags}>
+              <Typography variant="body2" sx={styles.hashtags}>
                 #{hashtags.join(" #")}
               </Typography>
             )}

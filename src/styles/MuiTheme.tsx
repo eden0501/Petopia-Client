@@ -3,8 +3,6 @@ import { ExpandMore } from "@mui/icons-material";
 import { alpha, createTheme, ThemeProvider } from "@mui/material/styles";
 import type { PropsWithChildren } from "react";
 
-
-
 const theme = createTheme({
   spacing: 1,
   palette: {
@@ -25,9 +23,31 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: "ui-sans-serif, system-ui, sans-serif",
+    h4: {
+      fontSize: "1.3rem",
+      fontWeight: 600,
+    },
+    h5: {
+      fontSize: "1.2rem",
+      fontWeight: 600,
+    },
+    subtitle1: {
+      color: "#364153",
+    },
+    subtitle2: {
+      fontWeight: 600,
+    },
+    body2: {
+      fontSize: "0.9rem",
+    },
     caption: {
       fontSize: "0.8rem",
       color: "#364153",
+    },
+    overline: {
+      fontSize: "0.8rem",
+      fontWeight: 600,
+      textTransform: "none",
     },
   },
   components: {

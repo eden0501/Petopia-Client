@@ -26,7 +26,6 @@ const styles = {
 
   subtitle: {
     px: 2,
-    color: "text.secondary",
   },
 
   chip: {
@@ -41,9 +40,7 @@ const styles = {
   },
 
   label: {
-    fontWeight: "600",
     mb: 1,
-    fontSize: "0.8rem",
   },
 
   multiline: {
@@ -72,7 +69,7 @@ const styles = {
   },
 
   buttonText: {
-    fontWeight: "600",
+    fontWeight: 600,
   },
 };
 

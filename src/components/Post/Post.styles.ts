@@ -5,14 +5,13 @@ const styles = {
       fontWeight: "600",
     },
   },
-
+  
   cardContent: {
     paddingTop: 0,
   },
-
+  
   title: {
     marginTop: 5,
-    fontWeight: "600",
     marginBottom: 20,
   },
 
@@ -20,17 +19,12 @@ const styles = {
     gap: 10,
   },
 
-  description: {
-    color: "text.secondary",
+  hashtags: {
+    color: "primary.main",
   },
 
   cardMedia: {
     borderRadius: 2,
-  },
-
-  hashtags: {
-    color: "primary.main",
-    fontSize: "0.9rem",
   },
 
   cardActions: {

@@ -14,15 +14,15 @@ const EditProfile = () => {
       <Box sx={styles.container}>
         <AppBar />
         <Container sx={styles.contentContainer}>
-          <Typography sx={styles.title}>Edit Profile</Typography>
-          <Typography sx={styles.subtitle}>
+          <Typography variant="h4">Edit Profile</Typography>
+          <Typography variant="subtitle1">
             Update your personal information and how others see you
           </Typography>
           <EditProfileForm />
           <Divider sx={styles.divider} />
           <Box sx={styles.deleteSection}>
             <Box>
-              <Typography sx={styles.deleteTitle}>Delete Account</Typography>
+              <Typography variant="subtitle2">Delete Account</Typography>
               <Typography variant="caption">
                 Permanently remove all your data
               </Typography>

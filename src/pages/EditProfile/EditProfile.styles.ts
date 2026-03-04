@@ -9,15 +9,6 @@ const styles = {
     paddingTop: 30,
   },
 
-  title: {
-    fontSize: "1.3rem",
-    fontWeight: "600",
-  },
-
-  subtitle: {
-    color: "text.secondary",
-  },
-
   divider: {
     marginTop: 20,
     marginBottom: 10,
@@ -27,10 +18,6 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-  },
-
-  deleteTitle: {
-    fontWeight: "600",
   },
 };
 

@@ -38,7 +38,7 @@ const PostForm = ({
 
       <Box sx={styles.headerBox}>
         <DialogTitle sx={styles.dialogTitle}>Create New Post</DialogTitle>
-        <Typography sx={styles.subtitle}>
+        <Typography variant="subtitle1" sx={styles.subtitle}>
           Share rescue alerts, care tips, or equipment donations with the
           community
         </Typography>
@@ -64,12 +64,12 @@ const PostForm = ({
 
       <Box sx={styles.formBox}>
         <Box>
-          <Typography sx={styles.label}>Title *</Typography>
+          <Typography variant="overline" sx={styles.label}>Title *</Typography>
           <TextField placeholder="Enter post title..." />
         </Box>
 
         <Box>
-          <Typography sx={styles.label}>Description *</Typography>
+          <Typography variant="overline" sx={styles.label}>Description *</Typography>
           <TextField
             sx={styles.multiline}
             multiline
@@ -78,7 +78,7 @@ const PostForm = ({
           />
         </Box>
         <Box>
-          <Typography sx={styles.label}>Hashtags (optional)</Typography>
+          <Typography variant="overline" sx={styles.label}>Hashtags (optional)</Typography>
           <TextField placeholder="rescue, urgent, help" />
           <Typography variant="caption">
             Separate hashtags with commas
@@ -90,7 +90,7 @@ const PostForm = ({
         onClick={() => console.log("Image upload coming soon!")}
       >
         <BackupOutlined sx={styles.uploadIcon} />
-        <Typography sx={styles.buttonText}>Click to upload photo</Typography>
+        <Typography variant="subtitle2">Click to upload photo</Typography>
         <Typography variant="caption">PNG, JPG up to 10MB</Typography>
       </Box>
 

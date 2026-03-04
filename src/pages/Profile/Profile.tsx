@@ -37,7 +37,7 @@ const Profile = () => {
       <AppBar />
       <Container sx={styles.contentContainer}>
         <ProfileHeader />
-        <Typography sx={styles.sectionTitle}>My Posts</Typography>
+        <Typography variant="h5" sx={styles.sectionTitle}>My Posts</Typography>
         {pages?.map((batch, batchIndex) => (
           <Box key={`batch-${batchIndex}`}>
             {batch?.map((post) => (

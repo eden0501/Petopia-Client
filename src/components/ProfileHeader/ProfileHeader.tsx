@@ -26,18 +26,17 @@ const ProfileHeader = () => {
     <Box sx={styles.container}>
       <CardHeader
         avatar={<Avatar sx={styles.avatar} src={userData.profilePicture} />}
-        title={userData.username}
+        title={<Typography variant="h4">{userData.username}</Typography>}
         subheader={
           <Stack sx={styles.subheaderStack}>
             {formatDistanceToNowStrict(userData.petOwnerSince)}
             <Chip
               color="warning"
-              icon={<PawPrint sx={{ "& path": { stroke: "warning.main" } }} />}
+              icon={<PawPrint sx={styles.chip} />}
               label={`${userData.petsCount} ${userData.petsCount === 1 ? "Pet" : "Pets"}`}
             />
           </Stack>
         }
-        sx={styles.cardHeader}
       />
 
       <CardActions sx={styles.cardActions}>
