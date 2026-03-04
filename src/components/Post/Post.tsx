@@ -1,4 +1,4 @@
-import { reject } from "lodash";
+import reject from "lodash/reject";
 import { useMemo, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { formatDistanceToNowStrict } from "date-fns";
@@ -108,15 +108,13 @@ const Post = ({
         />
         <CardContent sx={styles.cardContent}>
           <PostTypeChip postType={type} />
-          <Typography variant="h5" sx={styles.title}>{title}</Typography>
+          <Typography variant="h5" sx={styles.title}>
+            {title}
+          </Typography>
           <Stack sx={styles.contentStack}>
             <Typography variant="subtitle1">{content}</Typography>
             {imageUrl && (
-              <CardMedia
-                sx={styles.cardMedia}
-                component="img"
-                src={imageUrl}
-              />
+              <CardMedia sx={styles.cardMedia} component="img" src={imageUrl} />
             )}
             {!!hashtags?.length && (
               <Typography variant="body2" sx={styles.hashtags}>
