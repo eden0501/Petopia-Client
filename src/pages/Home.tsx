@@ -4,6 +4,7 @@ import AppBar from "../components/AppBar";
 import NavBar from "../components/NavBar";
 import Search from "../components/Search";
 import PetFact from "../components/PetFact";
+import FloatingAIChat from "../components/FloatingAIChat/FloatingAIChat";
 import { Box, Container } from "@mui/material";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInfinityScroll } from "../hooks/useInfinityScroll";
@@ -59,6 +60,7 @@ const Home = () => {
         ))}
       </Container>
       <NavBar />
+      <FloatingAIChat />
     </Box>
   );
 };
