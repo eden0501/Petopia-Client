@@ -49,7 +49,7 @@ const AuthPage = () => {
     const [activeTab, setActiveTab] = useState<keyof typeof AUTH_TABS>("LOGIN");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [petsCount, setPetsCount] = useState("1");
+    const [petsCount, setPetsCount] = useState("0");
     const [petOwnerSince, setPetOwnerSince] = useState(today);
     const [hasError, setHasError] = useState(false);
 
