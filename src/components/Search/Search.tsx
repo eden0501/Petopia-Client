@@ -8,7 +8,9 @@ import {
   InputAdornment,
 } from "@mui/material";
 
-import { PostTypes } from "../constants/postTypes";
+import { PostTypes } from "@/constants/postTypes";
+
+import styles from "./Search.styles";
 
 const Search = ({
   typeFilter,
@@ -20,7 +22,7 @@ const Search = ({
   const [searchValue, setSearchValue] = useState("");
 
   return (
-    <Stack sx={{ padding: 10, gap: 10 }}>
+    <Stack sx={styles.container}>
       <TextField
         select
         value={typeFilter}

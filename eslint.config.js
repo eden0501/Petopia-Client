@@ -1,9 +1,9 @@
 import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-import perfectionist from "eslint-plugin-perfectionist";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
+import perfectionist from "eslint-plugin-perfectionist";
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
@@ -25,21 +25,6 @@ export default defineConfig([
     },
     rules: {
       quotes: ["error", "double"],
-      'perfectionist/sort-imports': [
-        'error',
-        {
-          type: 'line-length',
-          order: 'asc',
-          groups: [
-            ['builtin', 'external'],
-            'internal',
-            ['parent', 'sibling', 'index'],
-            'side-effect',
-            'unknown',
-          ],
-          newlinesBetween: 1,
-        },
-      ],
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
@@ -47,6 +32,21 @@ export default defineConfig([
           argsIgnorePattern: "^_",
           varsIgnorePattern: "^_",
           caughtErrorsIgnorePattern: "^_",
+        },
+      ],
+      "perfectionist/sort-imports": [
+        "error",
+        {
+          type: "line-length",
+          order: "asc",
+          internalPattern: ["^@/.*"],
+          groups: [
+            ["builtin", "external"],
+            "internal",
+            ["parent", "sibling", "index"],
+            "side-effect",
+          ],
+          newlinesBetween: 1,
         },
       ],
     },

@@ -1,37 +1,31 @@
 import { useState } from "react";
 import { Box, Button, Container, Divider, Typography } from "@mui/material";
 
-import AppBar from "../components/AppBar";
-import NavBar from "../components/NavBar";
-import EditProfileForm from "../components/EditProfileForm";
-import DeleteProfileModal from "../components/DeleteProfileModal";
+import AppBar from "@/components/AppBar";
+import NavBar from "@/components/NavBar";
+import EditProfileForm from "@/components/EditProfileForm";
+import DeleteProfileModal from "@/components/DeleteProfileModal";
+
+import styles from "./EditProfile.styles";
 
 const EditProfile = () => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
 
   return (
     <>
-      <Box sx={{ backgroundColor: "#FBF9FA", minHeight: "100vh" }}>
+      <Box sx={styles.container}>
         <AppBar />
-        <Container sx={{ padding: 20, paddingTop: 30 }}>
-          <Typography sx={{ fontSize: "1.3rem", fontWeight: "600" }}>
-            Edit Profile
-          </Typography>
-          <Typography sx={{ color: "text.secondary" }}>
+        <Container sx={styles.contentContainer}>
+          <Typography variant="h4">Edit Profile</Typography>
+          <Typography variant="subtitle1">
             Update your personal information and how others see you
           </Typography>
           <EditProfileForm />
-          <Divider sx={{ marginTop: 20, marginBottom: 10 }} />
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
+          <Divider sx={styles.divider} />
+          <Box sx={styles.deleteSection}>
             <Box>
-              <Typography sx={{ fontWeight: "600" }}>Delete Account</Typography>
-              <Typography sx={{ color: "text.secondary", fontSize: "0.8rem" }}>
+              <Typography variant="subtitle2">Delete Account</Typography>
+              <Typography variant="caption">
                 Permanently remove all your data
               </Typography>
             </Box>

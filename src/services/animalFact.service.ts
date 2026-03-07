@@ -12,7 +12,7 @@ export const getRandomFact = async () => {
     const res = (await axiosInstance.get("")).data;
 
     return isDog ? res.data[0].attributes.body : res.fact;
-  } catch (_error) {
+  } catch (_) {
     return "Did you know? Pets bring joy and companionship to millions of people worldwide!";
   }
 };

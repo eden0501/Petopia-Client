@@ -14,7 +14,9 @@ import {
   Divider,
 } from "@mui/material";
 
-import type { CommentInterface } from "../interfaces/comment";
+import type { CommentInterface } from "@/interfaces/comment";
+
+import styles from "./PostComments.styles";
 
 const PostCommentsDrawer = ({
   comments,
@@ -41,28 +43,10 @@ const PostCommentsDrawer = ({
       anchor="bottom"
       open={open}
       onClose={onClose}
-      slotProps={{
-        paper: {
-          sx: {
-            maxHeight: "60vh",
-            borderTopLeftRadius: 24,
-            borderTopRightRadius: 24,
-            overflow: "hidden",
-          },
-        },
-      }}
+      slotProps={{ paper: { sx: styles.paper } }}
     >
-      <Box
-        sx={{
-          padding: 20,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Typography sx={{ fontWeight: 600, fontSize: "1.2rem" }}>
-          Comments ({comments.length})
-        </Typography>
+      <Box sx={styles.header}>
+        <Typography variant="h5">Comments ({comments.length})</Typography>
         <IconButton onClick={onClose} size="small">
           <CloseIcon fontSize="small" />
         </IconButton>
@@ -70,43 +54,20 @@ const PostCommentsDrawer = ({
 
       <Divider />
 
-      <Stack
-        spacing={15}
-        sx={{
-          padding: 15,
-          overflowY: "auto",
-        }}
-      >
+      <Stack spacing={15} sx={styles.commentsStack}>
         {!comments.length ? (
           <Stack
             alignItems="center"
             justifyContent="center"
-            sx={{ padding: 40 }}
+            sx={styles.emptyStateContainer}
           >
-            <Box
-              sx={{
-                padding: 15,
-                borderRadius: "50%",
-                display: "flex",
-                backgroundColor: "#F3F3F5",
-              }}
-            >
-              <Comment
-                sx={{
-                  fontSize: "3rem",
-                  color: "text.secondary",
-                }}
-              />
+            <Box sx={styles.emptyStateIconBox}>
+              <Comment sx={styles.emptyStateIcon} />
             </Box>
-            <Typography
-              sx={{
-                fontWeight: 600,
-                color: "text.secondary",
-              }}
-            >
+            <Typography variant="subtitle2" sx={styles.emptyStateTitle}>
               No comments yet
             </Typography>
-            <Typography sx={{ fontSize: "0.9rem", color: "text.secondary" }}>
+            <Typography variant="body2" sx={styles.emptyStateSubtitle}>
               Be the first to comment!
             </Typography>
           </Stack>
@@ -116,30 +77,18 @@ const PostCommentsDrawer = ({
               <Stack direction="row" spacing={5} alignItems="flex-start">
                 <Avatar
                   src={comment.author.profilePicture}
-                  sx={{ width: 40, height: 40 }}
+                  sx={styles.commentAvatar}
                 />
                 <Stack spacing={2}>
-                  <Box
-                    sx={{
-                      bgcolor: "#f0f2f5",
-                      borderRadius: 4,
-                      padding: 10,
-                    }}
-                  >
-                    <Typography sx={{ fontWeight: 600, fontSize: "0.9rem" }}>
+                  <Box sx={styles.commentBubble}>
+                    <Typography variant="body2" sx={styles.commentAuthor}>
                       {comment.author.username}
                     </Typography>
-                    <Typography sx={{ fontSize: "0.8rem", marginTop: 0.5 }}>
+                    <Typography sx={styles.commentContent}>
                       {comment.content}
                     </Typography>
                   </Box>
-                  <Typography
-                    sx={{
-                      fontSize: "0.8rem",
-                      display: "block",
-                      color: "text.secondary",
-                    }}
-                  >
+                  <Typography variant="caption">
                     {formatDistanceToNowStrict(comment.createdAt, {
                       addSuffix: true,
                     })}
@@ -153,9 +102,9 @@ const PostCommentsDrawer = ({
 
       <Divider />
 
-      <Box sx={{ padding: 15 }}>
+      <Box sx={styles.inputContainer}>
         <Stack direction="row" spacing={5} alignItems="center">
-          <Avatar sx={{ width: 40, height: 40 }} />
+          <Avatar sx={styles.inputAvatar} />
           <TextField
             fullWidth
             placeholder="Write a comment..."
