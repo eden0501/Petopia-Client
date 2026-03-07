@@ -1,8 +1,8 @@
-import { createAxiosInstance } from "../config/axiosInstance";
+import axios from "axios";
 
-const dogApi = createAxiosInstance("https://dogapi.dog/api/v2/facts");
+const dogApi = axios.create({ baseURL: "https://dogapi.dog/api/v2/facts" });
 
-const catApi = createAxiosInstance("https://catfact.ninja/fact");
+const catApi = axios.create({ baseURL: "https://catfact.ninja/fact" });
 
 export const getRandomFact = async () => {
   try {
@@ -12,8 +12,7 @@ export const getRandomFact = async () => {
     const res = (await axiosInstance.get("")).data;
 
     return isDog ? res.data[0].attributes.body : res.fact;
-  } catch (error) {
-    console.log("error", error);
+  } catch (_error) {
     return "Did you know? Pets bring joy and companionship to millions of people worldwide!";
   }
 };

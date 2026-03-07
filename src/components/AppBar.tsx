@@ -9,15 +9,21 @@ import {
   AppBar as AppBarMui,
 } from "@mui/material";
 
-import api from "../api/axios";
 import LogoutModal from "./LogoutModal";
-import PawPrint from "../icons/FilledPawPrints";
+import PawPrint from "../icons/PawPrint";
+import { logout } from "../services/auth.service";
 
 const AppBar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const queryClient = useQueryClient();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
+  const handleLogout = async () => async () => {
+    setIsLogoutModalOpen(false);
+    await logout();
+    await queryClient.resetQueries({ queryKey: ["userInfo"] });
+  };
 
   return (
     <>
@@ -41,7 +47,14 @@ const AppBar = () => {
           }}
           onClick={() => navigate("/home")}
         >
-          <PawPrint sx={{ fontSize: "2.5rem" }} />
+          <PawPrint
+            sx={{
+              padding: 10,
+              fontSize: "2.5rem",
+              borderRadius: "50%",
+              backgroundColor: "primary.main",
+            }}
+          />
           <Typography sx={{ fontSize: "1.2rem", color: "text.primary" }}>
             Petopia
           </Typography>
@@ -59,12 +72,7 @@ const AppBar = () => {
       </AppBarMui>
       <LogoutModal
         open={isLogoutModalOpen}
-        onConfirm={async () => {
-          setIsLogoutModalOpen(false);
-          await api.post("/auth/logout", {}, { withCredentials: true });
-          queryClient.removeQueries({ queryKey: ["auth"] });
-          navigate("/login");
-        }}
+        onConfirm={handleLogout}
         onCancel={() => setIsLogoutModalOpen(false)}
       />
     </>

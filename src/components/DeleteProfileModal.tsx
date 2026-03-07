@@ -9,7 +9,7 @@ import {
   DialogContentText,
 } from "@mui/material";
 
-const DeleteAccountModal = ({
+const DeleteProfileModal = ({
   open,
   onClose,
   onConfirm,
@@ -75,11 +75,11 @@ const DeleteAccountModal = ({
           fullWidth
           sx={{ fontWeight: "600" }}
         >
-          Yes, delete profile
+          Yes, delete account
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default DeleteAccountModal;
+export default DeleteProfileModal;

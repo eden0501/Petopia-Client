@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
 import { GoogleLogin } from "@react-oauth/google";
+import { useQueryClient } from "@tanstack/react-query";
 import type { CredentialResponse } from "@react-oauth/google";
 import {
     Box,
@@ -11,10 +11,10 @@ import {
     Divider,
 } from "@mui/material";
 
-import api from "../../api/axios";
 import PawPrint from "../../icons/FilledPawPrints";
 import TabBar from "../../components/TabBar/TabBar";
 import { authPageStyles as styles } from "./AuthPageStyles";
+import { googleLogin, login, register } from "../../services/auth.service";
 
 const AUTH_TABS = {
     LOGIN: {
@@ -54,9 +54,9 @@ const AuthPage = () => {
     const [hasError, setHasError] = useState(false);
 
     const isLogin = activeTab === "LOGIN";
-    const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
-    const handleSuccess = () => navigate("/");
+    const handleSuccess = async () => await queryClient.resetQueries({ queryKey: ["userInfo"] });
 
     const handleError = () => setHasError(true);
 
@@ -73,9 +73,9 @@ const AuthPage = () => {
             const email = `${username}@petopia.com`;
 
             if (isLogin) {
-                await api.post("/auth/login", { email, password });
+                await login(email, password);
             } else {
-                await api.post("/auth/register", {
+                await register({
                     email,
                     username,
                     password,
@@ -94,7 +94,7 @@ const AuthPage = () => {
 
     const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
         try {
-            await api.post("/auth/google", { credential: credentialResponse.credential });
+            await googleLogin(credentialResponse?.credential || "");
             handleSuccess();
         } catch {
             handleError();

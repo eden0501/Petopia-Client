@@ -68,9 +68,9 @@ const CreatePostModal = ({
         exclusive
         onChange={(_, val) => val && setPostType(val)}
       >
-        {Object.values(CHIP_PROPS).map((chip) => (
-          <ToggleButton key={chip.label} value={chip.label}>
-            {chip.icon}
+        {Object.entries(CHIP_PROPS).map(([type, { icon }]) => (
+          <ToggleButton key={type} value={type}>
+            {icon}
           </ToggleButton>
         ))}
       </ToggleButtonGroup>
@@ -109,7 +109,7 @@ const CreatePostModal = ({
           </Typography>
           <TextField placeholder="rescue, urgent, help" />
           <Typography variant="caption" color="text.secondary">
-            Separate hashtags with comas
+            Separate hashtags with commas
           </Typography>
         </Box>
       </Box>
@@ -122,6 +122,7 @@ const CreatePostModal = ({
           textAlign: "center",
           "&:hover": { backgroundColor: "grey.50" },
         }}
+        onClick={() => console.log("Image upload coming soon!")}
       >
         <BackupOutlined
           sx={{ color: "text.secondary", fontSize: "2rem", mb: 1 }}

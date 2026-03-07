@@ -132,9 +132,6 @@ const theme = createTheme({
           fontSize: "0.9rem",
           padding: 10,
           borderRadius: 12,
-          "&.Mui-selected": {
-            color: "primary.main",
-          },
         },
       },
     },

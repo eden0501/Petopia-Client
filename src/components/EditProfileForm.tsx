@@ -9,9 +9,13 @@ import {
   Typography,
 } from "@mui/material";
 
-import type { UserInterface } from "../interfaces/user";
+import { useUserContext } from "../contexts/UserContext";
 
-const EditProfileForm = ({ profilePicture, username }: UserInterface) => {
+const EditProfileForm = () => {
+  const {
+    userData: { profilePicture, username, petsCount },
+  } = useUserContext();
+
   const navigate = useNavigate();
 
   return (
@@ -40,17 +44,16 @@ const EditProfileForm = ({ profilePicture, username }: UserInterface) => {
       <Box>
         <Typography sx={{ fontWeight: "600" }}>Username</Typography>
         <TextField
-          placeholder="Search posts, hashtags, authors..."
           value={username}
-          // onChange={({ target }) => setSearchValue(target.value)}
+        // onChange={({ target }) => setSearchValue(target.value)}
         />
       </Box>
       <Box>
         <Typography sx={{ fontWeight: "600" }}>Number of Pets</Typography>
         <TextField
-          placeholder="Search posts, hashtags, authors..."
-          value={username}
-          // onChange={({ target }) => setSearchValue(target.value)}
+          value={petsCount}
+          type="number"
+        // onChange={({ target }) => setSearchValue(target.value)}
         />
       </Box>
       <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>

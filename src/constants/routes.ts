@@ -1,16 +1,15 @@
 import type { JSX } from "react";
 
 import Home from "../pages/Home";
-import Loader from "../pages/Loader";
 import Profile from "../pages/Profile";
 import EditProfile from "../pages/EditProfile";
 
-export interface Route {
+export interface AppRoute {
   path: string;
   element: () => JSX.Element;
 }
 
-export const ROUTES: Route[] = [
+export const ROUTES: AppRoute[] = [
   {
     path: "/home",
     element: Home,
@@ -22,9 +21,5 @@ export const ROUTES: Route[] = [
   {
     path: "/edit-profile",
     element: EditProfile,
-  },
-  {
-    path: "/load",
-    element: Loader,
   },
 ];
