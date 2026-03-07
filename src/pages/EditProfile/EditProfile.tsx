@@ -1,15 +1,33 @@
 import { useState } from "react";
-import { Box, Button, Container, Divider, Typography } from "@mui/material";
+import { useNavigate } from "react-router";
+import { useMutation } from "@tanstack/react-query";
+import {
+  Box,
+  Button,
+  Container,
+  DialogActions,
+  Divider,
+  Typography,
+} from "@mui/material";
 
 import AppBar from "@/components/AppBar";
 import NavBar from "@/components/NavBar";
+import { deleteUser } from "@/services/users.service";
 import EditProfileForm from "@/components/EditProfileForm";
-import DeleteProfileModal from "@/components/DeleteProfileModal";
+import ConfirmationModal from "@/components/ConfirmationModal";
 
 import styles from "./EditProfile.styles";
 
 const EditProfile = () => {
+  const navigate = useNavigate();
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+
+  const { mutate: handleDeleteAccount } = useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      navigate("/login");
+    },
+  });
 
   return (
     <>
@@ -40,10 +58,33 @@ const EditProfile = () => {
         </Container>
         <NavBar />
       </Box>
-      <DeleteProfileModal
+
+      <ConfirmationModal
         open={isDeleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
-        onConfirm={() => { }}
+        variant="error"
+        title="Are you absolutely sure?"
+        content="This action cannot be undone. This will permanently delete your account and remove your data from our servers."
+        actions={
+          <DialogActions sx={styles.dialogActions}>
+            <Button
+              fullWidth
+              sx={styles.keepButton}
+              onClick={() => setDeleteModalOpen(false)}
+            >
+              No, keep my account
+            </Button>
+            <Button
+              fullWidth
+              color="error"
+              variant="contained"
+              sx={styles.deleteButton}
+              onClick={() => handleDeleteAccount()}
+            >
+              Yes, delete account
+            </Button>
+          </DialogActions>
+        }
       />
     </>
   );

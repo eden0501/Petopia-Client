@@ -14,6 +14,7 @@ import { useUserContext } from "@/contexts/UserContext";
 import type { UserStatsInterface } from "@/interfaces/user";
 
 import styles from "./ProfileHeader.styles";
+import { isNil } from "lodash";
 
 const stats: { title: string; userProperty: keyof UserStatsInterface }[] = [
   { title: "Posts", userProperty: "postsCount" },
@@ -37,9 +38,9 @@ const ProfileHeader = () => {
               color="warning"
               icon={<PawPrint sx={styles.chip} />}
               label={
-                userData.petsCount
-                  ? `${userData.petsCount} ${userData.petsCount === 1 ? "Pet" : "Pets"}`
-                  : "Unknown pets count"
+                isNil(userData.petsCount)
+                  ? "Unknown pets count"
+                  : `${userData.petsCount} ${userData.petsCount === 1 ? "Pet" : "Pets"}`
               }
             />
           </Stack>
