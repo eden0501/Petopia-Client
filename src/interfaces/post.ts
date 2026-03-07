@@ -1,6 +1,6 @@
 import type { UserInterface } from "./user";
-import type { PostTypes } from "../constants/postTypes";
 import type { CommentInterface } from "./comment";
+import type { PostTypes } from "../constants/postTypes";
 
 export interface PostInterface {
   _id: string;

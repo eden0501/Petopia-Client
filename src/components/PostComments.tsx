@@ -13,6 +13,7 @@ import {
   IconButton,
   Divider,
 } from "@mui/material";
+
 import type { CommentInterface } from "../interfaces/comment";
 
 const PostCommentsDrawer = ({
@@ -120,7 +121,7 @@ const PostCommentsDrawer = ({
                 <Stack spacing={2}>
                   <Box
                     sx={{
-                      bgcolor: "#f0f2f5", 
+                      bgcolor: "#f0f2f5",
                       borderRadius: 4,
                       padding: 10,
                     }}

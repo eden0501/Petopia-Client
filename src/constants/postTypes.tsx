@@ -1,10 +1,10 @@
+import type { JSX } from "react";
 import {
   HelpOutlineRounded,
   TipsAndUpdatesOutlined,
   VolunteerActivismOutlined,
   ReportGmailerrorredRounded,
 } from "@mui/icons-material";
-import type { JSX } from "react";
 
 export enum PostTypes {
   REPORT = "Report",
@@ -17,13 +17,13 @@ export const CHIP_PROPS: Record<
   PostTypes,
   {
     color:
-      | "error"
-      | "default"
-      | "primary"
-      | "secondary"
-      | "info"
-      | "success"
-      | "warning";
+    | "error"
+    | "default"
+    | "primary"
+    | "secondary"
+    | "info"
+    | "success"
+    | "warning";
     icon: JSX.Element;
     label: string;
     description: string;

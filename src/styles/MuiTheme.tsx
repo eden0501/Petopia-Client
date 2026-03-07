@@ -1,13 +1,14 @@
 import { CssBaseline } from "@mui/material";
+import type { PropsWithChildren } from "react";
 import { ExpandMore } from "@mui/icons-material";
 import { alpha, createTheme, ThemeProvider } from "@mui/material/styles";
-import type { PropsWithChildren } from "react";
 
 const theme = createTheme({
   spacing: 1,
   palette: {
     primary: {
       main: "#F54A00",
+      dark: "#D93E00",
     },
     text: {
       primary: "#0A0A0A",
@@ -90,7 +91,7 @@ const theme = createTheme({
 
           const paletteColor =
             theme.palette[
-              colorKey as "primary" | "error" | "warning" | "info" | "success"
+            colorKey as "primary" | "error" | "warning" | "info" | "success"
             ];
 
           return {

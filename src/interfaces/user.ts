@@ -2,9 +2,12 @@ export interface UserInterface {
   _id: string;
   email: string;
   username: string;
-  petOwnerSince: string;
+  petOwnerSince: Date;
   petsCount: number;
   profilePicture?: string;
+  password?: string;
+  googleId?: string;
+  refreshToken?: string;
 }
 
 export interface UserStatsInterface extends UserInterface {

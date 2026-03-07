@@ -1,6 +1,6 @@
-import { createAxiosInstance } from "../config/axiosInstance";
+import { createApiInstance } from "../config/axiosInstance";
 
-const axiosInstance = createAxiosInstance(
+const axiosInstance = createApiInstance(
     `${import.meta.env.VITE_SERVER_URL}/chat`,
 );
 

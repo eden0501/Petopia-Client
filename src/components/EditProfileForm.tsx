@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router";
-import { useUserContext } from "../contexts/UserContext";
 import {
   Box,
   Stack,
@@ -9,6 +8,8 @@ import {
   CardHeader,
   Typography,
 } from "@mui/material";
+
+import { useUserContext } from "../contexts/UserContext";
 
 const EditProfileForm = () => {
   const {
@@ -44,7 +45,7 @@ const EditProfileForm = () => {
         <Typography sx={{ fontWeight: "600" }}>Username</Typography>
         <TextField
           value={username}
-          // onChange={({ target }) => setSearchValue(target.value)}
+        // onChange={({ target }) => setSearchValue(target.value)}
         />
       </Box>
       <Box>
@@ -52,7 +53,7 @@ const EditProfileForm = () => {
         <TextField
           value={petsCount}
           type="number"
-          // onChange={({ target }) => setSearchValue(target.value)}
+        // onChange={({ target }) => setSearchValue(target.value)}
         />
       </Box>
       <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>

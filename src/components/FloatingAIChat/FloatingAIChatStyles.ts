@@ -1,7 +1,7 @@
 const styles = {
     chatFab: {
         position: "fixed",
-        bottom: 20,
+        bottom: 80,
         right: 20,
         zIndex: 1000,
         transition: "all 0.3s ease",
@@ -10,7 +10,7 @@ const styles = {
     },
     chatContainer: {
         position: "fixed",
-        bottom: 20,
+        bottom: 80,
         right: 20,
         width: { xs: "90%", sm: 320 },
         height: 480,

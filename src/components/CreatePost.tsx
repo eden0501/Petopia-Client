@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Close as CloseIcon, BackupOutlined } from "@mui/icons-material";
 import {
   Box,
   Dialog,
@@ -12,7 +13,7 @@ import {
   TextField,
   Chip,
 } from "@mui/material";
-import { Close as CloseIcon, BackupOutlined } from "@mui/icons-material";
+
 import { CHIP_PROPS, PostTypes } from "../constants/postTypes";
 
 const CreatePostModal = ({

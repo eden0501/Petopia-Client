@@ -1,8 +1,8 @@
-import { createAxiosInstance } from "../config/axiosInstance";
+import axios from "axios";
 
-const dogApi = createAxiosInstance("https://dogapi.dog/api/v2/facts");
+const dogApi = axios.create({ baseURL: "https://dogapi.dog/api/v2/facts" });
 
-const catApi = createAxiosInstance("https://catfact.ninja/fact");
+const catApi = axios.create({ baseURL: "https://catfact.ninja/fact" });
 
 export const getRandomFact = async () => {
   try {
