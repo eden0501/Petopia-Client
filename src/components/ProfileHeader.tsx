@@ -45,11 +45,11 @@ const ProfileHeader = () => {
         title={userData.username}
         subheader={
           <Stack sx={{ gap: 5, alignItems: "flex-start" }}>
-            {formatDistanceToNowStrict(userData.petOwnerSince)}
+            {userData.petOwnerSince && formatDistanceToNowStrict(userData.petOwnerSince)}
             <Chip
               color="warning"
               icon={<PawPrint sx={{ "& path": { stroke: "warning.main" } }} />}
-              label={`${userData.petsCount} ${userData.petsCount === 1 ? "Pet" : "Pets"}`}
+              label={userData.petsCount ? `${userData.petsCount} ${userData.petsCount === 1 ? "Pet" : "Pets"}` : "Unknown pets count"}
             />
           </Stack>
         }
@@ -60,7 +60,6 @@ const ProfileHeader = () => {
           },
         }}
       />
-
       <CardActions sx={{ padding: 20, justifyContent: "space-around" }}>
         {stats.map(({ title, userProperty }) => (
           <Stack key={title} alignItems="center">

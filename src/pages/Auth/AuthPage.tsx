@@ -80,7 +80,7 @@ const AuthPage = () => {
                     username,
                     password,
                     petsCount: Number(petsCount),
-                    petOwnerSince: new Date(petOwnerSince),
+                    petOwnerSince,
                 });
             }
 
