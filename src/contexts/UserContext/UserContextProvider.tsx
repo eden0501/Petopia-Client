@@ -1,7 +1,8 @@
-import { UserContext } from "./UserContext";
 import { useQuery } from "@tanstack/react-query";
-import { getUserInfo } from "../../services/users.service";
 import { useState, type PropsWithChildren } from "react";
+
+import { UserContext } from "./UserContext";
+import { getUserInfo } from "../../services/users.service";
 import type { UserStatsInterface } from "../../interfaces/user";
 
 export const UserContextProvider = ({ children }: PropsWithChildren) => {
@@ -15,6 +16,7 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
 
       return user;
     },
+    retry: false,
   });
 
   const updateLikeCount = (action: "like" | "unlike") => {

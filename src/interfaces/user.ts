@@ -5,6 +5,9 @@ export interface UserInterface {
   petOwnerSince: string;
   petsCount: number;
   profilePicture?: string;
+  password?: string;
+  googleId?: string;
+  refreshToken?: string;
 }
 
 export interface UserStatsInterface extends UserInterface {

@@ -1,10 +1,11 @@
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { Box, Container, Typography } from "@mui/material";
+
 import Post from "../components/Post";
 import AppBar from "../components/AppBar";
 import NavBar from "../components/NavBar";
 import ProfileHeader from "../components/ProfileHeader";
 import { useUserContext } from "../contexts/UserContext";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { Box, Container, Typography } from "@mui/material";
 import { useInfinityScroll } from "../hooks/useInfinityScroll";
 import { BATCH_SIZE, getPosts } from "../services/posts.service";
 

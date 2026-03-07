@@ -1,25 +1,39 @@
-import axios from "axios";
+import axios, { HttpStatusCode } from "axios";
 
-// TODO: Implement a proper token retrieval mechanism, e.g., from cookies or a context provider.
-export const GetTokenProvider: {
-  getToken?: () => Promise<string | null>;
-} = {
-  getToken: () => Promise.resolve(import.meta.env.VITE_AUTH_TOKEN || ""),
-};
-
-export const createAxiosInstance = (service: string, addToken = true) => {
+export const createApiInstance = (basePath: string, addToken = true) => {
   const instance = axios.create({
-    baseURL: service,
+    baseURL: `${import.meta.env.VITE_SERVER_URL}/${basePath}`,
+    ...(addToken && { withCredentials: true }),
   });
 
   if (addToken) {
-    instance.interceptors.request.use(async (request) => {
-      const authToken = await GetTokenProvider.getToken?.();
+    instance.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const originalRequest = error.config;
 
-      request.headers.set("Authorization", `Bearer ${authToken}`);
+        if (error.response?.status === HttpStatusCode.Unauthorized && !originalRequest._retry) {
+          originalRequest._retry = true;
 
-      return request;
-    });
+          try {
+            await axios.post(
+              `${import.meta.env.VITE_SERVER_URL}/auth/refresh-token`,
+              {},
+              { withCredentials: true }
+            );
+
+            return instance(originalRequest);
+          } catch (err) {
+            if (window.location.pathname !== "/login") {
+              window.location.href = "/login";
+            }
+            return Promise.reject(err);
+          }
+        }
+
+        return Promise.reject(error);
+      },
+    );
   }
 
   return instance;

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { PostTypes } from "../constants/postTypes";
 import { Close, Search as SearchIcon } from "@mui/icons-material";
 import {
   Stack,
@@ -8,6 +7,8 @@ import {
   IconButton,
   InputAdornment,
 } from "@mui/material";
+
+import { PostTypes } from "../constants/postTypes";
 
 const Search = ({
   typeFilter,

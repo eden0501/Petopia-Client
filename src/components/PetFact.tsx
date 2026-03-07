@@ -1,8 +1,9 @@
+import type { Ref } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getRandomFact } from "../services/animalFact.service";
 import { AutoAwesomeOutlined, Cached } from "@mui/icons-material";
 import { Avatar, Box, IconButton, Typography } from "@mui/material";
-import type { Ref } from "react";
+
+import { getRandomFact } from "../services/animalFact.service";
 
 const PetFact = ({
   index = 0,

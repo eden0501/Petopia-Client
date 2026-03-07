@@ -1,14 +1,15 @@
 import { useState } from "react";
+import { Box, Container } from "@mui/material";
+import { useInfiniteQuery } from "@tanstack/react-query";
+
 import Post from "../components/Post";
 import AppBar from "../components/AppBar";
 import NavBar from "../components/NavBar";
 import Search from "../components/Search";
 import PetFact from "../components/PetFact";
-import { Box, Container } from "@mui/material";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import type { PostTypes } from "../constants/postTypes";
 import { useInfinityScroll } from "../hooks/useInfinityScroll";
 import { BATCH_SIZE, getPosts } from "../services/posts.service";
-import type { PostTypes } from "../constants/postTypes";
 
 const Home = () => {
   const [typeFilter, setTypeFilter] = useState<PostTypes | "All">("All");

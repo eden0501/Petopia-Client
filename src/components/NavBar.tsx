@@ -1,8 +1,9 @@
-import CreatePostModal from "./CreatePost";
+import { useState } from "react";
 import { Add, Home, Person } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router";
 import { BottomNavigation, BottomNavigationAction, Fab } from "@mui/material";
-import { useState } from "react";
+
+import CreatePostModal from "./CreatePost";
 
 const NavBar = () => {
   const location = useLocation();

@@ -1,21 +1,24 @@
 import { useNavigate } from "react-router";
-import { useUserContext } from "../contexts/UserContext";
 import {
-  Box,
   Stack,
   Avatar,
   Button,
   TextField,
   CardHeader,
   Typography,
+  Box,
 } from "@mui/material";
+
+import { useUserContext } from "../contexts/UserContext";
+import { getDateStringWithoutTime } from "../utils/dateUtils";
 
 const EditProfileForm = () => {
   const {
-    userData: { profilePicture, username, petsCount },
+    userData: { profilePicture, username, petsCount, petOwnerSince },
   } = useUserContext();
 
   const navigate = useNavigate();
+  const today = getDateStringWithoutTime();
 
   return (
     <Stack sx={{ paddingTop: 30, gap: 20 }}>
@@ -44,15 +47,28 @@ const EditProfileForm = () => {
         <Typography sx={{ fontWeight: "600" }}>Username</Typography>
         <TextField
           value={username}
-          // onChange={({ target }) => setSearchValue(target.value)}
+        // onChange={({ target }) => setSearchValue(target.value)}
         />
       </Box>
       <Box>
         <Typography sx={{ fontWeight: "600" }}>Number of Pets</Typography>
         <TextField
-          value={petsCount}
+          value={petsCount || "0"}
           type="number"
-          // onChange={({ target }) => setSearchValue(target.value)}
+        // onChange={({ target }) => setSearchValue(target.value)}
+        />
+      </Box>
+      <Box>
+        <Typography sx={{ fontWeight: "600" }}>When did you become a pet owner?</Typography>
+        <TextField
+          type="date"
+          value={petOwnerSince ? getDateStringWithoutTime(petOwnerSince) : today}
+          slotProps={{
+            htmlInput: {
+              max: today,
+            }
+          }}
+          sx={{ "& input": { textAlign: "left" } }}
         />
       </Box>
       <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>

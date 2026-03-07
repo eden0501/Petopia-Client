@@ -1,4 +1,5 @@
 import { Chip } from "@mui/material";
+
 import { CHIP_PROPS, PostTypes } from "../constants/postTypes";
 
 const PostTypeChip = ({ postType }: { postType: PostTypes }) => (

@@ -1,9 +1,7 @@
-import { createAxiosInstance } from "../config/axiosInstance";
 import type { PostInterface } from "../interfaces/post";
+import { createApiInstance } from "../config/axiosInstance";
 
-const axiosInstance = createAxiosInstance(
-  `${import.meta.env.VITE_SERVER_URL}/posts`,
-);
+const axiosInstance = createApiInstance("posts");
 
 export const BATCH_SIZE = 5;
 

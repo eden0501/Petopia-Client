@@ -1,7 +1,8 @@
-import PawPrint from "../icons/PawPrint";
 import { useQuery } from "@tanstack/react-query";
-import { getRandomFact } from "../services/animalFact.service";
 import { Box, Skeleton, Stack, Typography } from "@mui/material";
+
+import PawPrint from "../icons/PawPrint";
+import { getRandomFact } from "../services/animalFact.service";
 
 const Loader = () => {
   const { data: fact, isLoading: loading } = useQuery({
