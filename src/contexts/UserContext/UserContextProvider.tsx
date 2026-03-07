@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState, type PropsWithChildren } from "react";
 
 import { getUserInfo } from "@/services/users.service";
-import type { UserStatsInterface } from "@/interfaces/user";
+import type { UpdateUserData, UserStatsInterface } from "@/interfaces/user";
 
 import { UserContext } from "./UserContext";
 
@@ -20,17 +20,25 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
     retry: false,
   });
 
-  const updateLikeCount = (action: "like" | "unlike") => {
+  const updateUserData = (data: UpdateUserData) => {
+    setUserData((prev) => ({ ...prev, ...data }));
+  };
+
+  const changePostCount = (add: boolean) => {
     setUserData((prev) => ({
       ...prev,
-      likesCount: action === "like" ? prev.likesCount + 1 : prev.likesCount - 1,
+      postsCount: prev.postsCount + (add ? 1 : -1),
     }));
   };
 
   const addUserComment = () => {
+    setUserData((prev) => ({ ...prev, commentsCount: prev.commentsCount + 1 }));
+  };
+
+  const updateLikeCount = (action: "like" | "unlike") => {
     setUserData((prev) => ({
       ...prev,
-      commentsCount: prev.commentsCount + 1,
+      likesCount: action === "like" ? prev.likesCount + 1 : prev.likesCount - 1,
     }));
   };
 
@@ -40,7 +48,9 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
         userId: userData._id,
         userData,
         isLoading,
+        updateUserData,
         addUserComment,
+        changePostCount,
         updateLikeCount,
       }}
     >
