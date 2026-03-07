@@ -17,6 +17,7 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
 
       return user;
     },
+    retry: false,
   });
 
   const updateLikeCount = (action: "like" | "unlike") => {

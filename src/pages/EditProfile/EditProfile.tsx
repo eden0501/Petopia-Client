@@ -43,7 +43,7 @@ const EditProfile = () => {
       <DeleteProfileModal
         open={isDeleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
-        onConfirm={() => {}}
+        onConfirm={() => { }}
       />
     </>
   );

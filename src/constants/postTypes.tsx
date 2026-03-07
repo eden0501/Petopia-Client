@@ -17,13 +17,13 @@ export const CHIP_PROPS: Record<
   PostTypes,
   {
     color:
-      | "error"
-      | "default"
-      | "primary"
-      | "secondary"
-      | "info"
-      | "success"
-      | "warning";
+    | "error"
+    | "default"
+    | "primary"
+    | "secondary"
+    | "info"
+    | "success"
+    | "warning";
     icon: JSX.Element;
     label: string;
     description: string;

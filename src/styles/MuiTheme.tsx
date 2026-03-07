@@ -8,6 +8,7 @@ const theme = createTheme({
   palette: {
     primary: {
       main: "#F54A00",
+      dark: "#D93E00",
     },
     text: {
       primary: "#0A0A0A",
@@ -117,7 +118,7 @@ const theme = createTheme({
 
           const paletteColor =
             theme.palette[
-              colorKey as "primary" | "error" | "warning" | "info" | "success"
+            colorKey as "primary" | "error" | "warning" | "info" | "success"
             ];
 
           return {

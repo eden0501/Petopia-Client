@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router";
 import { BorderColorRounded, LogoutRounded } from "@mui/icons-material";
 import {
@@ -9,6 +10,7 @@ import {
 } from "@mui/material";
 
 import PawPrint from "@/icons/PawPrint";
+import { logout } from "@/services/auth.service";
 import LogoutModal from "@/components/LogoutModal";
 
 import styles from "./AppBar.styles";
@@ -16,7 +18,14 @@ import styles from "./AppBar.styles";
 const AppBar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const queryClient = useQueryClient();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
+  const handleLogout = async () => {
+    setIsLogoutModalOpen(false);
+    await logout();
+    await queryClient.resetQueries({ queryKey: ["userInfo"] });
+  };
 
   return (
     <>
@@ -38,7 +47,8 @@ const AppBar = () => {
       </AppBarMui>
       <LogoutModal
         open={isLogoutModalOpen}
-        onClose={() => setIsLogoutModalOpen(false)}
+        onConfirm={handleLogout}
+        onCancel={() => setIsLogoutModalOpen(false)}
       />
     </>
   );

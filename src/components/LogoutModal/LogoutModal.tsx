@@ -13,18 +13,20 @@ import styles from "./LogoutModal.styles";
 
 const LogoutModal = ({
   open,
-  onClose,
+  onConfirm,
+  onCancel,
 }: {
   open: boolean;
-  onClose: () => void;
+  onConfirm: () => void;
+  onCancel: () => void;
 }) => {
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={onCancel}
       slotProps={{ paper: { sx: styles.paper } }}
     >
-      <IconButton onClick={onClose} sx={styles.closeButton}>
+      <IconButton onClick={onCancel} sx={styles.closeButton}>
         <CloseIcon />
       </IconButton>
 
@@ -41,7 +43,7 @@ const LogoutModal = ({
 
       <DialogActions sx={styles.dialogActions}>
         <Button
-          onClick={onClose}
+          onClick={onConfirm}
           fullWidth
           variant="outlined"
           sx={styles.buttonText}
@@ -49,7 +51,7 @@ const LogoutModal = ({
           Yes, Log Me Out
         </Button>
         <Button
-          onClick={onClose}
+          onClick={onCancel}
           variant="contained"
           color="primary"
           fullWidth

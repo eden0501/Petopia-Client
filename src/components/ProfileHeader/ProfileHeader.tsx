@@ -31,11 +31,16 @@ const ProfileHeader = () => {
         title={<Typography variant="h4">{userData.username}</Typography>}
         subheader={
           <Stack sx={styles.subheaderStack}>
-            {formatDistanceToNowStrict(userData.petOwnerSince)}
+            {userData.petOwnerSince &&
+              formatDistanceToNowStrict(userData.petOwnerSince)}
             <Chip
               color="warning"
               icon={<PawPrint sx={styles.chip} />}
-              label={`${userData.petsCount} ${userData.petsCount === 1 ? "Pet" : "Pets"}`}
+              label={
+                userData.petsCount
+                  ? `${userData.petsCount} ${userData.petsCount === 1 ? "Pet" : "Pets"}`
+                  : "Unknown pets count"
+              }
             />
           </Stack>
         }
