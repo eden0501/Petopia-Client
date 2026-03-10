@@ -3,7 +3,7 @@ const styles = {
         position: "fixed",
         bottom: 80,
         right: 20,
-        zIndex: 1000,
+        zIndex: 100,
         transition: "all 0.3s ease",
         "&:hover": { transform: "scale(1.1)", backgroundColor: "primary.dark" },
         backgroundColor: "primary.main",
@@ -90,11 +90,19 @@ const styles = {
         color: "primary.main",
     },
     messagePaper: (role: "user" | "assistant") => ({
-        p: 8,
-        borderRadius: role === "user" ? "20px" : "4px 20px 20px 20px",
-        bgcolor: role === "user" ? "primary.main" : "#F1F3F4",
-        color: role === "user" ? "white" : "text.primary",
+        py: 6,
+        px: 12,
         boxShadow: "none",
+        ...role === "user" && {
+            borderRadius: "20px",
+            bgcolor: "primary.main",
+            color: "white",
+        },
+        ...role === "assistant" && {
+            borderRadius: "4px 20px 20px 20px",
+            bgcolor: "#F1F3F4",
+            color: "text.primary",
+        },
     }),
     inputContainer: {
         p: "12px",
@@ -103,7 +111,7 @@ const styles = {
     textField: {
         "& .MuiInputBase-input": {
             fontSize: "0.9rem",
-            padding: "10px 16px",
+            padding: "8px 16px",
         },
         "& .MuiOutlinedInput-root": {
             borderRadius: 10,

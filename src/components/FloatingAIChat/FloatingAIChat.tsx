@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import {
+    AutoAwesomeOutlined as SparklesIcon,
+    Close as CloseIcon,
+    SendOutlined as SendIcon,
+} from "@mui/icons-material";
+import {
     Box,
     Fab,
     Paper,
@@ -12,14 +17,11 @@ import {
     Fade,
     CircularProgress,
 } from "@mui/material";
-import {
-    AutoAwesomeOutlined as SparklesIcon,
-    Close as CloseIcon,
-    SendOutlined as SendIcon,
-} from "@mui/icons-material";
-import { UserContext } from "../../contexts/UserContext/UserContext";
-import { sendMessage } from "../../services/chat.service";
+
 import styles from "./FloatingAIChatStyles";
+import { sendMessage } from "../../services/chat.service";
+import type { ChatHistory } from "../../interfaces/chatHistory";
+import { UserContext } from "../../contexts/UserContext/UserContext";
 
 interface Message {
     id: string;
@@ -36,7 +38,6 @@ const FloatingAIChat = () => {
     const [isLoading, setIsLoading] = useState(false);
     const scrollRef = useRef<HTMLDivElement>(null);
 
-    // Load chat history from localStorage
     useEffect(() => {
         const storedMessages = localStorage.getItem("petopia_ai_chat");
         if (storedMessages) {
@@ -49,7 +50,6 @@ const FloatingAIChat = () => {
         }
     }, []);
 
-    // Save chat history
     useEffect(() => {
         if (messages.length > 0) {
             const recentMessages = messages.slice(-20);
@@ -57,7 +57,6 @@ const FloatingAIChat = () => {
         }
     }, [messages]);
 
-    // Auto-scroll to bottom
     useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollIntoView({ behavior: "smooth" });
@@ -79,7 +78,12 @@ const FloatingAIChat = () => {
         setIsLoading(true);
 
         try {
-            const response = await sendMessage(userMessage.content, userId);
+            const history: ChatHistory[] = messages.map(m => ({
+                role: m.role === "assistant" ? "model" : "user",
+                parts: [{ text: m.content }]
+            }));
+
+            const response = await sendMessage(userMessage.content, userId, history);
 
             const assistantMessage: Message = {
                 id: `msg-ai-${Date.now()}`,
@@ -188,7 +192,7 @@ const FloatingAIChat = () => {
                                                     </Typography>
                                                 </Box>
                                             )}
-                                            <Typography sx={{ fontSize: "0.875rem", lineHeight: 1.4 }}>
+                                            <Typography sx={{ fontSize: "0.875rem", lineHeight: 1.4, whiteSpace: "pre-wrap" }}>
                                                 {msg.content}
                                             </Typography>
                                         </Paper>
