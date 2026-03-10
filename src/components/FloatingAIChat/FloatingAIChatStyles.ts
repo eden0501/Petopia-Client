@@ -53,6 +53,7 @@ const styles = {
     subtitle: {
         opacity: 0.9,
         lineHeight: 1.2,
+        color: "white",
     },
     chatContent: {
         flexGrow: 1,
