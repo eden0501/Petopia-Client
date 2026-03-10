@@ -2,7 +2,7 @@ export interface UserInterface {
   _id: string;
   email: string;
   username: string;
-  petOwnerSince: Date;
+  petOwnerSince: string;
   petsCount: number;
   profilePicture?: string;
   password?: string;

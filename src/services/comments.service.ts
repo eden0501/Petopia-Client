@@ -1,4 +1,4 @@
-import { createApiInstance } from "../config/axiosInstance";
+import { createApiInstance } from "@/config/axiosInstance";
 
 const axiosInstance = createApiInstance("comments");
 

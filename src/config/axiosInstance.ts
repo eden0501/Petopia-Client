@@ -12,26 +12,24 @@ export const createApiInstance = (basePath: string, addToken = true) => {
       async (error) => {
         const originalRequest = error.config;
 
-        if (error.response?.status === HttpStatusCode.Unauthorized && !originalRequest._retry) {
+        if (
+          error.response?.status === HttpStatusCode.Unauthorized &&
+          !originalRequest._retry
+        ) {
           originalRequest._retry = true;
 
           try {
             await axios.post(
               `${import.meta.env.VITE_SERVER_URL}/auth/refresh-token`,
               {},
-              { withCredentials: true }
+              { withCredentials: true },
             );
 
             return instance(originalRequest);
           } catch (err) {
-            if (window.location.pathname !== "/login") {
-              window.location.href = "/login";
-            }
             return Promise.reject(err);
           }
         }
-
-        return Promise.reject(error);
       },
     );
   }

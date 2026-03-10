@@ -1,5 +1,5 @@
-import { createApiInstance } from "../config/axiosInstance";
-import type { UserStatsInterface } from "../interfaces/user";
+import { createApiInstance } from "@/config/axiosInstance";
+import type { UserStatsInterface } from "@/interfaces/user";
 
 const axiosInstance = createApiInstance("users");
 

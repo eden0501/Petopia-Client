@@ -1,4 +1,4 @@
-import type { UserStatsInterface } from "../../interfaces/user";
+import type { UserStatsInterface } from "@/interfaces/user";
 
 export type likeAction = "like" | "unlike";
 

@@ -1,5 +1,5 @@
-import type { PostInterface } from "../interfaces/post";
-import { createApiInstance } from "../config/axiosInstance";
+import type { PostInterface } from "@/interfaces/post";
+import { createApiInstance } from "@/config/axiosInstance";
 
 const axiosInstance = createApiInstance("posts");
 

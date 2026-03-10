@@ -3,11 +3,13 @@ import { Add, Home, Person } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router";
 import { BottomNavigation, BottomNavigationAction, Fab } from "@mui/material";
 
-import CreatePostModal from "./CreatePost";
-import FloatingAIChat from "./FloatingAIChat/FloatingAIChat";
+import PostForm from "@/components/PostForm";
+import FloatingAIChat from "@/components/FloatingAIChat/FloatingAIChat";
+
+import styles from "./NavBar.styles";
 
 const NavBar = () => {
-  const location = useLocation();
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
 
@@ -15,35 +17,29 @@ const NavBar = () => {
     <>
       <FloatingAIChat />
       <BottomNavigation
-        sx={{
-          left: 0,
-          right: 0,
-          bottom: 0,
-          position: "fixed",
-          justifyContent: "space-around",
-          boxShadow: "0px -2px 10px rgba(0, 0, 0, 0.1)",
-        }}
+        sx={styles.bottomNavigation}
         showLabels
-        value={location.pathname}
+        value={pathname}
         onChange={(_, newValue) => {
           navigate(newValue);
         }}
       >
         <BottomNavigationAction value="/home" label="Home" icon={<Home />} />
-        <Fab
-          color="primary"
-          sx={{ position: "relative", top: -20 }}
-          onClick={() => setIsCreatePostModalOpen(true)}
-        >
-          <Add />
-        </Fab>
+
         <BottomNavigationAction
           value={"/profile"}
           label="Profile"
           icon={<Person />}
         />
       </BottomNavigation>
-      <CreatePostModal
+      <Fab
+        color="primary"
+        sx={styles.fab(pathname !== "/edit-profile")}
+        onClick={() => setIsCreatePostModalOpen(true)}
+      >
+        <Add />
+      </Fab>
+      <PostForm
         open={isCreatePostModalOpen}
         onClose={() => setIsCreatePostModalOpen(false)}
       />
