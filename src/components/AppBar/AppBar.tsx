@@ -24,6 +24,7 @@ const AppBar = () => {
   const handleLogout = async () => {
     setIsLogoutModalOpen(false);
     await logout();
+    localStorage.clear();
     await queryClient.resetQueries({ queryKey: ["userInfo"] });
   };
 
