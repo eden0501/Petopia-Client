@@ -69,7 +69,6 @@ export const authPageStyles: Record<string, SxProps<Theme>> = {
     flexDirection: "column",
     overflow: "auto",
     p: "20px",
-    scrollBehavior: "smooth",
     "&::-webkit-scrollbar": {
       width: "6px",
     },
@@ -83,8 +82,6 @@ export const authPageStyles: Record<string, SxProps<Theme>> = {
         background: "rgba(0, 0, 0, 0.22)",
       },
     },
-    scrollbarWidth: "thin",
-    scrollbarColor: "rgba(0,0,0,0.12) transparent",
   },
   headingSection: {
     mb: "12px",

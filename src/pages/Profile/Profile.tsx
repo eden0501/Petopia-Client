@@ -37,19 +37,25 @@ const Profile = () => {
   return (
     <Box sx={styles.container}>
       <AppBar />
-      <Container sx={styles.contentContainer}>
-        <ProfileHeader />
-        <Typography variant="h5" sx={styles.sectionTitle}>My Posts</Typography>
-        {pages?.map((batch, batchIndex) => (
-          <Box key={`batch-${batchIndex}`}>
-            {batch?.map((post) => (
-              <Post key={post._id} {...post} />
-            ))}
-            <Box
-              ref={batchIndex === pages.length - 1 ? lastElementRef : undefined}
-            />
-          </Box>
-        ))}
+      <Container sx={styles.contentContainer} maxWidth={false}>
+        <Container sx={styles.innerContainer}>
+          <ProfileHeader />
+          <Typography variant="h5" sx={styles.sectionTitle}>
+            My Posts
+          </Typography>
+          {pages?.map((batch, batchIndex) => (
+            <Box key={`batch-${batchIndex}`}>
+              {batch?.map((post) => (
+                <Post key={post._id} {...post} />
+              ))}
+              <Box
+                ref={
+                  batchIndex === pages.length - 1 ? lastElementRef : undefined
+                }
+              />
+            </Box>
+          ))}
+        </Container>
       </Container>
       <NavBar />
     </Box>

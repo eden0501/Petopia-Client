@@ -16,6 +16,7 @@ import TabBar from "@/components/TabBar/TabBar";
 import { googleLogin, login, register } from "@/services/auth.service";
 
 import { authPageStyles as styles } from "./AuthPageStyles";
+import { HttpStatusCode } from "axios";
 
 const AUTH_TABS = {
   LOGIN: {
@@ -52,7 +53,7 @@ const AuthPage = () => {
   const [password, setPassword] = useState("");
   const [petsCount, setPetsCount] = useState("0");
   const [petOwnerSince, setPetOwnerSince] = useState(today);
-  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const isLogin = activeTab === "LOGIN";
   const queryClient = useQueryClient();
@@ -60,25 +61,35 @@ const AuthPage = () => {
   const handleSuccess = async () =>
     await queryClient.resetQueries({ queryKey: ["userInfo"] });
 
-  const handleError = () => setHasError(true);
+  const handleError = (error: unknown) => {
+    const status = (error as { status?: number })?.status;
+
+    let errorMsg;
+    if (status === HttpStatusCode.Conflict) {
+      errorMsg = "Username already exists. Try a different one." ;
+    } else if (status === HttpStatusCode.NotFound) {
+      errorMsg = "User not found. Please sign up first.";
+    } else if (status === HttpStatusCode.InternalServerError) {
+      errorMsg = "Something went wrong. Please try again.";
+    }
+
+    setErrorMessage(errorMsg || AUTH_TABS[activeTab].errorMessage);
+  };
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab as keyof typeof AUTH_TABS);
-    setHasError(false);
+    setErrorMessage("");
   };
 
   const handleAuth = async (e: React.SubmitEvent) => {
     e.preventDefault();
-    setHasError(false);
+    setErrorMessage("");
 
     try {
-      const email = `${username}@petopia.com`;
-
       if (isLogin) {
-        await login(email, password);
+        await login(username, password);
       } else {
         await register({
-          email,
           username,
           password,
           petsCount: Number(petsCount),
@@ -87,8 +98,8 @@ const AuthPage = () => {
       }
 
       handleSuccess();
-    } catch {
-      handleError();
+    } catch (error) {
+      handleError(error);
     }
   };
 
@@ -101,8 +112,8 @@ const AuthPage = () => {
     try {
       await googleLogin(credentialResponse?.credential || "");
       handleSuccess();
-    } catch {
-      handleError();
+    } catch(error) {
+      handleError(error);
     }
   };
 
@@ -144,14 +155,14 @@ const AuthPage = () => {
                 {AUTH_TABS[activeTab].description}
               </Typography>
             </Box>
-            {hasError && (
+            {errorMessage && (
               <Box sx={styles.errorBanner}>
                 <Typography
                   variant="caption"
                   sx={styles.errorText}
-                  title={AUTH_TABS[activeTab].errorMessage}
+                  title={errorMessage}
                 >
-                  {AUTH_TABS[activeTab].errorMessage}
+                  {errorMessage}
                 </Typography>
               </Box>
             )}
@@ -211,7 +222,7 @@ const AuthPage = () => {
                   <Box sx={{ display: "flex", justifyContent: "center" }}>
                     <GoogleLogin
                       onSuccess={handleGoogleSuccess}
-                      onError={handleError}
+                      onError={() => handleError(new Error("Google login failed"))}
                       width="370"
                       theme="outline"
                       shape="rectangular"

@@ -1,12 +1,4 @@
-import { useState } from "react";
-import { Close, Search as SearchIcon } from "@mui/icons-material";
-import {
-  Stack,
-  MenuItem,
-  TextField,
-  IconButton,
-  InputAdornment,
-} from "@mui/material";
+import { Stack, MenuItem, TextField } from "@mui/material";
 
 import { PostTypes } from "@/constants/postTypes";
 
@@ -19,8 +11,6 @@ const Search = ({
   typeFilter: PostTypes | "All";
   setTypeFilter: (type: PostTypes | "All") => void;
 }) => {
-  const [searchValue, setSearchValue] = useState("");
-
   return (
     <Stack sx={styles.container}>
       <TextField
@@ -37,27 +27,6 @@ const Search = ({
           </MenuItem>
         ))}
       </TextField>
-      <TextField
-        placeholder="Search posts, hashtags, authors..."
-        value={searchValue}
-        onChange={({ target }) => setSearchValue(target.value)}
-        slotProps={{
-          input: {
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: searchValue && (
-              <InputAdornment onClick={() => setSearchValue("")} position="end">
-                <IconButton edge="end">
-                  <Close fontSize="small" />
-                </IconButton>
-              </InputAdornment>
-            ),
-          },
-        }}
-      />
     </Stack>
   );
 };

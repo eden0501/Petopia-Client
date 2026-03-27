@@ -3,8 +3,8 @@ import { createApiInstance } from "../config/axiosInstance";
 
 const axiosInstance = createApiInstance("auth");
 
-export const login = async (email: string, password: string) =>
-  (await axiosInstance.post("/login", { email, password })).data;
+export const login = async (username: string, password: string) =>
+  (await axiosInstance.post("/login", { username, password })).data;
 
 export const register = async (userData: Omit<UserInterface, "_id">) =>
   (await axiosInstance.post("/register", userData)).data;

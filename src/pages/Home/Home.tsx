@@ -39,21 +39,23 @@ const Home = () => {
   return (
     <Box sx={styles.container}>
       <AppBar />
-      <Container sx={styles.contentContainer}>
-        <Search typeFilter={typeFilter} setTypeFilter={setTypeFilter} />
-        {pages?.map((batch, batchIndex) => (
-          <Box key={`batch-${batchIndex}`}>
-            {batch?.map((post) => (
-              <Post key={post._id} {...post} />
-            ))}
-            <PetFact
-              index={batchIndex}
-              refElement={
-                batchIndex === pages.length - 1 ? lastElementRef : undefined
-              }
-            />
-          </Box>
-        ))}
+      <Container sx={styles.contentContainer} maxWidth={false}>
+        <Container sx={styles.innerContainer}>
+          <Search typeFilter={typeFilter} setTypeFilter={setTypeFilter} />
+          {pages?.map((batch, batchIndex) => (
+            <Box key={`batch-${batchIndex}`}>
+              {batch?.map((post) => (
+                <Post key={post._id} {...post} />
+              ))}
+              <PetFact
+                index={batchIndex}
+                refElement={
+                  batchIndex === pages.length - 1 ? lastElementRef : undefined
+                }
+              />
+            </Box>
+          ))}
+        </Container>
       </Container>
       <NavBar />
     </Box>

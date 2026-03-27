@@ -2,7 +2,7 @@ const styles = {
   paper: {
     gap: 10,
     padding: 10,
-    borderRadius: 3,
+    borderRadius: 2,
   },
 
   closeButton: {
@@ -61,7 +61,6 @@ const styles = {
     fontSize: "2rem",
     mb: 1,
   },
-
 
   dialogActions: {
     pt: 3,
