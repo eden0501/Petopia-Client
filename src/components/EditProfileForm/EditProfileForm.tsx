@@ -17,7 +17,6 @@ import {
 
 import { updateUser } from "@/services/users.service";
 import { useUserContext } from "@/contexts/UserContext";
-import { getDateStringWithoutTime } from "@/utils/dateUtils";
 import type { UpdateUserData } from "@/interfaces/user";
 
 import styles from "./EditProfileForm.styles";
@@ -30,7 +29,6 @@ const EditProfileForm = () => {
   } = useUserContext();
 
   const navigate = useNavigate();
-  const today = getDateStringWithoutTime();
 
   const {
     register,
@@ -86,8 +84,21 @@ const EditProfileForm = () => {
               name={name}
               rules={rules}
               control={control}
-              render={({ field }) => (
-                <DatePicker {...field} value={toDate(field.value ?? "")} />
+              render={({ field, fieldState: { error } }) => (
+                <DatePicker
+                  {...field}
+                  value={toDate(field.value ?? "")}
+                  onChange={(date: Date | null) =>
+                    field.onChange(date?.toISOString() ?? "")
+                  }
+                  slotProps={{
+                    textField: {
+                      error: !!error,
+                      helperText: error?.message,
+                      fullWidth: true,
+                    },
+                  }}
+                />
               )}
             />
           ) : (
