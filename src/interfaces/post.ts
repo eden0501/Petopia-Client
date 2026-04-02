@@ -16,3 +16,8 @@ export interface PostInterface {
   comments?: CommentInterface[];
   author: UserInterface;
 }
+
+export type PostCreationType = Omit<
+  PostInterface,
+  "_id" | "authorId" | "author" | "createdAt" | "likes" | "comments"
+>;

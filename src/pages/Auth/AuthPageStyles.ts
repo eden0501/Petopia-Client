@@ -45,7 +45,7 @@ export const authPageStyles: Record<string, SxProps<Theme>> = {
     flex: 1,
     position: "relative",
     "&::before, &::after": {
-      content: '" "',
+      content: "\" \"",
       position: "absolute",
       left: 0,
       right: 0,

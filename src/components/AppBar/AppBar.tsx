@@ -7,23 +7,29 @@ import {
   IconButton,
   Typography,
   AppBar as AppBarMui,
+  DialogActions,
+  Button,
 } from "@mui/material";
 
 import PawPrint from "@/icons/PawPrint";
 import { logout } from "@/services/auth.service";
-import LogoutModal from "@/components/LogoutModal";
+import { useUserContext } from "@/contexts/UserContext";
 
 import styles from "./AppBar.styles";
+import ConfirmationModal from "../ConfirmationModal";
 
 const AppBar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const queryClient = useQueryClient();
+  const { logoutUser } = useUserContext();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   const handleLogout = async () => {
     setIsLogoutModalOpen(false);
+    logoutUser();
     await logout();
+    localStorage.clear();
     await queryClient.resetQueries({ queryKey: ["userInfo"] });
   };
 
@@ -45,10 +51,32 @@ const AppBar = () => {
           </Box>
         )}
       </AppBarMui>
-      <LogoutModal
+
+      <ConfirmationModal
         open={isLogoutModalOpen}
-        onConfirm={handleLogout}
-        onCancel={() => setIsLogoutModalOpen(false)}
+        onClose={() => setIsLogoutModalOpen(false)}
+        title="Logging out?"
+        content="Are you sure you want to log out? You will need to enter your credentials again to access your Petopia account."
+        actions={
+          <DialogActions sx={styles.dialogActions}>
+            <Button
+              fullWidth
+              variant="outlined"
+              sx={styles.buttonText}
+              onClick={handleLogout}
+            >
+              Yes, Log Me Out
+            </Button>
+            <Button
+              fullWidth
+              variant="contained"
+              sx={styles.buttonText}
+              onClick={() => setIsLogoutModalOpen(false)}
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        }
       />
     </>
   );

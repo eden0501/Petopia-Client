@@ -1,14 +1,18 @@
+import { toDate } from "date-fns";
+import { HttpStatusCode } from "axios";
 import React, { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
+import { Controller, useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
 import type { CredentialResponse } from "@react-oauth/google";
+import { DesktopDatePicker as DatePicker } from "@mui/x-date-pickers";
 import {
   Box,
   Button,
-  TextField,
   Typography,
   Paper,
   Divider,
+  TextField,
 } from "@mui/material";
 
 import PawPrint from "@/icons/PawPrint";
@@ -16,26 +20,12 @@ import TabBar from "@/components/TabBar/TabBar";
 import { googleLogin, login, register } from "@/services/auth.service";
 
 import { authPageStyles as styles } from "./AuthPageStyles";
-import { HttpStatusCode } from "axios";
-
-const AUTH_TABS = {
-  LOGIN: {
-    tabContent: "Login",
-    greeting: "Welcome Back",
-    description: "Login to connect with the pet community",
-    errorMessage: "Invalid username or password.",
-    usernamePlaceholder: "Enter your username",
-    passwordPlaceholder: "Enter your password",
-  },
-  SIGN_UP: {
-    tabContent: "Sign Up",
-    greeting: "Join Petopia",
-    description: "Create an account to help pets in need",
-    errorMessage: "Something went wrong. Please try again.",
-    usernamePlaceholder: "Choose a username",
-    passwordPlaceholder: "Choose a password",
-  },
-};
+import {
+  AUTH_TABS,
+  FIELDS_PROPS,
+  defaultValues,
+  type AuthFormType,
+} from "./AuthPage.utils";
 
 const FieldLabel = ({ children }: { children: React.ReactNode }) => (
   <Typography sx={styles.fieldLabel}>{children}</Typography>
@@ -46,17 +36,15 @@ const CleanInput = (props: React.ComponentProps<typeof TextField>) => (
 );
 
 const AuthPage = () => {
-  const today = new Date().toISOString().split("T")[0];
-
   const [activeTab, setActiveTab] = useState<keyof typeof AUTH_TABS>("LOGIN");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [petsCount, setPetsCount] = useState("0");
-  const [petOwnerSince, setPetOwnerSince] = useState(today);
   const [errorMessage, setErrorMessage] = useState("");
 
   const isLogin = activeTab === "LOGIN";
   const queryClient = useQueryClient();
+
+  const { control, handleSubmit, reset } = useForm<AuthFormType>({
+    defaultValues,
+  });
 
   const handleSuccess = async () =>
     await queryClient.resetQueries({ queryKey: ["userInfo"] });
@@ -79,21 +67,24 @@ const AuthPage = () => {
   const handleTabChange = (tab: string) => {
     setActiveTab(tab as keyof typeof AUTH_TABS);
     setErrorMessage("");
+    reset();
   };
 
-  const handleAuth = async (e: React.SubmitEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: AuthFormType) => {
     setErrorMessage("");
 
     try {
+      const email = `${data.username}@petopia.com`;
+
       if (isLogin) {
-        await login(username, password);
+        await login(email, data.password);
       } else {
         await register({
-          username,
-          password,
-          petsCount: Number(petsCount),
-          petOwnerSince,
+          email,
+          username: data.username,
+          password: data.password,
+          petsCount: Number(data.petsCount),
+          petOwnerSince: data.petOwnerSince ?? "",
         });
       }
 
@@ -102,9 +93,6 @@ const AuthPage = () => {
       handleError(error);
     }
   };
-
-  const handleDateChange = (date: string) =>
-    date > today ? setPetOwnerSince(today) : setPetOwnerSince(date);
 
   const handleGoogleSuccess = async (
     credentialResponse: CredentialResponse,
@@ -166,47 +154,52 @@ const AuthPage = () => {
                 </Typography>
               </Box>
             )}
-            <Box component="form" onSubmit={handleAuth}>
-              <FieldLabel>Username</FieldLabel>
-              <CleanInput
-                required
-                placeholder={AUTH_TABS[activeTab].usernamePlaceholder}
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-
-              <FieldLabel>Password</FieldLabel>
-              <CleanInput
-                required
-                type="password"
-                placeholder={AUTH_TABS[activeTab].passwordPlaceholder}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {!isLogin && (
-                <>
-                  <FieldLabel>Number of Pets</FieldLabel>
-                  <CleanInput
-                    required
-                    type="number"
-                    placeholder="1"
-                    value={petsCount}
-                    onChange={(e) => setPetsCount(e.target.value)}
-                  />
-                  <FieldLabel>When did you become a pet owner?</FieldLabel>
-                  <Box
-                    component="input"
-                    type="date"
-                    value={petOwnerSince}
-                    max={today}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      handleDateChange(event.target.value)
+            <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+              {FIELDS_PROPS.filter(
+                (field) => !field.onlyFor || field.onlyFor === activeTab,
+              ).map(({ name, label, type, rules, placeholder }) => (
+                <React.Fragment key={name}>
+                  <FieldLabel>{label}</FieldLabel>
+                  <Controller
+                    name={name}
+                    control={control}
+                    rules={rules}
+                    render={({ field, fieldState: { error } }) =>
+                      name === "petOwnerSince" ? (
+                        <DatePicker
+                          maxDate={new Date()}
+                          value={toDate(field.value ?? "")}
+                          onChange={(value: Date | null) =>
+                            field.onChange(value?.toISOString() ?? "")
+                          }
+                          slotProps={{
+                            textField: {
+                              error: !!error,
+                              helperText: error?.message,
+                              fullWidth: true,
+                            },
+                          }}
+                        />
+                      ) : (
+                        <CleanInput
+                          {...field}
+                          type={type}
+                          placeholder={
+                            placeholder ??
+                            (name === "username"
+                              ? AUTH_TABS[activeTab].usernamePlaceholder
+                              : name === "password"
+                                ? AUTH_TABS[activeTab].passwordPlaceholder
+                                : "")
+                          }
+                          error={!!error}
+                          helperText={error?.message}
+                        />
+                      )
                     }
-                    required
-                    sx={styles.dateInput}
                   />
-                </>
-              )}
+                </React.Fragment>
+              ))}
               <Button
                 type="submit"
                 fullWidth

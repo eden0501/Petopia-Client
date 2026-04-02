@@ -1,7 +1,9 @@
+import { isEmpty } from "lodash";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Stack, Typography } from "@mui/material";
 
 import Post from "@/components/Post";
+import PawPrint from "@/icons/PawPrint";
 import AppBar from "@/components/AppBar";
 import NavBar from "@/components/NavBar";
 import ProfileHeader from "@/components/ProfileHeader";
@@ -43,18 +45,30 @@ const Profile = () => {
           <Typography variant="h5" sx={styles.sectionTitle}>
             My Posts
           </Typography>
-          {pages?.map((batch, batchIndex) => (
-            <Box key={`batch-${batchIndex}`}>
-              {batch?.map((post) => (
-                <Post key={post._id} {...post} />
-              ))}
-              <Box
-                ref={
-                  batchIndex === pages.length - 1 ? lastElementRef : undefined
-                }
-              />
-            </Box>
-          ))}
+          {isEmpty(pages?.[0]) ? (
+            <Stack
+              alignItems="center"
+              justifyContent="center"
+              sx={styles.emptyStateContainer}
+            >
+              <PawPrint sx={styles.emptyStateIcon} />
+              <Typography variant="h5">No posts yet</Typography>
+              <Typography>Share your first post with the community!</Typography>
+            </Stack>
+          ) : (
+            pages?.map((batch, batchIndex) => (
+              <Box key={`batch-${batchIndex}`}>
+                {batch?.map((post) => (
+                  <Post key={post._id} {...post} />
+                ))}
+                <Box
+                  ref={
+                    batchIndex === pages.length - 1 ? lastElementRef : undefined
+                  }
+                />
+              </Box>
+            ))
+          )}
         </Container>
       </Container>
       <NavBar />

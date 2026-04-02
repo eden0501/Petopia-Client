@@ -1,6 +1,9 @@
+import { enGB } from "date-fns/locale";
 import { CssBaseline } from "@mui/material";
 import type { PropsWithChildren } from "react";
 import { ExpandMore } from "@mui/icons-material";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import { alpha, createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -9,6 +12,10 @@ const theme = createTheme({
     primary: {
       main: "#F54A00",
       dark: "#D93E00",
+      light: "#FFD4B8",
+    },
+    background: {
+      default: "#FBF9FA",
     },
     text: {
       primary: "#0A0A0A",
@@ -20,7 +27,6 @@ const theme = createTheme({
     warning: {
       main: "#D97706",
     },
-    
   },
   typography: {
     fontFamily: "ui-sans-serif, system-ui, sans-serif",
@@ -146,6 +152,7 @@ const theme = createTheme({
         paper: {
           padding: 5,
           borderRadius: 12,
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
         },
         list: {
           padding: 0,
@@ -153,12 +160,22 @@ const theme = createTheme({
       },
     },
     MuiMenuItem: {
+      defaultProps: {
+        disableRipple: true,
+      },
       styleOverrides: {
         root: {
-          minHeight: "auto",
-          fontSize: "0.9rem",
+          gap: 5,
           padding: 10,
           borderRadius: 12,
+          minHeight: "auto",
+          fontSize: "0.9rem",
+          
+          "& .MuiSvgIcon-root": {
+            fontSize: "1.2rem",
+            color: "#364153",
+          },
+        
         },
       },
     },
@@ -193,10 +210,12 @@ const theme = createTheme({
 });
 
 const MuiTheme = ({ children }: PropsWithChildren) => (
-  <ThemeProvider theme={theme}>
-    <CssBaseline />
-    {children}
-  </ThemeProvider>
+  <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={enGB}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  </LocalizationProvider>
 );
 
 export default MuiTheme;

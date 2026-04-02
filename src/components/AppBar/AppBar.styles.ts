@@ -32,6 +32,16 @@ const styles = {
     display: "flex",
     gap: 1,
   },
+
+  dialogActions: {
+    gap: 2,
+    padding: 0,
+    paddingTop: 20,
+  },
+
+  buttonText: {
+    fontWeight: "600",
+  },
 };
 
 export default styles;

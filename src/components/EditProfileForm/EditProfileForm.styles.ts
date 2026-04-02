@@ -4,21 +4,34 @@ const styles = {
     gap: 20,
   },
 
-  cardHeader: {
-    padding: 0,
-    ".MuiCardHeader-title": {
-      fontSize: "1.2rem",
-      fontWeight: "600",
-    },
+  avatarSection: {
+    display: "flex",
+    alignItems: "center",
+    gap: 15,
+  },
+
+  avatarWrapper: {
+    position: "relative",
   },
 
   avatar: {
-    width: "auto",
-    height: "80px",
-    aspectRatio: "1/1",
+    width: 80,
+    height: 80,
+  },
+
+  cameraButton: {
+    width: 30,
+    height: 30,
+    color: "white",
+    borderRadius: "50%",
+    backgroundColor: "primary.main",
+    "&:hover": {
+      backgroundColor: "primary.main",
+    },
   },
 
   label: {
+    mb: 0.5,
     fontWeight: "600",
   },
 

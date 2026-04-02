@@ -19,6 +19,22 @@ const styles = {
     alignItems: "center",
     justifyContent: "space-between",
   },
+
+  dialogActions: {
+    flexDirection: "column",
+    gap: 2,
+    padding: 0,
+    paddingTop: 20,
+  },
+
+  keepButton: {
+    fontWeight: "600",
+    color: "text.primary",
+  },
+
+  deleteButton: {
+    fontWeight: "600",
+  },
 };
 
 export default styles;

@@ -15,3 +15,11 @@ export interface UserStatsInterface extends UserInterface {
   likesCount: number;
   postsCount: number;
 }
+
+export interface UpdateUserData {
+  username?: string;
+  email?: string;
+  petsCount?: number;
+  petOwnerSince?: string;
+  profilePicture?: string;
+}

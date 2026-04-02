@@ -1,4 +1,4 @@
-import type { UserStatsInterface } from "@/interfaces/user";
+import type { UpdateUserData, UserStatsInterface } from "@/interfaces/user";
 
 export type likeAction = "like" | "unlike";
 
@@ -6,6 +6,9 @@ export interface UserContextType {
   userData: UserStatsInterface;
   userId: string;
   isLoading: boolean;
-  updateLikeCount: (action: likeAction) => void;
   addUserComment: () => void;
+  changePostCount: (add: boolean) => void;
+  updateLikeCount: (action: likeAction) => void;
+  logoutUser: () => void;
+  updateUserData: (data: UpdateUserData) => void;
 }

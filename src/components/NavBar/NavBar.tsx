@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router";
 import { BottomNavigation, BottomNavigationAction, Fab } from "@mui/material";
 
 import PostForm from "@/components/PostForm";
+import FloatingAIChat from "@/components/FloatingAIChat/FloatingAIChat";
 
 import styles from "./NavBar.styles";
 
@@ -14,6 +15,7 @@ const NavBar = () => {
 
   return (
     <>
+      {pathname === "/home" && <FloatingAIChat />}
       <BottomNavigation
         sx={styles.bottomNavigation}
         showLabels
@@ -32,7 +34,7 @@ const NavBar = () => {
       </BottomNavigation>
       <Fab
         color="primary"
-        sx={styles.fab(pathname !== "/edit-profile") }
+        sx={styles.fab(pathname !== "/edit-profile")}
         onClick={() => setIsCreatePostModalOpen(true)}
       >
         <Add />

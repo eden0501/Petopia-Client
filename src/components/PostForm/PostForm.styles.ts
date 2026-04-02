@@ -26,6 +26,7 @@ const styles = {
 
   subtitle: {
     px: 2,
+    color: "text.secondary",
   },
 
   chip: {
@@ -42,9 +43,16 @@ const styles = {
   label: {
     mb: 1,
   },
+  hashtagsAutocomplete: {
+    ".MuiAutocomplete-inputRoot": {
+      padding: 4,
+    },
+  },
 
   multiline: {
-    "& .MuiOutlinedInput-root": { padding: 0 },
+    "& .MuiOutlinedInput-root": {
+      padding: 0,
+    },
   },
 
   uploadBox: {
@@ -53,7 +61,9 @@ const styles = {
     borderRadius: 3,
     py: 5,
     textAlign: "center",
-    "&:hover": { backgroundColor: "grey.50" },
+    "&:hover": {
+      backgroundColor: "grey.50",
+    },
   },
 
   uploadIcon: {
