@@ -42,6 +42,11 @@ export const FIELDS_PROPS: {
     name: "petOwnerSince",
     label: "Pet Owner Since",
     type: "date",
-    rules: {},
+    rules: {
+      max: {
+        value: new Date().toISOString().split("T")[0],
+        message: "Date cannot be in the future",
+      },
+    },
   },
 ];

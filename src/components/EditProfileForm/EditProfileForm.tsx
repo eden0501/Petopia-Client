@@ -1,10 +1,10 @@
 import { isEmpty } from "lodash";
 import { toDate } from "date-fns";
 import { useNavigate } from "react-router";
-import { DatePicker } from "@mui/x-date-pickers";
 import { useMutation } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import { CameraAltOutlined } from "@mui/icons-material";
+import { DesktopDatePicker as DatePicker } from "@mui/x-date-pickers";
 import {
   Stack,
   Avatar,
@@ -17,7 +17,6 @@ import {
 
 import { updateUser } from "@/services/users.service";
 import { useUserContext } from "@/contexts/UserContext";
-import { getDateStringWithoutTime } from "@/utils/dateUtils";
 import type { UpdateUserData } from "@/interfaces/user";
 
 import styles from "./EditProfileForm.styles";
@@ -30,7 +29,6 @@ const EditProfileForm = () => {
   } = useUserContext();
 
   const navigate = useNavigate();
-  const today = getDateStringWithoutTime();
 
   const {
     register,
@@ -87,7 +85,17 @@ const EditProfileForm = () => {
               rules={rules}
               control={control}
               render={({ field }) => (
-                <DatePicker {...field} value={toDate(field.value ?? "")} />
+                <DatePicker
+                  {...field}
+                  maxDate={new Date()}
+                  value={toDate(field.value ?? "")}
+                  slotProps={{
+                    textField: {
+                      error: !!errors[name],
+                      helperText: errors[name]?.message,
+                    },
+                  }}
+                />
               )}
             />
           ) : (
