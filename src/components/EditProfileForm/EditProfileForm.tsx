@@ -1,10 +1,10 @@
 import { isEmpty } from "lodash";
 import { toDate } from "date-fns";
 import { useNavigate } from "react-router";
-import { DatePicker } from "@mui/x-date-pickers";
 import { useMutation } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import { CameraAltOutlined } from "@mui/icons-material";
+import { DesktopDatePicker as DatePicker } from "@mui/x-date-pickers";
 import {
   Stack,
   Avatar,
@@ -87,6 +87,7 @@ const EditProfileForm = () => {
               render={({ field, fieldState: { error } }) => (
                 <DatePicker
                   {...field}
+                  maxDate={new Date()}
                   value={toDate(field.value ?? "")}
                   onChange={(date: Date | null) =>
                     field.onChange(date?.toISOString() ?? "")

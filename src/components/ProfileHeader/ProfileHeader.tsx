@@ -1,3 +1,4 @@
+import { isNil } from "lodash";
 import { formatDistanceToNowStrict } from "date-fns";
 import {
   Box,
@@ -14,7 +15,6 @@ import { useUserContext } from "@/contexts/UserContext";
 import type { UserStatsInterface } from "@/interfaces/user";
 
 import styles from "./ProfileHeader.styles";
-import { isNil } from "lodash";
 
 const stats: { title: string; userProperty: keyof UserStatsInterface }[] = [
   { title: "Posts", userProperty: "postsCount" },

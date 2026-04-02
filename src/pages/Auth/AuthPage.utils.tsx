@@ -1,6 +1,6 @@
 import type React from "react";
-import type { RegisterOptions, ControllerRenderProps } from "react-hook-form";
 import type { SxProps } from "@mui/material";
+import type { RegisterOptions, ControllerRenderProps } from "react-hook-form";
 
 import type { UserInterface } from "@/interfaces/user";
 

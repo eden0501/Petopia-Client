@@ -1,10 +1,10 @@
 import { toDate } from "date-fns";
 import React, { useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
 import { GoogleLogin } from "@react-oauth/google";
-import { useQueryClient } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
+import { useQueryClient } from "@tanstack/react-query";
 import type { CredentialResponse } from "@react-oauth/google";
+import { DesktopDatePicker as DatePicker } from "@mui/x-date-pickers";
 import {
   Box,
   Button,
@@ -153,6 +153,7 @@ const AuthPage = () => {
                     render={({ field, fieldState: { error } }) =>
                       name === "petOwnerSince" ? (
                         <DatePicker
+                          maxDate={new Date()}
                           value={toDate(field.value ?? "")}
                           onChange={(value) =>
                             field.onChange(value?.toISOString() ?? "")

@@ -73,12 +73,6 @@ const Post = (postData: PostInterface) => {
     setAnchorEl(null);
   };
 
-  const invalidateQueries = () => {
-    queryClient.invalidateQueries({ queryKey: ["posts"] });
-    queryClient.invalidateQueries({ queryKey: ["userInfo"] });
-    queryClient.invalidateQueries({ queryKey: ["user-post"] });
-  };
-
   const liked = useMemo(
     () => localPost.likes.includes(userId),
     [localPost, userId],
@@ -101,7 +95,7 @@ const Post = (postData: PostInterface) => {
         updateLikeCount("like");
       }
 
-      invalidateQueries();
+      queryClient.invalidateQueries();
     },
   });
 
@@ -124,7 +118,7 @@ const Post = (postData: PostInterface) => {
       }));
 
       addUserComment();
-      invalidateQueries();
+      queryClient.invalidateQueries();
     },
   });
 
@@ -132,7 +126,7 @@ const Post = (postData: PostInterface) => {
     mutationFn: () => deletePost(postId),
     onSuccess: () => {
       changePostCount(false);
-      invalidateQueries();
+      queryClient.invalidateQueries();
     },
   });
 
