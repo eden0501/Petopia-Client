@@ -9,5 +9,6 @@ export interface UserContextType {
   addUserComment: () => void;
   changePostCount: (add: boolean) => void;
   updateLikeCount: (action: likeAction) => void;
+  logoutUser: () => void;
   updateUserData: (data: UpdateUserData) => void;
 }
