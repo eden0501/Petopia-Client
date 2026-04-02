@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { isEmpty } from "lodash";
+import { createElement, useMemo } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BackupOutlined, Close as CloseIcon } from "@mui/icons-material";
 import {
   Box,
@@ -14,78 +17,140 @@ import {
   Chip,
 } from "@mui/material";
 
-import { CHIP_PROPS, PostTypes } from "@/constants/postTypes";
+import { CHIP_PROPS } from "@/constants/postTypes";
+import { useUserContext } from "@/contexts/UserContext";
+import { createPost, updatePost } from "@/services/posts.service";
+import type { PostCreationType, PostInterface } from "@/interfaces/post";
 
 import styles from "./PostForm.styles";
+import { FIELDS_PROPS, getDefaultValues, trimPayload } from "./PostForm.utils";
 
 const PostForm = ({
   open,
   onClose,
+  post,
 }: {
   open: boolean;
   onClose: () => void;
+  post?: PostInterface;
 }) => {
-  const [postType, setPostType] = useState<PostTypes>(PostTypes.OTHER);
+  const queryClient = useQueryClient();
+  const { changePostCount } = useUserContext();
+
+  const isEditMode = useMemo(() => !!post, [post]);
+
+  const {
+    reset,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<PostCreationType>({
+    defaultValues: getDefaultValues(post ?? {}),
+  });
+
+  const selectedType = useWatch({
+    control,
+    name: "type",
+  });
+
+  const { mutate: submitPost, isPending } = useMutation({
+    mutationFn: (data: PostCreationType) =>
+      isEditMode && post
+        ? updatePost(post._id, trimPayload(data))
+        : createPost(trimPayload(data)),
+    onSuccess: () => {
+      changePostCount(true);
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["user-post"] });
+
+      handleClose();
+    },
+  });
+
+  const onSubmit = (data: PostCreationType) => {
+    submitPost(data);
+  };
+
+  const handleClose = () => {
+    reset();
+    onClose();
+  };
 
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       fullWidth
       slotProps={{ paper: { sx: styles.paper } }}
     >
-      <IconButton onClick={onClose} sx={styles.closeButton}>
+      <IconButton onClick={handleClose} sx={styles.closeButton}>
         <CloseIcon />
       </IconButton>
 
       <Box sx={styles.headerBox}>
-        <DialogTitle sx={styles.dialogTitle}>Create New Post</DialogTitle>
-        <Typography variant="subtitle1" sx={styles.subtitle}>
-          Share rescue alerts, care tips, or equipment donations with the
-          community
+        <DialogTitle sx={styles.dialogTitle}>
+          {isEditMode ? "Edit Post" : "Create New Post"}
+        </DialogTitle>
+        <Typography sx={styles.subtitle}>
+          {isEditMode
+            ? "Update your post details"
+            : "Share rescue alerts, care tips, or equipment donations with the community"}
         </Typography>
       </Box>
 
-      <ToggleButtonGroup
-        value={postType}
-        exclusive
-        onChange={(_, val) => val && setPostType(val)}
-      >
-        {Object.entries(CHIP_PROPS).map(([type, { icon }]) => (
-          <ToggleButton key={type} value={type}>
-            {icon}
-          </ToggleButton>
-        ))}
-      </ToggleButtonGroup>
+      <Controller
+        name="type"
+        control={control}
+        render={({ field }) => (
+          <ToggleButtonGroup
+            value={field.value}
+            exclusive
+            onChange={(_, val) => val && field.onChange(val)}
+          >
+            {Object.entries(CHIP_PROPS).map(([type, { icon }]) => (
+              <ToggleButton key={type} value={type}>
+                {icon}
+              </ToggleButton>
+            ))}
+          </ToggleButtonGroup>
+        )}
+      />
 
       <Chip
-        color={CHIP_PROPS[postType].color}
+        color={CHIP_PROPS[selectedType].color}
         sx={styles.chip}
-        label={CHIP_PROPS[postType].description}
+        label={CHIP_PROPS[selectedType].description}
       />
 
       <Box sx={styles.formBox}>
-        <Box>
-          <Typography variant="overline" sx={styles.label}>Title *</Typography>
-          <TextField placeholder="Enter post title..." />
-        </Box>
-
-        <Box>
-          <Typography variant="overline" sx={styles.label}>Description *</Typography>
-          <TextField
-            sx={styles.multiline}
-            multiline
-            rows={3}
-            placeholder="Provide details..."
-          />
-        </Box>
-        <Box>
-          <Typography variant="overline" sx={styles.label}>Hashtags (optional)</Typography>
-          <TextField placeholder="rescue, urgent, help" />
-          <Typography variant="caption">
-            Separate hashtags with commas
-          </Typography>
-        </Box>
+        {FIELDS_PROPS.map(({ name, label, rules, fieldProps, altField }) => (
+          <Box key={name}>
+            <Typography variant="overline" sx={styles.label}>
+              {label}{" "}
+              <Typography component="span" color="error">
+                {rules?.required && "*"}
+              </Typography>
+            </Typography>
+            <Controller
+              name={name}
+              control={control}
+              rules={rules}
+              render={({ field, fieldState: { error } }) =>
+                altField ? (
+                  createElement(altField, { ...field })
+                ) : (
+                  <TextField
+                    fullWidth
+                    {...fieldProps}
+                    {...field}
+                    error={!!error}
+                    helperText={error?.message}
+                  />
+                )
+              }
+            />
+          </Box>
+        ))}
       </Box>
       <Box
         sx={styles.uploadBox}
@@ -98,15 +163,22 @@ const PostForm = ({
 
       <DialogActions sx={styles.dialogActions}>
         <Button
-          onClick={onClose}
+          onClick={handleClose}
           fullWidth
           variant="outlined"
           sx={styles.buttonText}
+          disabled={isPending}
         >
           Cancel
         </Button>
-        <Button fullWidth variant="contained" sx={styles.buttonText}>
-          Create Post
+        <Button
+          fullWidth
+          variant="contained"
+          sx={styles.buttonText}
+          onClick={handleSubmit(onSubmit)}
+          disabled={isPending || !isEmpty(errors)}
+        >
+          {isEditMode ? "Update Post" : "Create Post"}
         </Button>
       </DialogActions>
     </Dialog>

@@ -1,3 +1,4 @@
+import { isNil } from "lodash";
 import { formatDistanceToNowStrict } from "date-fns";
 import {
   Box,
@@ -37,9 +38,9 @@ const ProfileHeader = () => {
               color="warning"
               icon={<PawPrint sx={styles.chip} />}
               label={
-                userData.petsCount
-                  ? `${userData.petsCount} ${userData.petsCount === 1 ? "Pet" : "Pets"}`
-                  : "Unknown pets count"
+                isNil(userData.petsCount)
+                  ? "Unknown pets count"
+                  : `${userData.petsCount} ${userData.petsCount === 1 ? "Pet" : "Pets"}`
               }
             />
           </Stack>

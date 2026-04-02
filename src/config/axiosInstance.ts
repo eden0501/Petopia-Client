@@ -27,9 +27,10 @@ export const createApiInstance = (basePath: string, addToken = true) => {
 
             return instance(originalRequest);
           } catch (err) {
-            if (window.location.pathname !== "/login") {
-              window.location.href = "/login";
+            if (window.location.pathname !== "/") {
+              window.location.href = "/";
             }
+
             return Promise.reject(err);
           }
         }
