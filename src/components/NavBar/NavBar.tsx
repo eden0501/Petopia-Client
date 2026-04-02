@@ -15,7 +15,7 @@ const NavBar = () => {
 
   return (
     <>
-      <FloatingAIChat />
+      {pathname === "/home" && <FloatingAIChat />}
       <BottomNavigation
         sx={styles.bottomNavigation}
         showLabels
