@@ -1,7 +1,9 @@
+import { toDate } from "date-fns";
 import React, { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { useQueryClient } from "@tanstack/react-query";
 import type { CredentialResponse } from "@react-oauth/google";
+import { DesktopDatePicker as DatePicker } from "@mui/x-date-pickers";
 import {
   Box,
   Button,
@@ -183,16 +185,12 @@ const AuthPage = () => {
                     onChange={(e) => setPetsCount(e.target.value)}
                   />
                   <FieldLabel>When did you become a pet owner?</FieldLabel>
-                  <Box
-                    component="input"
-                    type="date"
-                    value={petOwnerSince}
-                    max={today}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      handleDateChange(event.target.value)
+                  <DatePicker
+                    maxDate={new Date()}
+                    value={toDate(petOwnerSince ?? "")}
+                    onChange={(value) =>
+                      handleDateChange(value?.toDateString() ?? "")
                     }
-                    required
-                    sx={styles.dateInput}
                   />
                 </>
               )}

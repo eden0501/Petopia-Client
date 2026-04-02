@@ -31,16 +31,6 @@ const styles = {
     color: "text.secondary",
     fontSize: "0.9rem",
   },
-
-  dialogActions: {
-    gap: 2,
-    padding: 0,
-    paddingTop: 20,
-  },
-
-  buttonText: {
-    fontWeight: "600",
-  },
 };
 
 export default styles;

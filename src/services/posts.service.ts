@@ -1,5 +1,5 @@
-import type { PostInterface } from "@/interfaces/post";
 import { createApiInstance } from "@/config/axiosInstance";
+import type { PostCreationType, PostInterface } from "@/interfaces/post";
 
 const axiosInstance = createApiInstance("posts");
 
@@ -22,3 +22,14 @@ export const getPosts = async (
 
 export const toggleLike = async (postId: string, liked: boolean) =>
   (await axiosInstance.post(`/${liked ? "unlike" : "like"}/${postId}`)).data;
+
+export const createPost = async (newPost: PostCreationType) =>
+  (await axiosInstance.post<PostInterface>("", newPost)).data;
+
+export const updatePost = async (
+  postId: string,
+  updatedFields: PostCreationType,
+) => (await axiosInstance.put<PostInterface>(`/${postId}`, updatedFields)).data;
+
+export const deletePost = async (postId: string) =>
+  (await axiosInstance.delete(`/${postId}`)).data;
