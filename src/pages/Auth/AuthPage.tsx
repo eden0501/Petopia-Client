@@ -54,7 +54,7 @@ const AuthPage = () => {
 
     let errorMsg;
     if (status === HttpStatusCode.Conflict) {
-      errorMsg = "Username already exists. Try a different one." ;
+      errorMsg = "Username already exists. Try a different one.";
     } else if (status === HttpStatusCode.NotFound) {
       errorMsg = "User not found. Please sign up first.";
     } else if (status === HttpStatusCode.InternalServerError) {
@@ -74,13 +74,10 @@ const AuthPage = () => {
     setErrorMessage("");
 
     try {
-      const email = `${data.username}@petopia.com`;
-
       if (isLogin) {
-        await login(email, data.password);
+        await login(data.username, data.password);
       } else {
         await register({
-          email,
           username: data.username,
           password: data.password,
           petsCount: Number(data.petsCount),
@@ -100,7 +97,7 @@ const AuthPage = () => {
     try {
       await googleLogin(credentialResponse?.credential || "");
       handleSuccess();
-    } catch(error) {
+    } catch (error) {
       handleError(error);
     }
   };
@@ -215,7 +212,9 @@ const AuthPage = () => {
                   <Box sx={{ display: "flex", justifyContent: "center" }}>
                     <GoogleLogin
                       onSuccess={handleGoogleSuccess}
-                      onError={() => handleError(new Error("Google login failed"))}
+                      onError={() =>
+                        handleError(new Error("Google login failed"))
+                      }
                       width="370"
                       theme="outline"
                       shape="rectangular"

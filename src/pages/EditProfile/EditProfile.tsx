@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Box,
   Button,
@@ -13,19 +12,23 @@ import {
 import AppBar from "@/components/AppBar";
 import NavBar from "@/components/NavBar";
 import { deleteUser } from "@/services/users.service";
+import { useUserContext } from "@/contexts/UserContext";
 import EditProfileForm from "@/components/EditProfileForm";
 import ConfirmationModal from "@/components/ConfirmationModal";
 
 import styles from "./EditProfile.styles";
 
 const EditProfile = () => {
-  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { logoutUser } = useUserContext();
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const { mutate: handleDeleteAccount } = useMutation({
     mutationFn: deleteUser,
-    onSuccess: () => {
-      navigate("/login");
+    onSuccess: async () => {
+      logoutUser();
+      localStorage.clear();
+      await queryClient.resetQueries({ queryKey: ["userInfo"] });
     },
   });
 
@@ -33,28 +36,30 @@ const EditProfile = () => {
     <>
       <Box sx={styles.container}>
         <AppBar />
-        <Container sx={styles.contentContainer}>
-          <Typography variant="h4">Edit Profile</Typography>
-          <Typography variant="subtitle1">
-            Update your personal information and how others see you
-          </Typography>
-          <EditProfileForm />
-          <Divider sx={styles.divider} />
-          <Box sx={styles.deleteSection}>
-            <Box>
-              <Typography variant="subtitle2">Delete Account</Typography>
-              <Typography variant="caption">
-                Permanently remove all your data
-              </Typography>
+        <Container sx={styles.innerContainer} maxWidth={false}>
+          <Container sx={styles.contentContainer}>
+            <Typography variant="h4">Edit Profile</Typography>
+            <Typography variant="subtitle1">
+              Update your personal information and how others see you
+            </Typography>
+            <EditProfileForm />
+            <Divider sx={styles.divider} />
+            <Box sx={styles.deleteSection}>
+              <Box>
+                <Typography variant="subtitle2">Delete Account</Typography>
+                <Typography variant="caption">
+                  Permanently remove all your data
+                </Typography>
+              </Box>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={() => setDeleteModalOpen(true)}
+              >
+                Delete Profile
+              </Button>
             </Box>
-            <Button
-              variant="outlined"
-              color="error"
-              onClick={() => setDeleteModalOpen(true)}
-            >
-              Delete Profile
-            </Button>
-          </Box>
+          </Container>
         </Container>
         <NavBar />
       </Box>
