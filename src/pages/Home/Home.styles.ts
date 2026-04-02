@@ -4,7 +4,7 @@ const styles = {
     minHeight: "100vh",
   },
   innerContainer: {
-    width: "60%",
+    width: { xs: "100%", sm: "60%" },
     minWidth: 300,
   },
   contentContainer: {
