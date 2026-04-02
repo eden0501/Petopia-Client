@@ -8,13 +8,15 @@ import { UserContext } from "./UserContext";
 
 export const UserContextProvider = ({ children }: PropsWithChildren) => {
   const [userData, setUserData] = useState({} as UserStatsInterface);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const { isLoading, isFetching } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["userInfo"],
     queryFn: async () => {
       try {
         const user = await getUserInfo();
         setUserData(user);
+        setIsLoggingOut(false);
         return user;
       } catch {
         setUserData({} as UserStatsInterface);
@@ -23,6 +25,7 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
       }
     },
     retry: false,
+    refetchOnWindowFocus: false,
   });
 
   const updateUserData = (data: UpdateUserData) => {
@@ -47,16 +50,22 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
     }));
   };
 
+  const logoutUser = () => {
+    setIsLoggingOut(true);
+    setUserData({} as UserStatsInterface);
+  };
+
   return (
     <UserContext.Provider
       value={{
         userId: userData._id,
         userData,
-        isLoading: isLoading || isFetching,
+        isLoading: isLoading || isLoggingOut,
         updateUserData,
         addUserComment,
         changePostCount,
         updateLikeCount,
+        logoutUser,
       }}
     >
       {children}

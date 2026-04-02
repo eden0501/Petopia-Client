@@ -95,7 +95,8 @@ const Post = (postData: PostInterface) => {
         updateLikeCount("like");
       }
 
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["user-post"] });
     },
   });
 
@@ -118,7 +119,8 @@ const Post = (postData: PostInterface) => {
       }));
 
       addUserComment();
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["user-post"] });
     },
   });
 
@@ -126,7 +128,8 @@ const Post = (postData: PostInterface) => {
     mutationFn: () => deletePost(postId),
     onSuccess: () => {
       changePostCount(false);
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["user-post"] });
     },
   });
 

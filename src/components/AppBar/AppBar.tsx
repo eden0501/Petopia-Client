@@ -13,6 +13,7 @@ import {
 
 import PawPrint from "@/icons/PawPrint";
 import { logout } from "@/services/auth.service";
+import { useUserContext } from "@/contexts/UserContext";
 
 import styles from "./AppBar.styles";
 import ConfirmationModal from "../ConfirmationModal";
@@ -21,10 +22,12 @@ const AppBar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const queryClient = useQueryClient();
+  const { logoutUser } = useUserContext();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   const handleLogout = async () => {
     setIsLogoutModalOpen(false);
+    logoutUser();
     await logout();
     localStorage.clear();
     await queryClient.resetQueries({ queryKey: ["userInfo"] });
