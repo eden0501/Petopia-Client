@@ -1,10 +1,10 @@
 export interface UserInterface {
   _id: string;
-  email: string;
   username: string;
   petOwnerSince: string;
   petsCount: number;
   profilePicture?: string;
+  email?: string;
   password?: string;
   googleId?: string;
   refreshToken?: string;

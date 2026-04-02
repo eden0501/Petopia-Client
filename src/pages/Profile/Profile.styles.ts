@@ -3,7 +3,10 @@ const styles = {
     backgroundColor: "#FBF9FA",
     minHeight: "100vh",
   },
-
+  innerContainer: {
+    width: { xs: "100%", sm: "60%" },
+    minWidth: 300,
+  },
   contentContainer: {
     paddingBottom: 10,
     overflow: "auto",

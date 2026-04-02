@@ -1,6 +1,6 @@
 const styles = {
   container: {
-    margin: 10,
+    marginY: 10,
     borderRadius: "10px",
     background: "white",
     border: "1px solid #E0E0E0",

@@ -1,4 +1,8 @@
 const styles = {
+  card: {
+    marginY: 8,
+  },
+
   cardHeader: {
     ".MuiCardHeader-title": {
       fontSize: "1rem",

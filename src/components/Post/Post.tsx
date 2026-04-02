@@ -135,7 +135,7 @@ const Post = (postData: PostInterface) => {
 
   return (
     <>
-      <Card>
+      <Card sx={styles.card}>
         <CardHeader
           avatar={<Avatar src={author.profilePicture} />}
           title={author.username}

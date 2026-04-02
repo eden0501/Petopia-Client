@@ -34,6 +34,8 @@ export const createApiInstance = (basePath: string, addToken = true) => {
             return Promise.reject(err);
           }
         }
+
+        return Promise.reject(error);
       },
     );
   }

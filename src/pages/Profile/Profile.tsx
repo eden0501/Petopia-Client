@@ -39,35 +39,37 @@ const Profile = () => {
   return (
     <Box sx={styles.container}>
       <AppBar />
-      <Container sx={styles.contentContainer}>
-        <ProfileHeader />
-        <Typography variant="h5" sx={styles.sectionTitle}>
-          My Posts
-        </Typography>
-        {isEmpty(pages?.[0]) ? (
-          <Stack
-            alignItems="center"
-            justifyContent="center"
-            sx={styles.emptyStateContainer}
-          >
-            <PawPrint sx={styles.emptyStateIcon} />
-            <Typography variant="h5">No posts yet</Typography>
-            <Typography>Share your first post with the community!</Typography>
-          </Stack>
-        ) : (
-          pages?.map((batch, batchIndex) => (
-            <Box key={`batch-${batchIndex}`}>
-              {batch?.map((post) => (
-                <Post key={post._id} {...post} />
-              ))}
-              <Box
-                ref={
-                  batchIndex === pages.length - 1 ? lastElementRef : undefined
-                }
-              />
-            </Box>
-          ))
-        )}
+      <Container sx={styles.contentContainer} maxWidth={false}>
+        <Container sx={styles.innerContainer}>
+          <ProfileHeader />
+          <Typography variant="h5" sx={styles.sectionTitle}>
+            My Posts
+          </Typography>
+          {isEmpty(pages?.[0]) ? (
+            <Stack
+              alignItems="center"
+              justifyContent="center"
+              sx={styles.emptyStateContainer}
+            >
+              <PawPrint sx={styles.emptyStateIcon} />
+              <Typography variant="h5">No posts yet</Typography>
+              <Typography>Share your first post with the community!</Typography>
+            </Stack>
+          ) : (
+            pages?.map((batch, batchIndex) => (
+              <Box key={`batch-${batchIndex}`}>
+                {batch?.map((post) => (
+                  <Post key={post._id} {...post} />
+                ))}
+                <Box
+                  ref={
+                    batchIndex === pages.length - 1 ? lastElementRef : undefined
+                  }
+                />
+              </Box>
+            ))
+          )}
+        </Container>
       </Container>
       <NavBar />
     </Box>
