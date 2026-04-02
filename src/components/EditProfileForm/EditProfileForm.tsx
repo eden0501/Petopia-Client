@@ -84,15 +84,19 @@ const EditProfileForm = () => {
               name={name}
               rules={rules}
               control={control}
-              render={({ field }) => (
+              render={({ field, fieldState: { error } }) => (
                 <DatePicker
                   {...field}
                   maxDate={new Date()}
                   value={toDate(field.value ?? "")}
+                  onChange={(date: Date | null) =>
+                    field.onChange(date?.toISOString() ?? "")
+                  }
                   slotProps={{
                     textField: {
-                      error: !!errors[name],
-                      helperText: errors[name]?.message,
+                      error: !!error,
+                      helperText: error?.message,
+                      fullWidth: true,
                     },
                   }}
                 />

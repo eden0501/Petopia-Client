@@ -9,13 +9,18 @@ import { UserContext } from "./UserContext";
 export const UserContextProvider = ({ children }: PropsWithChildren) => {
   const [userData, setUserData] = useState({} as UserStatsInterface);
 
-  const { isLoading } = useQuery({
+  const { isLoading, isFetching } = useQuery({
     queryKey: ["userInfo"],
     queryFn: async () => {
-      const user = await getUserInfo();
-      setUserData(user);
-
-      return user;
+      try {
+        const user = await getUserInfo();
+        setUserData(user);
+        return user;
+      } catch {
+        setUserData({} as UserStatsInterface);
+        
+        return {}
+      }
     },
     retry: false,
   });
@@ -47,7 +52,7 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
       value={{
         userId: userData._id,
         userData,
-        isLoading,
+        isLoading: isLoading || isFetching,
         updateUserData,
         addUserComment,
         changePostCount,

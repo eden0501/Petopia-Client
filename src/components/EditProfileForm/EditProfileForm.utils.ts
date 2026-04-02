@@ -2,7 +2,6 @@ import type { RegisterOptions } from "react-hook-form";
 
 import type { UpdateUserData } from "@/interfaces/user";
 
-
 const defaultValues = {
   username: "",
   petsCount: 0,
@@ -43,10 +42,10 @@ export const FIELDS_PROPS: {
     label: "Pet Owner Since",
     type: "date",
     rules: {
-      max: {
-        value: new Date().toISOString().split("T")[0],
-        message: "Date cannot be in the future",
-      },
+      validate: (value) =>
+        !value ||
+        new Date(value as string) <= new Date() ||
+        "Date must be today or before",
     },
   },
 ];

@@ -54,61 +54,67 @@ export const FIELDS_PROPS: {
   rules?: RegisterOptions<PostCreationType, keyof PostCreationType>;
   altField?: (field: ControllerRenderProps) => React.ReactElement;
 }[] = [
-  {
-    name: "title",
-    label: "Title",
-    fieldProps: {
-      placeholder: "Enter post title...",
+    {
+      name: "title",
+      label: "Title",
+      fieldProps: {
+        placeholder: "Enter post title...",
+      },
+      rules: { required: "Title is required" },
     },
-    rules: { required: "Title is required" },
-  },
-  {
-    name: "content",
-    label: "Description",
-    fieldProps: {
-      rows: 3,
-      multiline: true,
-      sx: styles.multiline,
-      placeholder: "Provide details...",
+    {
+      name: "content",
+      label: "Description",
+      fieldProps: {
+        rows: 3,
+        multiline: true,
+        sx: styles.multiline,
+        placeholder: "Provide details...",
+      },
+      rules: {
+        required: "Description is required",
+        minLength: {
+          value: 8,
+          message: "Description must be at least 8 characters",
+        },
+      },
     },
-    rules: { required: "Description is required" },
-  },
-  {
-    name: "hashtags",
-    label: "Hashtags",
-    rules: {},
-    altField: (field: ControllerRenderProps) => (
-      <Box>
-        <Autocomplete
-          sx={styles.hashtagsAutocomplete}
-          multiple
-          freeSolo
-          options={[]}
-          value={field.value ?? []}
-          onChange={(_, newValue) => field.onChange(newValue)}
-          renderValue={(value, getTagProps) =>
-            value.map((option, index) => {
-              const { key, ...props } = getTagProps({ index });
+    {
+      name: "hashtags",
+      label: "Hashtags",
+      rules: {},
+      altField: (field: ControllerRenderProps) => (
+        <Box>
+          <Autocomplete
+            sx={styles.hashtagsAutocomplete}
+            multiple
+            freeSolo
+            options={[]}
+            value={field.value ?? []}
+            onChange={(_, newValue) => field.onChange(newValue)}
+            renderValue={(value, getTagProps) =>
+              value.map((option, index) => {
+                const { key, ...props } = getTagProps({ index });
 
-              return (
-                <Chip
-                  key={key || uniqueId("hashtag-")}
-                  size="small"
-                  label={option}
-                  {...props}
-                />
-              );
-            })
-          }
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              placeholder={field.value?.length ? "" : "Type and press Enter"}
-            />
-          )}
-        />
-        <Typography variant="caption">Press Enter to add a hashtag</Typography>
-      </Box>
-    ),
-  },
-];
+                return (
+                  <Chip
+                    key={key || uniqueId("hashtag-")}
+                    size="small"
+                    label={option}
+                    {...props}
+                  />
+                );
+              })
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder={field.value?.length ? "" : "Type and press Enter"}
+              />
+            )}
+          />
+          <Typography variant="caption">Press Enter to add a hashtag</Typography>
+        </Box>
+      ),
+    },
+  ];
