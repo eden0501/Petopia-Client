@@ -21,31 +21,31 @@ export const FIELDS_PROPS: {
   type: React.HTMLInputTypeAttribute;
   rules: RegisterOptions<UpdateUserData, keyof UpdateUserData>;
 }[] = [
-    {
-      name: "username",
-      label: "Username",
-      type: "text",
-      rules: {
-        required: "Username is required",
-      },
+  {
+    name: "username",
+    label: "Username",
+    type: "text",
+    rules: {
+      required: "Username is required",
     },
-    {
-      name: "petsCount",
-      label: "Number of Pets",
-      type: "number",
-      rules: {
-        valueAsNumber: true,
-      },
+  },
+  {
+    name: "petsCount",
+    label: "Number of Pets",
+    type: "number",
+    rules: {
+      valueAsNumber: true,
     },
-    {
-      name: "petOwnerSince",
-      label: "Pet Owner Since",
-      type: "date",
-      rules: {
-        validate: (value) =>
-          !value ||
-          new Date(value as string) <= new Date() ||
-          "Date must be today or before",
-      },
+  },
+  {
+    name: "petOwnerSince",
+    label: "Pet Owner Since",
+    type: "date",
+    rules: {
+      validate: (value) =>
+        !value ||
+        new Date(value as string) <= new Date() ||
+        "Date must be today or before",
     },
-  ];
+  },
+];
