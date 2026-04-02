@@ -6,7 +6,10 @@ import AuthPage from "./pages/Auth/AuthPage";
 import { useUserContext } from "./contexts/UserContext";
 
 const App = () => {
-  const { userId, isLoading } = useUserContext();
+  const { userId, isLoading, userData } = useUserContext();
+
+  const isNewGoogleUser = 
+    userId && !userData.petsCount && !userData.petOwnerSince;
 
   return isLoading ? (
     <Loader />
@@ -20,7 +23,12 @@ const App = () => {
             {ROUTES.map(({ path, element: Component }) => (
               <Route key={path} path={path} element={<Component />} />
             ))}
-            <Route path={"*"} element={<Navigate to="/home" />} />
+            <Route
+              path={"*"}
+              element={
+                <Navigate to={isNewGoogleUser ? "/edit-profile" : "/home"} />
+              }
+            />
           </>
         )}
       </Routes>
