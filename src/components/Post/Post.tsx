@@ -156,7 +156,9 @@ const Post = (postData: PostInterface) => {
             {title}
           </Typography>
           <Stack sx={styles.contentStack}>
-            <Typography variant="subtitle1">{content}</Typography>
+            <Typography sx={styles.content} variant="subtitle1">
+              {content}
+            </Typography>
             {imageUrl && (
               <CardMedia
                 sx={styles.cardMedia}

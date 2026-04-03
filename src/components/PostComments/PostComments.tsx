@@ -105,7 +105,6 @@ const PostCommentsDrawer = ({
 
       <Box sx={styles.inputContainer}>
         <Stack direction="row" spacing={5} alignItems="center">
-          <Avatar sx={styles.inputAvatar} />
           <TextField
             fullWidth
             placeholder="Write a comment..."

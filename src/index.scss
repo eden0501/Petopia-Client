@@ -33,3 +33,13 @@ html {
 *::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.22);
 }
+
+@media (max-width: 600px) {
+  * {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}

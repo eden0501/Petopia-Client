@@ -57,18 +57,14 @@ const styles = {
     fontWeight: 600,
   },
 
-  commentContent: {      fontSize: "0.8rem",
+  commentContent: {
+    fontSize: "0.8rem",
     marginTop: 0.5,
     color: "text.secondary",
   },
 
   inputContainer: {
     padding: 15,
-  },
-
-  inputAvatar: {
-    width: 40,
-    height: 40,
   },
 };
 
