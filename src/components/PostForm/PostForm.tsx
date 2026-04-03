@@ -1,6 +1,6 @@
 import { isEmpty } from "lodash";
-import { createElement, useMemo } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
+import { createElement, useMemo, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BackupOutlined, Close as CloseIcon } from "@mui/icons-material";
 import {
@@ -18,7 +18,9 @@ import {
 } from "@mui/material";
 
 import { CHIP_PROPS } from "@/constants/postTypes";
+import { resolveImageUrl } from "@/utils/imageUrl";
 import { useUserContext } from "@/contexts/UserContext";
+import { ACCEPTED_IMAGE_TYPES } from "@/constants/imageTypes";
 import { createPost, updatePost } from "@/services/posts.service";
 import type { PostCreationType, PostInterface } from "@/interfaces/post";
 
@@ -38,6 +40,11 @@ const PostForm = ({
   const { changePostCount } = useUserContext();
 
   const isEditMode = useMemo(() => !!post, [post]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imageFile, setImageFile] = useState<File | undefined>(undefined);
+  const [imagePreview, setImagePreview] = useState<string | undefined>(
+    resolveImageUrl(post?.imageUrl),
+  );
 
   const {
     reset,
@@ -56,8 +63,8 @@ const PostForm = ({
   const { mutate: submitPost, isPending } = useMutation({
     mutationFn: (data: PostCreationType) =>
       isEditMode && post
-        ? updatePost(post._id, trimPayload(data))
-        : createPost(trimPayload(data)),
+        ? updatePost(post._id, trimPayload(data), imageFile)
+        : createPost(trimPayload(data), imageFile),
     onSuccess: () => {
       changePostCount(true);
       queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -73,7 +80,20 @@ const PostForm = ({
 
   const handleClose = () => {
     reset();
+    setImageFile(undefined);
+    setImagePreview(resolveImageUrl(post?.imageUrl));
     onClose();
+  };
+
+  const handleImageSelect = ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    const file = target.files?.[0];
+
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
   };
 
   return (
@@ -152,13 +172,30 @@ const PostForm = ({
           </Box>
         ))}
       </Box>
-      <Box
-        sx={styles.uploadBox}
-        onClick={() => console.log("Image upload coming soon!")}
-      >
-        <BackupOutlined sx={styles.uploadIcon} />
-        <Typography variant="subtitle2">Click to upload photo</Typography>
-        <Typography variant="caption">PNG, JPG up to 10MB</Typography>
+      <input
+        type="file"
+        accept={ACCEPTED_IMAGE_TYPES}
+        hidden
+        ref={fileInputRef}
+        onChange={handleImageSelect}
+      />
+      <Box sx={styles.uploadBox} onClick={() => fileInputRef.current?.click()}>
+        {imagePreview ? (
+          <Box
+            component="img"
+            src={imagePreview}
+            alt="Preview"
+            sx={{ maxHeight: 200, maxWidth: "100%", borderRadius: 2 }}
+          />
+        ) : (
+          <>
+            <BackupOutlined sx={styles.uploadIcon} />
+            <Typography variant="subtitle2">Click to upload photo</Typography>
+            <Typography variant="caption">
+              Only JPEG, PNG, GIF, and WebP images
+            </Typography>
+          </>
+        )}
       </Box>
 
       <DialogActions sx={styles.dialogActions}>
