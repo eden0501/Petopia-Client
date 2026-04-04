@@ -1,5 +1,6 @@
 import { isEmpty } from "lodash";
 import { toDate } from "date-fns";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
@@ -15,9 +16,11 @@ import {
   Badge,
 } from "@mui/material";
 
+import { resolveImageUrl } from "@/utils/imageUrl";
 import { updateUser } from "@/services/users.service";
 import { useUserContext } from "@/contexts/UserContext";
 import type { UpdateUserData } from "@/interfaces/user";
+import { ACCEPTED_IMAGE_TYPES } from "@/constants/imageTypes";
 
 import styles from "./EditProfileForm.styles";
 import { FIELDS_PROPS, getDefaultValues } from "./EditProfileForm.utils";
@@ -29,6 +32,22 @@ const EditProfileForm = () => {
   } = useUserContext();
 
   const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imageFile, setImageFile] = useState<File | undefined>(undefined);
+  const [avatarPreview, setAvatarPreview] = useState<string | undefined>(
+    resolveImageUrl(profilePicture),
+  );
+
+  const handleImageSelect = ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    const file = target.files?.[0];
+
+    if (file) {
+      setImageFile(file);
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  };
 
   const {
     register,
@@ -44,9 +63,14 @@ const EditProfileForm = () => {
   });
 
   const { mutate: saveChanges, isPending } = useMutation({
-    mutationFn: updateUser,
-    onSuccess: (_, variables) => {
-      updateUserData(variables);
+    mutationFn: (data: UpdateUserData) => updateUser(data, imageFile),
+    onSuccess: (response, variables) => {
+      updateUserData({
+        ...variables,
+        ...(response.profilePicture && {
+          profilePicture: response.profilePicture,
+        }),
+      });
       navigate("/profile");
     },
   });
@@ -55,24 +79,31 @@ const EditProfileForm = () => {
     <Stack sx={styles.container}>
       <Box sx={styles.avatarSection}>
         <Box sx={styles.avatarWrapper}>
+          <input
+            type="file"
+            accept={ACCEPTED_IMAGE_TYPES}
+            hidden
+            ref={fileInputRef}
+            onChange={handleImageSelect}
+          />
           <Badge
             overlap="circular"
             slotProps={{
               badge: {
                 sx: styles.cameraButton,
-                onClick: () => console.log("implement image upload"),
+                onClick: () => fileInputRef.current?.click(),
               },
             }}
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             badgeContent={<CameraAltOutlined fontSize="small" />}
           >
-            <Avatar sx={styles.avatar} src={profilePicture} />
+            <Avatar sx={styles.avatar} src={avatarPreview} />
           </Badge>
         </Box>
         <Box>
           <Typography sx={styles.label}>Profile Picture</Typography>
           <Typography variant="caption" color="text.secondary">
-            JPG, PNG or GIF, Max size 2MB
+            JPEG, PNG, GIF, and WebP images
           </Typography>
         </Box>
       </Box>
@@ -121,7 +152,7 @@ const EditProfileForm = () => {
         <Button
           variant="contained"
           onClick={handleSubmit((data) => saveChanges(data))}
-          disabled={isPending || !isDirty || !isEmpty(errors)}
+          disabled={isPending || (!isDirty && !imageFile) || !isEmpty(errors)}
         >
           Save Changes
         </Button>

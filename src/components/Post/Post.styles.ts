@@ -10,6 +10,10 @@ const styles = {
     },
   },
 
+  content: {
+    whiteSpace: "break-spaces",
+  },
+
   actionButtons: {
     gap: 0.5,
   },

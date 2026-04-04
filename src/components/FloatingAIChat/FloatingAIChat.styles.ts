@@ -143,6 +143,27 @@ const styles = {
         "&:hover": { bgcolor: "primary.dark" },
         "&.Mui-disabled": { bgcolor: "#FFD4B8", color: "white" },
     },
+    sparklesIconHeader: {
+        fontSize: 20,
+    },
+    closeButton: {
+        color: "white",
+    },
+    sparklesIconLabel: {
+        fontSize: 14,
+        color: "#FF6B00",
+    },
+    markdownContent: {
+        fontSize: "0.875rem",
+        lineHeight: 1.4,
+        "& p": { margin: 0 },
+    },
+    loadingSpinner: {
+        color: "#FF6B00",
+    },
+    sendIcon: {
+        fontSize: 18,
+    },
 };
 
 export default styles;

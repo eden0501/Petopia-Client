@@ -14,6 +14,7 @@ import {
   Divider,
 } from "@mui/material";
 
+import { resolveImageUrl } from "@/utils/imageUrl";
 import type { CommentInterface } from "@/interfaces/comment";
 
 import styles from "./PostComments.styles";
@@ -76,7 +77,7 @@ const PostCommentsDrawer = ({
             <Box key={comment._id}>
               <Stack direction="row" spacing={5} alignItems="flex-start">
                 <Avatar
-                  src={comment.author.profilePicture}
+                  src={resolveImageUrl(comment.author.profilePicture)}
                   sx={styles.commentAvatar}
                 />
                 <Stack spacing={2}>
@@ -104,7 +105,6 @@ const PostCommentsDrawer = ({
 
       <Box sx={styles.inputContainer}>
         <Stack direction="row" spacing={5} alignItems="center">
-          <Avatar sx={styles.inputAvatar} />
           <TextField
             fullWidth
             placeholder="Write a comment..."

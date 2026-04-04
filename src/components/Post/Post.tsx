@@ -28,6 +28,7 @@ import {
 } from "@mui/material";
 
 import PostForm from "@/components/PostForm";
+import { resolveImageUrl } from "@/utils/imageUrl";
 import PostComments from "@/components/PostComments";
 import PostTypeChip from "@/components/PostTypeChip";
 import type { PostInterface } from "@/interfaces/post";
@@ -137,7 +138,7 @@ const Post = (postData: PostInterface) => {
     <>
       <Card sx={styles.card}>
         <CardHeader
-          avatar={<Avatar src={author.profilePicture} />}
+          avatar={<Avatar src={resolveImageUrl(author.profilePicture)} />}
           title={author.username}
           subheader={formatDistanceToNowStrict(createdAt, { addSuffix: true })}
           sx={styles.cardHeader}
@@ -155,9 +156,20 @@ const Post = (postData: PostInterface) => {
             {title}
           </Typography>
           <Stack sx={styles.contentStack}>
-            <Typography variant="subtitle1">{content}</Typography>
+            <Typography sx={styles.content} variant="subtitle1">
+              {content}
+            </Typography>
             {imageUrl && (
-              <CardMedia sx={styles.cardMedia} component="img" src={imageUrl} />
+              <CardMedia
+                sx={styles.cardMedia}
+                component="img"
+                src={resolveImageUrl(imageUrl)}
+                onError={({
+                  currentTarget,
+                }: React.SyntheticEvent<HTMLImageElement>) => {
+                  currentTarget.style.display = "none";
+                }}
+              />
             )}
             {!!hashtags?.length && (
               <Typography variant="body2" sx={styles.hashtags}>

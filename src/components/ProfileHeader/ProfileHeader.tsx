@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 
 import PawPrint from "@/icons/PawPrint";
+import { resolveImageUrl } from "@/utils/imageUrl";
 import { useUserContext } from "@/contexts/UserContext";
 import type { UserStatsInterface } from "@/interfaces/user";
 
@@ -28,7 +29,7 @@ const ProfileHeader = () => {
   return (
     <Box sx={styles.container}>
       <CardHeader
-        avatar={<Avatar sx={styles.avatar} src={userData.profilePicture} />}
+        avatar={<Avatar sx={styles.avatar} src={resolveImageUrl(userData.profilePicture)} />}
         title={<Typography variant="h4">{userData.username}</Typography>}
         subheader={
           <Stack sx={styles.subheaderStack}>
