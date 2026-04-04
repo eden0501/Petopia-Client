@@ -66,6 +66,12 @@ const styles = {
     },
   },
 
+  imagePreview: {
+    maxHeight: 200,
+    maxWidth: "100%",
+    borderRadius: 2,
+  },
+
   uploadIcon: {
     color: "text.secondary",
     fontSize: "2rem",

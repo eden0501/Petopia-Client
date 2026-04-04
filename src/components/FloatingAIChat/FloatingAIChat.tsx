@@ -19,7 +19,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 
-import styles from "./FloatingAIChatStyles";
+import styles from "./FloatingAIChat.styles";
 import { sendMessage } from "../../services/chat.service";
 import type { ChatHistory } from "../../interfaces/chatHistory";
 import { UserContext } from "../../contexts/UserContext/UserContext";

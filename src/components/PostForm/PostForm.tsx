@@ -185,7 +185,7 @@ const PostForm = ({
             component="img"
             src={imagePreview}
             alt="Preview"
-            sx={{ maxHeight: 200, maxWidth: "100%", borderRadius: 2 }}
+            sx={styles.imagePreview}
           />
         ) : (
           <>
