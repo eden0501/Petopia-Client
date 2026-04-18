@@ -11,13 +11,14 @@ export const authPageStyles: Record<string, SxProps<Theme>> = {
     background:
       "linear-gradient(135deg, #FFF5EC 0%, #FFF9EE 50%, #FFF0E0 100%)",
     boxSizing: "border-box",
+    px: { xs: "16px", sm: 0 },
   },
   contentContainer: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "30%",
-    minWidth: "400px",
+    width: { xs: "100%", sm: "400px", md: "30%" },
+    minWidth: { sm: "400px" },
     maxHeight: "90%",
   },
   logoSection: {

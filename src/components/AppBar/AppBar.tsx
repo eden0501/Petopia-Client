@@ -65,7 +65,7 @@ const AppBar = () => {
               sx={styles.buttonText}
               onClick={handleLogout}
             >
-              Yes, Log Me Out
+              Log Me Out
             </Button>
             <Button
               fullWidth
