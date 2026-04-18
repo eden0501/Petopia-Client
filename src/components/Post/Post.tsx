@@ -55,8 +55,13 @@ const Post = (postData: PostInterface) => {
   } = postData;
 
   const queryClient = useQueryClient();
-  const { userId, updateLikeCount, addUserComment, userData, changePostCount } =
-    useUserContext();
+  const {
+    userId,
+    updateLikeCount,
+    changeCommentCount,
+    userData,
+    changePostCount,
+  } = useUserContext();
   const [openComments, setOpenComments] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -74,8 +79,11 @@ const Post = (postData: PostInterface) => {
     setAnchorEl(null);
   };
 
-  const liked = useMemo(
-    () => localPost.likes.includes(userId),
+  const [liked, commented] = useMemo(
+    () => [
+      localPost.likes.includes(userId),
+      localPost.comments.some((comment) => comment.authorId === userId),
+    ],
     [localPost, userId],
   );
 
@@ -119,7 +127,7 @@ const Post = (postData: PostInterface) => {
         ],
       }));
 
-      addUserComment();
+      changeCommentCount(true);
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["user-post"] });
     },
@@ -129,6 +137,9 @@ const Post = (postData: PostInterface) => {
     mutationFn: () => deletePost(postId),
     onSuccess: () => {
       changePostCount(false);
+      liked && updateLikeCount("unlike");
+      commented && changeCommentCount(false);
+
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["user-post"] });
     },

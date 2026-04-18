@@ -20,8 +20,8 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
         return user;
       } catch {
         setUserData({} as UserStatsInterface);
-        
-        return {}
+
+        return {};
       }
     },
     retry: false,
@@ -39,8 +39,11 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
     }));
   };
 
-  const addUserComment = () => {
-    setUserData((prev) => ({ ...prev, commentsCount: prev.commentsCount + 1 }));
+  const changeCommentCount = (add: boolean) => {
+    setUserData((prev) => ({
+      ...prev,
+      commentsCount: prev.commentsCount + (add ? 1 : -1),
+    }));
   };
 
   const updateLikeCount = (action: "like" | "unlike") => {
@@ -62,7 +65,7 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
         userData,
         isLoading: isLoading || isLoggingOut,
         updateUserData,
-        addUserComment,
+        changeCommentCount,
         changePostCount,
         updateLikeCount,
         logoutUser,

@@ -24,6 +24,7 @@ const styles = {
     height: 30,
     color: "white",
     borderRadius: "50%",
+    cursor: "pointer",
     backgroundColor: "primary.main",
     "&:hover": {
       backgroundColor: "primary.main",

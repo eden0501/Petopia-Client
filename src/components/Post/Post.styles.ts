@@ -53,6 +53,10 @@ const styles = {
 
   cardMedia: {
     borderRadius: 2,
+    backgroundColor: "grey.200",
+    height: { xs: "300px", sm: "400px", md: "550px" }, 
+    width: "100%",
+    objectFit: "contain",
   },
 
   cardActions: {
