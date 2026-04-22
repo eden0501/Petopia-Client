@@ -15,6 +15,7 @@ import {
   ToggleButton,
   TextField,
   Chip,
+  FormHelperText,
 } from "@mui/material";
 
 import { CHIP_PROPS } from "@/constants/postTypes";
@@ -50,8 +51,10 @@ const PostForm = ({
     reset,
     control,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { errors },
-  } = useForm<PostCreationType>({
+  } = useForm<PostCreationType & { image?: string }>({
     defaultValues: getDefaultValues(post ?? {}),
   });
 
@@ -80,6 +83,7 @@ const PostForm = ({
 
   const handleClose = () => {
     reset();
+    clearErrors("image");
     setImageFile(undefined);
     setImagePreview(resolveImageUrl(post?.imageUrl));
     onClose();
@@ -90,9 +94,21 @@ const PostForm = ({
   }: React.ChangeEvent<HTMLInputElement>) => {
     const file = target.files?.[0];
 
+    const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
     if (file) {
-      setImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
+      if (file.size <= MAX_FILE_SIZE) {
+        clearErrors("image");
+        setImageFile(file);
+        setImagePreview(URL.createObjectURL(file));
+      } else {
+        setError("image", {
+          type: "manual",
+          message: "Image must be less than 10MB",
+        });
+        setImageFile(undefined);
+        setImagePreview(resolveImageUrl(post?.imageUrl));
+      }
     }
   };
 
@@ -197,6 +213,11 @@ const PostForm = ({
           </>
         )}
       </Box>
+      {errors.image && (
+        <FormHelperText error sx={{ mx: 14 }}>
+          {errors.image.message}
+        </FormHelperText>
+      )}
 
       <DialogActions sx={styles.dialogActions}>
         <Button

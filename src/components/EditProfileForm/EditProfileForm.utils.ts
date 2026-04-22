@@ -1,3 +1,4 @@
+import type { TextField } from "@mui/material";
 import type { RegisterOptions } from "react-hook-form";
 
 import type { UpdateUserData } from "@/interfaces/user";
@@ -20,6 +21,7 @@ export const FIELDS_PROPS: {
   label: string;
   type: React.HTMLInputTypeAttribute;
   rules: RegisterOptions<UpdateUserData, keyof UpdateUserData>;
+  additionalProps?: React.ComponentProps<typeof TextField>;
 }[] = [
   {
     name: "username",
@@ -33,6 +35,7 @@ export const FIELDS_PROPS: {
     name: "petsCount",
     label: "Number of Pets",
     type: "number",
+    additionalProps: { inputProps: { min: 0 } },
     rules: {
       valueAsNumber: true,
     },

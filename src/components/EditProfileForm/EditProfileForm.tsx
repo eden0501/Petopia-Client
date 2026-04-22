@@ -14,6 +14,7 @@ import {
   Typography,
   Box,
   Badge,
+  FormHelperText,
 } from "@mui/material";
 
 import { resolveImageUrl } from "@/utils/imageUrl";
@@ -43,7 +44,20 @@ const EditProfileForm = () => {
   }: React.ChangeEvent<HTMLInputElement>) => {
     const file = target.files?.[0];
 
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
     if (file) {
+      if (file.size > MAX_FILE_SIZE) {
+        setError("image", {
+          type: "manual",
+          message: "Image must be less than 5MB",
+        });
+        setImageFile(undefined);
+        setAvatarPreview(resolveImageUrl(profilePicture));
+        return;
+      }
+
+      clearErrors("image");
       setImageFile(file);
       setAvatarPreview(URL.createObjectURL(file));
     }
@@ -53,8 +67,10 @@ const EditProfileForm = () => {
     register,
     control,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { isDirty, errors },
-  } = useForm<UpdateUserData>({
+  } = useForm<UpdateUserData & { image?: string }>({
     defaultValues: getDefaultValues({
       username,
       petsCount,
@@ -105,9 +121,14 @@ const EditProfileForm = () => {
           <Typography variant="caption" color="text.secondary">
             JPEG, PNG, GIF, and WebP images
           </Typography>
+          {errors.image && (
+            <FormHelperText error>
+              {errors.image.message}
+            </FormHelperText>
+          )}
         </Box>
       </Box>
-      {FIELDS_PROPS.map(({ name, label, type, rules }) => (
+      {FIELDS_PROPS.map(({ name, label, type, rules, additionalProps }) => (
         <Box key={name}>
           <Typography sx={styles.label}>{label}</Typography>
           {type === "date" ? (
@@ -137,6 +158,7 @@ const EditProfileForm = () => {
             <TextField
               type={type}
               {...register(name, rules)}
+              {...additionalProps}
               error={!!errors[name]}
               helperText={errors[name]?.message}
               fullWidth
