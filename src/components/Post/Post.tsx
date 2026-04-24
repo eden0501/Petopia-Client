@@ -55,7 +55,7 @@ const Post = (postData: PostInterface) => {
   } = postData;
 
   const queryClient = useQueryClient();
-  const { userId, updateLikeCount, addUserComment, userData, changePostCount } =
+  const { userId, userData, updateLikeCount, addUserComment, deletePostStats } =
     useUserContext();
   const [openComments, setOpenComments] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -87,13 +87,15 @@ const Post = (postData: PostInterface) => {
           ...prev,
           likes: reject(prev.likes, (id) => id === userId),
         }));
-        updateLikeCount("unlike");
       } else {
         setLocalPost((prev) => ({
           ...prev,
           likes: [...prev.likes, userId],
         }));
-        updateLikeCount("like");
+      }
+
+      if (authorId === userId) {
+        updateLikeCount(liked ? "unlike" : "like");
       }
 
       queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -119,7 +121,10 @@ const Post = (postData: PostInterface) => {
         ],
       }));
 
-      addUserComment();
+      if (authorId === userId) {
+        addUserComment();
+      }
+
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["user-post"] });
     },
@@ -128,7 +133,7 @@ const Post = (postData: PostInterface) => {
   const { mutate: handleDelete } = useMutation({
     mutationFn: () => deletePost(postId),
     onSuccess: () => {
-      changePostCount(false);
+      deletePostStats(localPost.likes?.length ?? 0, localPost.comments?.length ?? 0);
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["user-post"] });
     },
