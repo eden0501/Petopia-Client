@@ -17,7 +17,7 @@ import {
   FormHelperText,
 } from "@mui/material";
 
-import { resolveImageUrl } from "@/utils/imageUrl";
+import { getSizeErrorMessage, resolveImageUrl } from "@/utils/images";
 import { updateUser } from "@/services/users.service";
 import { useUserContext } from "@/contexts/UserContext";
 import type { UpdateUserData } from "@/interfaces/user";
@@ -25,6 +25,10 @@ import { ACCEPTED_IMAGE_TYPES } from "@/constants/imageTypes";
 
 import styles from "./EditProfileForm.styles";
 import { FIELDS_PROPS, getDefaultValues } from "./EditProfileForm.utils";
+import {
+  MAX_PROFILE_IMAGE_SIZE,
+  MAX_PROFILE_IMAGE_SIZE_MB,
+} from "@/constants/fileLimits";
 
 const EditProfileForm = () => {
   const {
@@ -44,22 +48,18 @@ const EditProfileForm = () => {
   }: React.ChangeEvent<HTMLInputElement>) => {
     const file = target.files?.[0];
 
-    const MAX_FILE_SIZE = 5 * 1024 * 1024;
-
     if (file) {
-      if (file.size > MAX_FILE_SIZE) {
-        setError("image", {
-          type: "manual",
-          message: "Image must be less than 5MB",
+      if (file.size > MAX_PROFILE_IMAGE_SIZE) {
+        setError("profilePicture", {
+          message: getSizeErrorMessage(MAX_PROFILE_IMAGE_SIZE_MB),
         });
         setImageFile(undefined);
         setAvatarPreview(resolveImageUrl(profilePicture));
-        return;
+      } else {
+        clearErrors("profilePicture");
+        setImageFile(file);
+        setAvatarPreview(URL.createObjectURL(file));
       }
-
-      clearErrors("image");
-      setImageFile(file);
-      setAvatarPreview(URL.createObjectURL(file));
     }
   };
 
@@ -70,7 +70,7 @@ const EditProfileForm = () => {
     setError,
     clearErrors,
     formState: { isDirty, errors },
-  } = useForm<UpdateUserData & { image?: string }>({
+  } = useForm<UpdateUserData & { profilePicture?: string }>({
     defaultValues: getDefaultValues({
       username,
       petsCount,
@@ -121,9 +121,9 @@ const EditProfileForm = () => {
           <Typography variant="caption" color="text.secondary">
             JPEG, PNG, GIF, and WebP images
           </Typography>
-          {errors.image && (
+          {errors.profilePicture && (
             <FormHelperText error>
-              {errors.image.message}
+              {errors.profilePicture.message}
             </FormHelperText>
           )}
         </Box>

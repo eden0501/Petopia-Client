@@ -28,7 +28,7 @@ import {
 } from "@mui/material";
 
 import PostForm from "@/components/PostForm";
-import { resolveImageUrl } from "@/utils/imageUrl";
+import { resolveImageUrl } from "@/utils/images";
 import PostComments from "@/components/PostComments";
 import PostTypeChip from "@/components/PostTypeChip";
 import type { PostInterface } from "@/interfaces/post";
@@ -58,7 +58,6 @@ const Post = (postData: PostInterface) => {
   const {
     userId,
     updateLikeCount,
-    changeCommentCount,
     userData,
     changePostCount,
   } = useUserContext();
@@ -79,11 +78,8 @@ const Post = (postData: PostInterface) => {
     setAnchorEl(null);
   };
 
-  const [liked, commented] = useMemo(
-    () => [
-      localPost.likes.includes(userId),
-      localPost.comments.some((comment) => comment.authorId === userId),
-    ],
+  const liked = useMemo(
+    () => localPost.likes.includes(userId),
     [localPost, userId],
   );
 
@@ -127,7 +123,6 @@ const Post = (postData: PostInterface) => {
         ],
       }));
 
-      changeCommentCount(true);
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["user-post"] });
     },
@@ -137,8 +132,6 @@ const Post = (postData: PostInterface) => {
     mutationFn: () => deletePost(postId),
     onSuccess: () => {
       changePostCount(false);
-      liked && updateLikeCount("unlike");
-      commented && changeCommentCount(false);
 
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["user-post"] });

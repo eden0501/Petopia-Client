@@ -39,13 +39,6 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
     }));
   };
 
-  const changeCommentCount = (add: boolean) => {
-    setUserData((prev) => ({
-      ...prev,
-      commentsCount: prev.commentsCount + (add ? 1 : -1),
-    }));
-  };
-
   const updateLikeCount = (action: "like" | "unlike") => {
     setUserData((prev) => ({
       ...prev,
@@ -65,7 +58,6 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
         userData,
         isLoading: isLoading || isLoggingOut,
         updateUserData,
-        changeCommentCount,
         changePostCount,
         updateLikeCount,
         logoutUser,

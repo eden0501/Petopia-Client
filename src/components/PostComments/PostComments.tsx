@@ -14,7 +14,7 @@ import {
   Divider,
 } from "@mui/material";
 
-import { resolveImageUrl } from "@/utils/imageUrl";
+import { resolveImageUrl } from "@/utils/images";
 import type { CommentInterface } from "@/interfaces/comment";
 
 import styles from "./PostComments.styles";

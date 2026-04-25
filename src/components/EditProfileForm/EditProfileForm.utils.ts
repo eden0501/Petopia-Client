@@ -7,6 +7,7 @@ const defaultValues = {
   username: "",
   petsCount: 0,
   petOwnerSince: "",
+  profilePicture: "",
 };
 
 export const getDefaultValues = (

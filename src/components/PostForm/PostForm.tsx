@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 
 import { CHIP_PROPS } from "@/constants/postTypes";
-import { resolveImageUrl } from "@/utils/imageUrl";
+import { getSizeErrorMessage, resolveImageUrl } from "@/utils/images";
 import { useUserContext } from "@/contexts/UserContext";
 import { ACCEPTED_IMAGE_TYPES } from "@/constants/imageTypes";
 import { createPost, updatePost } from "@/services/posts.service";
@@ -27,6 +27,7 @@ import type { PostCreationType, PostInterface } from "@/interfaces/post";
 
 import styles from "./PostForm.styles";
 import { FIELDS_PROPS, getDefaultValues, trimPayload } from "./PostForm.utils";
+import { MAX_POST_IMAGE_SIZE, MAX_POST_IMAGE_SIZE_MB } from "@/constants/fileLimits";
 
 const PostForm = ({
   open,
@@ -83,7 +84,6 @@ const PostForm = ({
 
   const handleClose = () => {
     reset();
-    clearErrors("image");
     setImageFile(undefined);
     setImagePreview(resolveImageUrl(post?.imageUrl));
     onClose();
@@ -94,17 +94,14 @@ const PostForm = ({
   }: React.ChangeEvent<HTMLInputElement>) => {
     const file = target.files?.[0];
 
-    const MAX_FILE_SIZE = 10 * 1024 * 1024;
-
     if (file) {
-      if (file.size <= MAX_FILE_SIZE) {
+      if (file.size <= MAX_POST_IMAGE_SIZE) {
         clearErrors("image");
         setImageFile(file);
         setImagePreview(URL.createObjectURL(file));
       } else {
         setError("image", {
-          type: "manual",
-          message: "Image must be less than 10MB",
+          message: getSizeErrorMessage(MAX_POST_IMAGE_SIZE_MB),
         });
         setImageFile(undefined);
         setImagePreview(resolveImageUrl(post?.imageUrl));

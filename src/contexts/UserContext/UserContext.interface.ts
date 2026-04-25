@@ -6,7 +6,6 @@ export interface UserContextType {
   userData: UserStatsInterface;
   userId: string;
   isLoading: boolean;
-  changeCommentCount: (add: boolean) => void;
   changePostCount: (add: boolean) => void;
   updateLikeCount: (action: likeAction) => void;
   logoutUser: () => void;
