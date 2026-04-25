@@ -46,9 +46,12 @@ const EditProfileForm = () => {
     const file = target.files?.[0];
 
     if (file) {
-      if (file.size > MAX_PROFILE_IMAGE_SIZE) {
+      if (
+        file.size > MAX_PROFILE_IMAGE_SIZE ||
+        !ACCEPTED_IMAGE_TYPES.includes(file.type)
+      ) {
         setError("profilePicture", {
-          message: getSizeErrorMessage(MAX_PROFILE_IMAGE_SIZE / (1024 * 1024)),
+          message: getSizeErrorMessage(MAX_PROFILE_IMAGE_SIZE),
         });
         setImageFile(undefined);
         setAvatarPreview(resolveImageUrl(profilePicture));

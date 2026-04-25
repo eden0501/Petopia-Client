@@ -93,15 +93,17 @@ const PostForm = ({
     target,
   }: React.ChangeEvent<HTMLInputElement>) => {
     const file = target.files?.[0];
-
     if (file) {
-      if (file.size <= MAX_POST_IMAGE_SIZE) {
+      if (
+        file.size <= MAX_POST_IMAGE_SIZE &&
+        ACCEPTED_IMAGE_TYPES.includes(file.type)
+      ) {
         clearErrors("imageUrl");
         setImageFile(file);
         setImagePreview(URL.createObjectURL(file));
       } else {
         setError("imageUrl", {
-          message: getSizeErrorMessage(MAX_POST_IMAGE_SIZE / (1024 * 1024)),
+          message: getSizeErrorMessage(MAX_POST_IMAGE_SIZE),
         });
         setImageFile(undefined);
         setImagePreview(resolveImageUrl(post?.imageUrl));
