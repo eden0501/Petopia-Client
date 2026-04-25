@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 
 import PawPrint from "@/icons/PawPrint";
-import { resolveImageUrl } from "@/utils/imageUrl";
+import { resolveImageUrl } from "@/utils/images";
 import { useUserContext } from "@/contexts/UserContext";
 import type { UserStatsInterface } from "@/interfaces/user";
 

@@ -29,7 +29,7 @@ import {
 } from "@mui/material";
 
 import PostForm from "@/components/PostForm";
-import { resolveImageUrl } from "@/utils/imageUrl";
+import { resolveImageUrl } from "@/utils/images";
 import PostComments from "@/components/PostComments";
 import PostTypeChip from "@/components/PostTypeChip";
 import type { PostInterface } from "@/interfaces/post";

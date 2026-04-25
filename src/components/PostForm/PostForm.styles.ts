@@ -60,6 +60,7 @@ const styles = {
     borderColor: "divider",
     borderRadius: 3,
     py: 5,
+    cursor: "pointer",
     textAlign: "center",
     "&:hover": {
       backgroundColor: "grey.50",

@@ -15,13 +15,15 @@ import {
   ToggleButton,
   TextField,
   Chip,
+  FormHelperText,
 } from "@mui/material";
 
 import { CHIP_PROPS } from "@/constants/postTypes";
-import { resolveImageUrl } from "@/utils/imageUrl";
 import { useUserContext } from "@/contexts/UserContext";
+import { MAX_POST_IMAGE_SIZE } from "@/constants/fileLimits";
 import { ACCEPTED_IMAGE_TYPES } from "@/constants/imageTypes";
 import { createPost, updatePost } from "@/services/posts.service";
+import { getSizeErrorMessage, resolveImageUrl } from "@/utils/images";
 import type { PostCreationType, PostInterface } from "@/interfaces/post";
 
 import styles from "./PostForm.styles";
@@ -50,6 +52,8 @@ const PostForm = ({
     reset,
     control,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<PostCreationType>({
     defaultValues: getDefaultValues(post ?? {}),
@@ -89,10 +93,21 @@ const PostForm = ({
     target,
   }: React.ChangeEvent<HTMLInputElement>) => {
     const file = target.files?.[0];
-
     if (file) {
-      setImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
+      if (
+        file.size <= MAX_POST_IMAGE_SIZE &&
+        ACCEPTED_IMAGE_TYPES.includes(file.type)
+      ) {
+        clearErrors("imageUrl");
+        setImageFile(file);
+        setImagePreview(URL.createObjectURL(file));
+      } else {
+        setError("imageUrl", {
+          message: getSizeErrorMessage(MAX_POST_IMAGE_SIZE),
+        });
+        setImageFile(undefined);
+        setImagePreview(resolveImageUrl(post?.imageUrl));
+      }
     }
   };
 
@@ -197,6 +212,11 @@ const PostForm = ({
           </>
         )}
       </Box>
+      {errors.imageUrl && (
+        <FormHelperText error sx={{ mx: 14 }}>
+          {errors.imageUrl.message}
+        </FormHelperText>
+      )}
 
       <DialogActions sx={styles.dialogActions}>
         <Button

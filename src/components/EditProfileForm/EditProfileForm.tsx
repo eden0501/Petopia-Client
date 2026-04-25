@@ -14,13 +14,15 @@ import {
   Typography,
   Box,
   Badge,
+  FormHelperText,
 } from "@mui/material";
 
-import { resolveImageUrl } from "@/utils/imageUrl";
 import { updateUser } from "@/services/users.service";
 import { useUserContext } from "@/contexts/UserContext";
 import type { UpdateUserData } from "@/interfaces/user";
 import { ACCEPTED_IMAGE_TYPES } from "@/constants/imageTypes";
+import { MAX_PROFILE_IMAGE_SIZE } from "@/constants/fileLimits";
+import { getSizeErrorMessage, resolveImageUrl } from "@/utils/images";
 
 import styles from "./EditProfileForm.styles";
 import { FIELDS_PROPS, getDefaultValues } from "./EditProfileForm.utils";
@@ -44,8 +46,20 @@ const EditProfileForm = () => {
     const file = target.files?.[0];
 
     if (file) {
-      setImageFile(file);
-      setAvatarPreview(URL.createObjectURL(file));
+      if (
+        file.size > MAX_PROFILE_IMAGE_SIZE ||
+        !ACCEPTED_IMAGE_TYPES.includes(file.type)
+      ) {
+        setError("profilePicture", {
+          message: getSizeErrorMessage(MAX_PROFILE_IMAGE_SIZE),
+        });
+        setImageFile(undefined);
+        setAvatarPreview(resolveImageUrl(profilePicture));
+      } else {
+        clearErrors("profilePicture");
+        setImageFile(file);
+        setAvatarPreview(URL.createObjectURL(file));
+      }
     }
   };
 
@@ -53,6 +67,8 @@ const EditProfileForm = () => {
     register,
     control,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { isDirty, errors },
   } = useForm<UpdateUserData>({
     defaultValues: getDefaultValues({
@@ -105,9 +121,14 @@ const EditProfileForm = () => {
           <Typography variant="caption" color="text.secondary">
             JPEG, PNG, GIF, and WebP images
           </Typography>
+          {errors.profilePicture && (
+            <FormHelperText error>
+              {errors.profilePicture.message}
+            </FormHelperText>
+          )}
         </Box>
       </Box>
-      {FIELDS_PROPS.map(({ name, label, type, rules }) => (
+      {FIELDS_PROPS.map(({ name, label, type, rules, additionalProps }) => (
         <Box key={name}>
           <Typography sx={styles.label}>{label}</Typography>
           {type === "date" ? (
@@ -137,6 +158,7 @@ const EditProfileForm = () => {
             <TextField
               type={type}
               {...register(name, rules)}
+              {...additionalProps}
               error={!!errors[name]}
               helperText={errors[name]?.message}
               fullWidth

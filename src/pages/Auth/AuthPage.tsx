@@ -154,7 +154,7 @@ const AuthPage = () => {
             <Box component="form" onSubmit={handleSubmit(onSubmit)}>
               {FIELDS_PROPS.filter(
                 (field) => !field.onlyFor || field.onlyFor === activeTab,
-              ).map(({ name, label, type, rules, placeholder }) => (
+              ).map(({ name, label, type, rules, placeholder, additionalProps }) => (
                 <React.Fragment key={name}>
                   <FieldLabel>{label}</FieldLabel>
                   <Controller
@@ -191,6 +191,7 @@ const AuthPage = () => {
                           }
                           error={!!error}
                           helperText={error?.message}
+                          {...additionalProps}
                         />
                       )
                     }

@@ -1,3 +1,4 @@
+import type { TextField } from "@mui/material";
 import type { RegisterOptions } from "react-hook-form";
 
 import type { UpdateUserData } from "@/interfaces/user";
@@ -6,6 +7,7 @@ const defaultValues = {
   username: "",
   petsCount: 0,
   petOwnerSince: "",
+  profilePicture: "",
 };
 
 export const getDefaultValues = (
@@ -20,6 +22,7 @@ export const FIELDS_PROPS: {
   label: string;
   type: React.HTMLInputTypeAttribute;
   rules: RegisterOptions<UpdateUserData, keyof UpdateUserData>;
+  additionalProps?: React.ComponentProps<typeof TextField>;
 }[] = [
   {
     name: "username",
@@ -33,8 +36,13 @@ export const FIELDS_PROPS: {
     name: "petsCount",
     label: "Number of Pets",
     type: "number",
+    additionalProps: { inputProps: { min: 0 } },
     rules: {
       valueAsNumber: true,
+      min: {
+        value: 0,
+        message: "Number of pets cannot be negative",
+      }
     },
   },
   {

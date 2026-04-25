@@ -1,6 +1,5 @@
-import type React from "react";
-import type { SxProps } from "@mui/material";
-import type { RegisterOptions, ControllerRenderProps } from "react-hook-form";
+import type { TextField } from "@mui/material";
+import type { RegisterOptions } from "react-hook-form";
 
 import type { UserInterface } from "@/interfaces/user";
 
@@ -42,9 +41,8 @@ export type FieldProps = {
   type?: string;
   placeholder?: string;
   rules?: RegisterOptions<AuthFormType, keyof AuthFormType>;
-  sx?: SxProps;
-  altField?: (field: ControllerRenderProps<AuthFormType>) => React.ReactElement;
   onlyFor?: keyof typeof AUTH_TABS;
+  additionalProps?: React.ComponentProps<typeof TextField>;
 };
 
 export const FIELDS_PROPS: FieldProps[] = [
@@ -75,7 +73,15 @@ export const FIELDS_PROPS: FieldProps[] = [
     type: "number",
     placeholder: "1",
     onlyFor: "SIGN_UP",
-    rules: { required: "Number of pets is required" },
+    rules: {
+      valueAsNumber: true,
+      required: "Number of pets is required",
+      min: {
+        value: 0,
+        message: "Number of pets cannot be negative",
+      },
+    },
+    additionalProps: { inputProps: { min: 0 } },
   },
   {
     name: "petOwnerSince",
