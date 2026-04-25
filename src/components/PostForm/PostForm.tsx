@@ -37,7 +37,7 @@ const PostForm = ({
   post?: PostInterface;
 }) => {
   const queryClient = useQueryClient();
-  const { changePostCount } = useUserContext();
+  const { addPost } = useUserContext();
 
   const isEditMode = useMemo(() => !!post, [post]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -66,7 +66,7 @@ const PostForm = ({
         ? updatePost(post._id, trimPayload(data), imageFile)
         : createPost(trimPayload(data), imageFile),
     onSuccess: () => {
-      changePostCount(true);
+      addPost();
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["user-post"] });
 
