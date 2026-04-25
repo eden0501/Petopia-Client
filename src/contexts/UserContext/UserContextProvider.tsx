@@ -32,17 +32,30 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
     setUserData((prev) => ({ ...prev, ...data }));
   };
 
-  const changePostCount = (add: boolean) => {
+  const addPost = () => {
     setUserData((prev) => ({
       ...prev,
-      postsCount: prev.postsCount + (add ? 1 : -1),
+      postsCount: prev.postsCount + 1,
     }));
+  };
+
+  const addUserComment = () => {
+    setUserData((prev) => ({ ...prev, commentsCount: prev.commentsCount + 1 }));
   };
 
   const updateLikeCount = (action: "like" | "unlike") => {
     setUserData((prev) => ({
       ...prev,
       likesCount: action === "like" ? prev.likesCount + 1 : prev.likesCount - 1,
+    }));
+  };
+
+  const deletePostStats = (likesCount: number, commentsCount: number) => {
+    setUserData((prev) => ({
+      ...prev,
+      postsCount: prev.postsCount - 1,
+      likesCount: prev.likesCount - likesCount,
+      commentsCount: prev.commentsCount - commentsCount,
     }));
   };
 
@@ -58,7 +71,9 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
         userData,
         isLoading: isLoading || isLoggingOut,
         updateUserData,
-        changePostCount,
+        addUserComment,
+        addPost,
+        deletePostStats,
         updateLikeCount,
         logoutUser,
       }}
