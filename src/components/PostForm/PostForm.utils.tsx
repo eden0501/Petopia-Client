@@ -23,7 +23,7 @@ const defaultValues = {
   content: "",
   type: PostTypes.OTHER,
   hashtags: [],
-  image: "",
+  imageUrl: "",
 };
 
 export const getDefaultValues = (

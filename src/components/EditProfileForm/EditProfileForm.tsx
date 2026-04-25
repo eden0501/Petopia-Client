@@ -17,18 +17,15 @@ import {
   FormHelperText,
 } from "@mui/material";
 
-import { getSizeErrorMessage, resolveImageUrl } from "@/utils/images";
 import { updateUser } from "@/services/users.service";
 import { useUserContext } from "@/contexts/UserContext";
 import type { UpdateUserData } from "@/interfaces/user";
 import { ACCEPTED_IMAGE_TYPES } from "@/constants/imageTypes";
+import { MAX_PROFILE_IMAGE_SIZE } from "@/constants/fileLimits";
+import { getSizeErrorMessage, resolveImageUrl } from "@/utils/images";
 
 import styles from "./EditProfileForm.styles";
 import { FIELDS_PROPS, getDefaultValues } from "./EditProfileForm.utils";
-import {
-  MAX_PROFILE_IMAGE_SIZE,
-  MAX_PROFILE_IMAGE_SIZE_MB,
-} from "@/constants/fileLimits";
 
 const EditProfileForm = () => {
   const {
@@ -51,7 +48,7 @@ const EditProfileForm = () => {
     if (file) {
       if (file.size > MAX_PROFILE_IMAGE_SIZE) {
         setError("profilePicture", {
-          message: getSizeErrorMessage(MAX_PROFILE_IMAGE_SIZE_MB),
+          message: getSizeErrorMessage(MAX_PROFILE_IMAGE_SIZE / (1024 * 1024)),
         });
         setImageFile(undefined);
         setAvatarPreview(resolveImageUrl(profilePicture));
@@ -70,7 +67,7 @@ const EditProfileForm = () => {
     setError,
     clearErrors,
     formState: { isDirty, errors },
-  } = useForm<UpdateUserData & { profilePicture?: string }>({
+  } = useForm<UpdateUserData>({
     defaultValues: getDefaultValues({
       username,
       petsCount,

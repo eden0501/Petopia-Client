@@ -1,7 +1,7 @@
+import type { TextField } from "@mui/material";
 import type { RegisterOptions } from "react-hook-form";
 
 import type { UserInterface } from "@/interfaces/user";
-import type { TextField } from "@mui/material";
 
 export type AuthFormType = Pick<UserInterface, "username"> & {
   password: string;

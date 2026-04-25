@@ -19,15 +19,15 @@ import {
 } from "@mui/material";
 
 import { CHIP_PROPS } from "@/constants/postTypes";
-import { getSizeErrorMessage, resolveImageUrl } from "@/utils/images";
 import { useUserContext } from "@/contexts/UserContext";
+import { MAX_POST_IMAGE_SIZE } from "@/constants/fileLimits";
 import { ACCEPTED_IMAGE_TYPES } from "@/constants/imageTypes";
 import { createPost, updatePost } from "@/services/posts.service";
+import { getSizeErrorMessage, resolveImageUrl } from "@/utils/images";
 import type { PostCreationType, PostInterface } from "@/interfaces/post";
 
 import styles from "./PostForm.styles";
 import { FIELDS_PROPS, getDefaultValues, trimPayload } from "./PostForm.utils";
-import { MAX_POST_IMAGE_SIZE, MAX_POST_IMAGE_SIZE_MB } from "@/constants/fileLimits";
 
 const PostForm = ({
   open,
@@ -55,7 +55,7 @@ const PostForm = ({
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm<PostCreationType & { image?: string }>({
+  } = useForm<PostCreationType>({
     defaultValues: getDefaultValues(post ?? {}),
   });
 
@@ -96,12 +96,12 @@ const PostForm = ({
 
     if (file) {
       if (file.size <= MAX_POST_IMAGE_SIZE) {
-        clearErrors("image");
+        clearErrors("imageUrl");
         setImageFile(file);
         setImagePreview(URL.createObjectURL(file));
       } else {
-        setError("image", {
-          message: getSizeErrorMessage(MAX_POST_IMAGE_SIZE_MB),
+        setError("imageUrl", {
+          message: getSizeErrorMessage(MAX_POST_IMAGE_SIZE / (1024 * 1024)),
         });
         setImageFile(undefined);
         setImagePreview(resolveImageUrl(post?.imageUrl));
@@ -210,9 +210,9 @@ const PostForm = ({
           </>
         )}
       </Box>
-      {errors.image && (
+      {errors.imageUrl && (
         <FormHelperText error sx={{ mx: 14 }}>
-          {errors.image.message}
+          {errors.imageUrl.message}
         </FormHelperText>
       )}
 
