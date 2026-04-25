@@ -1,5 +1,6 @@
 import reject from "lodash/reject";
 import { useMemo, useState } from "react";
+import { useLocation } from "react-router";
 import { formatDistanceToNowStrict } from "date-fns";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -54,10 +55,21 @@ const Post = (postData: PostInterface) => {
     comments,
   } = postData;
 
+  const { pathname } = useLocation();
   const queryClient = useQueryClient();
   const { userId, userData, updateLikeCount, addUserComment, deletePostStats } =
     useUserContext();
   const [openComments, setOpenComments] = useState(false);
+
+  const syncQueries = () => {
+    if (pathname === "/profile") {
+      queryClient.invalidateQueries({ queryKey: ["user-post"] });
+      queryClient.resetQueries({ queryKey: ["posts"], exact: false });
+    } else {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.resetQueries({ queryKey: ["user-post"], exact: false });
+    }
+  };
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -76,7 +88,7 @@ const Post = (postData: PostInterface) => {
 
   const liked = useMemo(
     () => localPost.likes.includes(userId),
-    [localPost, userId],
+    [localPost.likes, userId],
   );
 
   const { mutate: handleToggleLike } = useMutation({
@@ -98,8 +110,7 @@ const Post = (postData: PostInterface) => {
         updateLikeCount(liked ? "unlike" : "like");
       }
 
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
-      queryClient.invalidateQueries({ queryKey: ["user-post"] });
+      syncQueries();
     },
   });
 
@@ -125,17 +136,18 @@ const Post = (postData: PostInterface) => {
         addUserComment();
       }
 
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
-      queryClient.invalidateQueries({ queryKey: ["user-post"] });
+      syncQueries();
     },
   });
 
   const { mutate: handleDelete } = useMutation({
     mutationFn: () => deletePost(postId),
     onSuccess: () => {
-      deletePostStats(localPost.likes?.length ?? 0, localPost.comments?.length ?? 0);
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
-      queryClient.invalidateQueries({ queryKey: ["user-post"] });
+      deletePostStats(
+        localPost.likes?.length ?? 0,
+        localPost.comments?.length ?? 0,
+      );
+      syncQueries();
     },
   });
 
