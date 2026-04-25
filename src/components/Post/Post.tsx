@@ -88,7 +88,7 @@ const Post = (postData: PostInterface) => {
 
   const liked = useMemo(
     () => localPost.likes.includes(userId),
-    [localPost.likes, userId],
+    [localPost, userId],
   );
 
   const { mutate: handleToggleLike } = useMutation({
