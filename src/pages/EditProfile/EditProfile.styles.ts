@@ -5,13 +5,15 @@ const styles = {
   },
 
   innerContainer: {
-    width: { xs: "100%", sm: "60%" },
-    minWidth: 300,
+    overflow: "auto",
+    height: "calc(100vh - 110px)",
   },
 
   contentContainer: {
-    padding: 20,
-    paddingTop: 30,
+    width: { xs: "100%", sm: "60%" },
+    minWidth: 300,
+    padding: 10,
+    paddingTop: 15,
   },
 
   divider: {
