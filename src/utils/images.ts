@@ -9,6 +9,8 @@ export const resolveImageUrl = (url?: string) =>
       : `${SERVER_URL}/public${url}`
     : undefined;
 
-export const getSizeInBytes = (sizeInMB: number) => sizeInMB * 1024 * 1024;
+const MB_UNIT = 1024 * 1024;
+
+export const getSizeInBytes = (sizeInMB: number) => sizeInMB * MB_UNIT;
 export const getSizeErrorMessage = (sizeInMB: number) =>
-  "Image must be less than " + sizeInMB + "MB";
+  "File must be an image, and less than " + sizeInMB / MB_UNIT + "MB";

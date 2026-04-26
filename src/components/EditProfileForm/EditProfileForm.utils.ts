@@ -39,6 +39,10 @@ export const FIELDS_PROPS: {
     additionalProps: { inputProps: { min: 0 } },
     rules: {
       valueAsNumber: true,
+      min: {
+        value: 0,
+        message: "Number of pets cannot be negative",
+      }
     },
   },
   {

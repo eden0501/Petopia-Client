@@ -73,7 +73,14 @@ export const FIELDS_PROPS: FieldProps[] = [
     type: "number",
     placeholder: "1",
     onlyFor: "SIGN_UP",
-    rules: { required: "Number of pets is required" },
+    rules: {
+      valueAsNumber: true,
+      required: "Number of pets is required",
+      min: {
+        value: 0,
+        message: "Number of pets cannot be negative",
+      },
+    },
     additionalProps: { inputProps: { min: 0 } },
   },
   {
