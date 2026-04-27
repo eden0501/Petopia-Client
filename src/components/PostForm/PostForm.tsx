@@ -70,7 +70,7 @@ const PostForm = ({
         ? updatePost(post._id, trimPayload(data), imageFile)
         : createPost(trimPayload(data), imageFile),
     onSuccess: () => {
-      addPost();
+      !isEditMode && addPost();
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["user-post"] });
 
